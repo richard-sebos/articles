@@ -7,7 +7,7 @@ Discover how to securely deploy code to remote servers using **SSH Agent Forward
 🌐 Use GitHub with remote hosts
 🛡️ Apply best security practices
 
-👉 Dive into our step-by-step guide now: \[Insert Article Link]
+👉 Dive into our step-by-step guide now: \[[Insert Article Link](https://richard-sebos.github.io/sebostechnology/posts/Agent-Forwarding/)]
 \#DevOps #SSH #GitHub #RemoteDeployment #CyberSecurity #TechTips
 
 ---
@@ -22,9 +22,9 @@ In modern DevOps, security and scalability go hand-in-hand. Our latest guide sho
 ✅ Avoids key duplication risks
 ✅ Strengthens your deployment pipeline
 
-Read the full guide and upgrade your deployment strategy: \[Insert Article Link]
+https://richard-sebos.github.io/sebostechnology/posts/Agent-Forwarding
 
-\#DevOps #SSH #Security #GitHub #RemoteWork #TechLeadership #CloudInfrastructure
+#DevOps #SSH #Security #GitHub #RemoteWork #TechLeadership #CloudInfrastructure
 
 ---
 
@@ -37,7 +37,7 @@ No more key duplication. No more risk.
 ✅ ProxyJump usage
 ✅ GitHub access from jump hosts
 
-📖 Read here: \[Insert Article Link]
+📖 Read here: https://richard-sebos.github.io/sebostechnology/posts/Agent-Forwarding
 
-\#SSH #GitHub #DevOps #Cybersecurity #OpenSource #Linux
+#SSH #GitHub #DevOps #Cybersecurity #OpenSource #Linux
 
