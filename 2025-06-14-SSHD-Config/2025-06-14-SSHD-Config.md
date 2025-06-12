@@ -56,7 +56,7 @@ MaxStartups 3:30:10
 ```
 
 
-## Linit Login
+## Limit Login
 
 This configuration block enforces key-based SSH access, disables root and insecure logins, limits user access to a specific group, and strengthens authentication controls and file permission checks to 
 
