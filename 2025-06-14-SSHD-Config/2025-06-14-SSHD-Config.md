@@ -1,6 +1,27 @@
 
+<<<<<<< HEAD
 ## Connection Limiting
 
+=======
+- There a few different first 10 changes video and blogs about SSH but that is not this.
+- I wanted this to be about grouping SSH into security policies and making flexable to securely change the SSH 
+- These policies will be broken down into
+    - Connection Limiting
+    - Limit Login
+    - Disable Forwarding and Tunneling
+    - Environment .ssh Variables
+    - Overwrite Limitation When Needed
+ 
+## sshd_config
+- The SSH server is a flex service with lots of options to customize it to do what you need
+- The default sshd_config can seem overwelling but it is there to document the options and default values.
+- One of the features of the sshd_config is the include files in the sshd_config.d directory
+- This allow you to group options into files and we are going to use that feature to create SSH security policies
+      
+## Connection Limiting
+
+- the first policy will set timeout limits
+>>>>>>> bd28756d5a86c1766b4492618868972c112af65b
 This configuration hardens the SSH server by enforcing strict session timeouts, mitigating CVE-2024-6387, and limiting unauthenticated connection attempts to reduce the risk of brute-force attacks.
 
 ```bash
@@ -40,7 +61,11 @@ MaxStartups 3:30:10
 ```
 
 
+<<<<<<< HEAD
 ## Linit Login
+=======
+## Limit Login
+>>>>>>> bd28756d5a86c1766b4492618868972c112af65b
 
 This configuration block enforces key-based SSH access, disables root and insecure logins, limits user access to a specific group, and strengthens authentication controls and file permission checks to 
 
@@ -134,7 +159,11 @@ Match Address 192.168.100.0/24,10.0.0.0/8
 
 ```
 
+<<<<<<< HEAD
 ##
+=======
+## Disable Forwarding and Tunneling
+>>>>>>> bd28756d5a86c1766b4492618868972c112af65b
 
 ```bash
 # ---------------------------------------------
@@ -183,4 +212,8 @@ This setting is needed to prevent users from injecting environment variables tha
 # bypass security policies, or inject malicious settings.
 PermitUserEnvironment no
 
+<<<<<<< HEAD
 ```
+=======
+```
+>>>>>>> bd28756d5a86c1766b4492618868972c112af65b
