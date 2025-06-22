@@ -1,8 +1,4 @@
 
-<<<<<<< HEAD
-## Connection Limiting
-
-=======
 - There a few different first 10 changes video and blogs about SSH but that is not this.
 - I wanted this to be about grouping SSH into security policies and making flexable to securely change the SSH 
 - These policies will be broken down into
@@ -13,7 +9,7 @@
     - Overwrite Limitation When Needed
  
 ## sshd_config
-- The SSH server is a flex service with lots of options to customize it to do what you need
+- The SSH server is a flexabler service with lots of options to customize it to do what you need
 - The default sshd_config can seem overwelling but it is there to document the options and default values.
 - One of the features of the sshd_config is the include files in the sshd_config.d directory
 - This allow you to group options into files and we are going to use that feature to create SSH security policies
@@ -21,10 +17,10 @@
 ## Connection Limiting
 
 - the first policy will set timeout limits
->>>>>>> bd28756d5a86c1766b4492618868972c112af65b
 This configuration hardens the SSH server by enforcing strict session timeouts, mitigating CVE-2024-6387, and limiting unauthenticated connection attempts to reduce the risk of brute-force attacks.
 
 ```bash
+## 06-session.conf 
 # -----------------------------
 # SSH Session Timeout Settings
 # -----------------------------
@@ -61,15 +57,12 @@ MaxStartups 3:30:10
 ```
 
 
-<<<<<<< HEAD
-## Linit Login
-=======
 ## Limit Login
->>>>>>> bd28756d5a86c1766b4492618868972c112af65b
-
+Next, we will setup what users can and cannot log in.
 This configuration block enforces key-based SSH access, disables root and insecure logins, limits user access to a specific group, and strengthens authentication controls and file permission checks to 
 
 ```bash
+## 07-authentication.conf
 # -----------------------------------------
 # Root Access and Group-Based Restrictions
 # -----------------------------------------
@@ -121,51 +114,13 @@ StrictModes yes
 
 ```
 
-## Overwrite Limitation of needed
-
-This configuration restricts SSH access to trusted IP ranges and user groups, with optional per-IP rules, while relying on the firewall to block all other unauthorized sources.
-
-```bash
-## Login Overrides
-# -----------------------------------------------
-# SSH Access Control by IP Address or Subnet
-# -----------------------------------------------
-
-# Allow SSH access **only** from trusted internal networks:
-# - 192.168.100.0/24: typical internal subnet
-# - 10.0.0.0/8: private network range
-# Only members of the 'ssh-users' group from these IP ranges will be allowed.
-Match Address 192.168.100.0/24,10.0.0.0/8
-    AllowGroups ssh-users
-
-# -------------------------------------------------------
-# Optional: Apply additional restrictions to specific IPs
-# -------------------------------------------------------
-
-# Uncomment and customize to enforce stricter rules per host or IP.
-# For example, enforce no root login and key-based authentication only
-# for a specific host (192.168.100.50):
-#
-# Match Address 192.168.100.50
-#     PermitRootLogin no
-#     PasswordAuthentication no
-
-# ------------------------------------------------------------------
-# Note: Denying access from all other IPs is **not** handled here.
-# ------------------------------------------------------------------
-# sshd_config does not support a "deny all except" approach.
-# To block untrusted IPs, use a firewall (e.g., firewalld, nftables, or iptables)
-# to explicitly allow known IPs and drop everything else at the network level.
-
-```
-
-<<<<<<< HEAD
-##
-=======
 ## Disable Forwarding and Tunneling
->>>>>>> bd28756d5a86c1766b4492618868972c112af65b
+This policy is used to disable forwarding and tunnling
 
+These SSH options collectively disable all forms of SSH-based forwarding and tunneling—TCP, Unix sockets, agents, X11, and VPN-like tunnels—to enforce strict session isolation, prevent lateral movement, and block unauthorized data channels or network access.
 ```bash
+## 10-forwarding.conf
+
 # ---------------------------------------------
 # Disable All SSH Forwarding and Tunneling
 # ---------------------------------------------
@@ -203,6 +158,7 @@ This setting is needed to prevent users from injecting environment variables tha
 
 
 ```bash
+##99-hardening.conf
 # ------------------------------------------------------------
 # Disable User-Controlled Environment Variables
 # ------------------------------------------------------------
@@ -212,8 +168,51 @@ This setting is needed to prevent users from injecting environment variables tha
 # bypass security policies, or inject malicious settings.
 PermitUserEnvironment no
 
-<<<<<<< HEAD
 ```
-=======
+
+
+
+## Overwrite Limitation of needed
+There are times when users or group of users need have special access and hereiis an example of one.
+This configuration restricts SSH access to trusted IP ranges and user groups, with optional per-IP rules, while relying on the firewall to block all other unauthorized sources.
+
+```bash
+## 08-access-control.conf
+## Login Overrides
+# -----------------------------------------------
+# SSH Access Control by IP Address or Subnet
+# -----------------------------------------------
+
+# Allow SSH access **only** from trusted internal networks:
+# - 192.168.100.0/24: typical internal subnet
+# - 10.0.0.0/8: private network range
+# Only members of the 'ssh-users' group from these IP ranges will be allowed.
+Match Address 192.168.100.0/24,10.0.0.0/8
+    AllowGroups str-ssh-users
+
+# -------------------------------------------------------
+# Optional: Apply additional restrictions to specific IPs
+# -------------------------------------------------------
+
+# Uncomment and customize to enforce stricter rules per host or IP.
+# For example, enforce no root login and key-based authentication only
+# for a specific host (192.168.100.50):
+#
+# Match Address 192.168.100.50
+#     PermitRootLogin no
+#     PasswordAuthentication no
+
+# ------------------------------------------------------------------
+# Note: Denying access from all other IPs is **not** handled here.
+# ------------------------------------------------------------------
+# sshd_config does not support a "deny all except" approach.
+# To block untrusted IPs, use a firewall (e.g., firewalld, nftables, or iptables)
+# to explicitly allow known IPs and drop everything else at the network level.
+
 ```
->>>>>>> bd28756d5a86c1766b4492618868972c112af65b
+- So why create policy files?
+- The number of option SSH has can be overwelling.
+- By having a base file with the started option set, you can create a standard base file used by most servers
+- the base file becames static
+- being able to add SSH policies files using the SSH include option, allow for reusable policies to secure the SSH server. 
+- since there are smaller files, it is easy to debug issues

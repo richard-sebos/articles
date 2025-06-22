@@ -1,0 +1,26 @@
+#!/bin/bash
+
+# === ssh-key-expiry-check ===
+# This script is used with OpenSSH's AuthorizedKeysCommand.
+# It dynamically retrieves SSH public keys for a given user,
+# filters out any keys that have expired, and prints only
+# the valid keys to stdout. These keys will be used by sshd
+# to determine if the user is allowed to log in.
+
+# Get the username passed as the first argument from sshd
+USER="$1"
+
+# Path to the JSON file containing public keys and expiration dates
+KEYS_FILE="/etc/ssh/user_keys.json"
+
+# Use jq to:
+# 1. Access the list of keys for the specified user.
+# 2. For each key, parse the "expires" field (YYYY-MM-DD) into a timestamp.
+# 3. Compare the timestamp with the current time (`now`) and keep only keys
+#    that have not yet expired.
+# 4. Output the "key" field (the SSH public key) for each valid entry.
+jq -r --arg user "$USER" '
+  .[$user][] |
+  select((.expires | strptime("%Y-%m-%d") | mktime) >= now) |
+  .key
+' "$KEYS_FILE"
