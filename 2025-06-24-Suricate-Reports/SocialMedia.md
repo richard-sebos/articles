@@ -1,6 +1,5 @@
 
 **🔗 LinkedIn Post**
-
 🚀 Robots + Network Security = Smarter Systems
 
 Monitoring your robot’s network traffic isn't just about safety—it’s about understanding *how* your system behaves in the real world. We’ve taken Suricata, a powerful open-source IDS tool, and applied it to robotics to track ROS 2 communication and catch network anomalies.
@@ -22,8 +21,6 @@ We're using Suricata, a deep packet inspection tool, to monitor every byte of RO
 If you're building robots or connected devices, you need to see this!
 
 👉 Read now: *Monitoring Robot Network Traffic with Suricata*
-
-\#Robotics #Suricata #CyberSecurity #Python #NetworkMonitoring #ROS2
 
 ---
 

@@ -8,7 +8,10 @@
 >
 > Whether you’re into red teaming, privacy experiments, or just love Linux networking tricks, this walkthrough’s for you.
 >
-> 👉 Read the full guide: \[link to article]
+> 👉 Read the full guide: https://richard-sebos.github.io/sebostechnology/posts/Suricata-Reporting/
+
+
+
 >
 > \#SSH #Tor #Cybersecurity #NetworkSecurity #Linux #Infosec #PrivacyEngineering
 
@@ -24,7 +27,10 @@
 >
 > 🔎 Cool, practical, or just for the tinfoil crowd? You decide.
 >
-> 👉 Check out the article here: \[link to article]
+> 👉 Check out the article here:https://richard-sebos.github.io/sebostechnology/posts/Suricata-Reporting/
+
+
+
 >
 > \#SSH #Tor #CyberPrivacy #LinuxTips #Infosec
 
@@ -39,7 +45,7 @@
 >
 > 💡 Setup steps, config snippets, and real-world results included.
 >
-> 🧠 Read: \[link to article]
+> 🧠 Read: (https://richard-sebos.github.io/sebostechnology/posts/Suricata-Reporting/)
 >
 > \#Linux #Tor #SSH #PrivacyTech #CyberSecurity #FOSS
 

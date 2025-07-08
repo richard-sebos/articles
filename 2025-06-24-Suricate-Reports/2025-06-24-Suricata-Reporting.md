@@ -1,6 +1,18 @@
-
-# Monitoring Robot Network Traffic with Suricata
-
+---
+layout: post
+title: "Monitoring Robot Network Traffic with Suricata"
+date: 2025-07-01 09:00:00 +0000
+categories: [Robotics, Networking]
+tags: [Suricata, IDS, ROS2, Linux, Python, Security]
+pin: false
+math: false
+mermaid: false
+image:
+  path: /assets/img/posts/suricata-robotics-cover.jpg
+  alt: "Suricata monitoring robot network traffic"
+  lqip: /assets/img/posts/suricata-robotics-cover-lqip.jpg # optional
+canonical_url: "https://your-site.com/blog/monitoring-robot-traffic-suricata"
+---
 ## Introduction
 
 In a previous phase of this robotics project, Suricata was installed as part of the initial system build. At that stage, only a few basic rules were added for initial monitoring purposes. Now that the core application stack is largely in place, it's time to take a deeper look into how the robot is interacting with the network. Understanding these interactions is critical not only for security but also for diagnosing system behavior during development and deployment.
@@ -72,3 +84,6 @@ For more robust monitoring, consider integrating Suricata with advanced log anal
 
 By leveraging Suricata and tailored tools like the Python distiller, developers gain critical visibility into the robot's communication landscape—an invaluable asset for building secure and reliable robotic systems.
 
+---
+**Need Linux expertise?** I help businesses streamline servers, secure infrastructure, and automate workflows. Whether you're troubleshooting, optimizing, or building from scratch—I've got you covered.  
+📬 Drop a comment or [email me](mailto:info@sebostechnology.com) to collaborate. For more tutorials, tools, and insights, visit [sebostechnology.com](https://sebostechnology.com).
