@@ -11,6 +11,7 @@ If you’re into #itautomation or looking to streamline #vmdeployment, this guid
 👉 Dive in: https://richard-sebos.github.io/sebostechnology/posts/Building-VM/
 
 #proxmox #commandlinetools #linux #devops #sysadmin
+
 Facebook Post
 
 💻 Looking to speed up your VM setup process?
@@ -22,6 +23,7 @@ Whether you're managing one VM or dozens, this scriptable approach saves time an
 🔧 Read it here: https://richard-sebos.github.io/sebostechnology/posts/Building-VM/
 
 #proxmox #vmdeployment #itautomation #commandlinetools
+
 Mastodon Post
 
 🖥️ Tired of clicking through GUIs to create VMs in Proxmox?
