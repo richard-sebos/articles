@@ -5,12 +5,12 @@
 ```yaml
 ---
 title: "SSH Over Tor: Cool, Practical, or Just Tinfoil Hats?"
-published: true
+published: false
+published_at: 2025-07-09 00:20 +0000
 description: "Explore how to route SSH over Tor for enhanced privacy. Learn setup steps, benefits, and if it's worth the tinfoil hat."
-tags: [ssh, tor, linux, privacy, cybersecurity, networking]
-cover_image: "https://your-image-host.com/ssh-over-tor-cover.jpg" # Optional
-series: "Privacy Experiments"
-canonical_url: "https://your-site.com/blog/ssh-over-tor"
+tags: [ssh, tor, privacy, cybersecurity]
+cover_image: "https://dev-to-uploads.s3.amazonaws.com/uploads/articles/3rfprax3zpujco5est8a.png" # Optional
+series: SSH Hardening"
 ---
 ```
 

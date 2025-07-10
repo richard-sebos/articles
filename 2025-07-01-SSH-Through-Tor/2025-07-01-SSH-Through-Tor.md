@@ -1,6 +1,22 @@
 
-# SSH Over Tor: Cool, Practical, or Just Tinfoil Hats?
+---
+layout: post
+title: "SSH Over Tor: Cool, Practical, or Just Tinfoil Hats?"
+date: 2025-07-01 10:00:00 +0000
+categories: [Linux, Networking]
+tags: [SSH, Tor, Privacy, Cybersecurity, Linux, Pentesting]
+pin: false
+math: false
+mermaid: false
+image:
+  path: /assets/img/posts/SSH_Over_Tor.png
+  alt: "SSH traffic tunneling through Tor"
+---
+## Introduction
 
+When I first encountered the idea of tunneling SSH traffic over Tor, two things came to mind: it sounded incredibly cool—and frustratingly complex. There was also a sense that it might edge me a little closer to feeling like a hacker. This article walks through how SSH over Tor works, how I set it up myself, and whether it’s actually practical… or merely a tinfoil‑hat experiment.
+
+---
 ## Table of Contents
 
 1. [Introduction](#introduction)
@@ -12,19 +28,14 @@
 
 ---
 
-## 1. Introduction
 
-When I first encountered the idea of tunneling SSH traffic over Tor, two things came to mind: it sounded incredibly cool—and frustratingly complex. There was also a sense that it might edge me a little closer to feeling like a hacker. This article walks through how SSH over Tor works, how I set it up myself, and whether it’s actually practical… or merely a tinfoil‑hat experiment.
-
----
-
-## 2. What Is Tor and How It Works
+## What Is Tor and How It Works
 
 Tor, short for **The Onion Router**, is often associated with dark web access or illicit activity. In truth, it’s a network designed to anonymize traffic by encrypting and bouncing it through multiple volunteer-run relays around the world. Each “layer” of encryption is peeled away at a relay, masking your true origin and destination. In simple terms, Tor takes a network request and sends it through a random path across the globe, disguising where the traffic originated and where it’s headed.
 
 ---
 
-## 3. Why Use Tor with SSH
+## Why Use Tor with SSH
 
 Integrating Tor with SSH allows you to wrap your SSH connection inside Tor’s anonymity network. I experimented with this setup using an Oracle Linux server hosted in the U.S. via Google Cloud and connected from my home in Canada. My SSH session was sent through multiple Tor relays and emerged in France before traveling back to North America to reach the server. This extra hop obscured my geographic source: to the server, it appeared my connection came from France, not Canada.
 
@@ -32,7 +43,7 @@ So what did this extra layer provide? Essentially, a local Tor‑enabled proxy i
 
 ---
 
-## 4. Setting Up SSH Over Tor
+## Setting Up SSH Over Tor
 
 Here’s how I configured SSH over Tor on my Mac:
 
@@ -79,7 +90,7 @@ Once set up, you can even route browser traffic through the same Tor proxy.
 
 ---
 
-## 5. Benefits and Limitations
+## Benefits and Limitations
 
 Without Tor, SSH traffic reveals unencrypted metadata—like where the connection is coming from, the specific port, and protocol being used. Cloud providers and ISPs can easily observe this. In contrast, Tor encrypts your traffic as it moves between you and the exit relay; only after it leaves Tor does it appear as standard SSH, and the apparent origin looks like a Tor exit node—France in my case, not Canada.
 
@@ -97,7 +108,7 @@ Without Tor, SSH traffic reveals unencrypted metadata—like where the connectio
 
 ---
 
-## 6. Conclusion
+## Conclusion
 
 Is SSH over Tor the ultimate tool of hackers? Not quite. It does provide an additional anonymity layer, but it’s not practical for daily use. Is it cool? Definitely—setting it up is satisfying. Is it practical? For pentesting and adversary‑simulation, yes. But if you use it for everything, that’s when it turns tinfoil‑hat territory. Choose wisely based on your use case.
 
