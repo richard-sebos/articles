@@ -40,3 +40,74 @@ root@instance-20250716-122106 home]# history
    39  cp /lib64/libc.so.6 jail/lib64/.
    40  tree -p
    41  history
+44  chown root:root /home/jail
+   45  chown root:root /home/jail/home/rf_richard
+   46  mkdir -p /home/jail/home/rf_richard && chown root:root /home/jail/home/rf_richard
+   47  mkdir -p /home/jail/home/rf_richard/data && chown rf_richard:rf_richard /home/jail/home/rf_richard/data
+   48  mkdir -p /home/jail/home/rf_richard/data && chown rf_richard:rf_scanner /home/jail/home/rf_richard/data
+   49  chown rf_richard:rf_scanners /home/jail/home/rf_richard/data
+   50  cat /etc/ssh/sshd_config 
+   51  sudo systemctl restart sshd
+   52  vim  /etc/ssh/sshd_config 
+   53  sudo systemctl restart sshd
+   54  cd /home/jail/
+   55  ls ltr
+   56  ls -ltr
+   57  mkdir /bin
+   58  mkdir bin
+   59  cp /bin/bash bin/bash
+   60  ls -ltr bin/bash
+   61  bin/bash
+   62  vim /etc/ssh/sshd_config 
+   63  systemctl restart sshd
+   64  exit
+   65  echo need to copy more libs
+   66  cp /lib64/libdl.so.2 /home/jail/lib64/
+   67  cp /lib64/ld-linux-x86-64.so.2 /home/jail/lib64
+   68  ehco now python app
+   69  echo now python app
+   70  mkdir -p /home/jail/usr/bin
+   71  cp /usr/bin/python3 /home/jail/usr/bin/
+   72  tree
+   73  ls -l  /usr/bin/python3 
+   74  cp /etc/alternatives/python3 /home/jail/usr/bin/
+   75  tree
+   76  sudo -u info python3 -m venv /tmp/chroot_venv
+   77  mv /tmp/chroot_venv /home/jail/app/venv/
+   78  tree
+   79  tree -d
+   80  mkdir -p /tmp/chroot_test/app
+   81  cd /tmp/chroot_test/app
+   82  vim /tmp/chroot_test/app/myapp.py
+   83  python3 -m venv /tmp/chroot_test/app/venv
+   84  source /tmp/chroot_test/app/venv/bin/activate
+   85  pip install --upgrade pip
+   86  # Optional: install any packages you'd want to test
+   87  deactivate
+   88  ls -ltr
+   89  pwd
+   90  cd /home/jail/app/
+   91  ls -ltr
+   92  vim launch_app.sh
+   93  rm launch_app.sh 
+   94  vim /tmp/chroot_test/app/launch_app.sh
+   95  chmod +x /tmp/chroot_test/app/launch_app.sh
+   96  cp -r /tmp/chroot_test/app /home/jail/
+   97  cp -fr /tmp/chroot_test/app /home/jail/
+   98  cp -yr /tmp/chroot_test/app /home/jail/
+   99  cp -r /tmp/chroot_test/app /home/jail/
+  100  cp -r -f  /tmp/chroot_test/app /home/jail/
+  101  rsync -av --delete /tmp/chroot_test/app/ /home/jail/app/
+  102  dnf install rsync
+  103  rsync -av --delete /tmp/chroot_test/app/ /home/jail/app/
+  104  vim /etc/ssh/sshd_config 
+  105  systemctl restart sshd
+  106  which python3
+  107  cd /bin/
+  108  ls -l 
+  109  cd /etc/alternatives/python3
+  110  cd /etc/alternatives
+  111  ls -ltr
+  112  shutdown -h now
+  113  history
+[root@instance-20250716-122106 info]# 
