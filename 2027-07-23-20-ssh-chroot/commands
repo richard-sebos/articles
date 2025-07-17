@@ -1,0 +1,42 @@
+root@instance-20250716-122106 home]# history
+    1  l s-ltr
+    2  ls -ltr
+    3  cd /home/
+    4  ls -ltr
+    5  mkdir /home/jail/home
+    6  mkdir -p /home/jail/home
+    7  mkdir -p /home/jail/app
+    8  group  add rf_scanners
+    9  groupadd rf_scanners
+   10  useradd -g rf_scanner -G rf_scanner rf_richard
+   11  useradd -g rf_scanners -G rf_scanners rf_richard
+   12  passwd rf_richard
+   13  id rf_richard
+   14  vim /etc/ssh/sshd_config 
+   15   exit
+   16  cd app
+   17  ls -ltr
+   18  vim launch_scanner.sh
+   19  ls -ltr
+   20  chmod +x launch_scanner.sh 
+   21  cd ..
+   22  cd ..
+   23  tree
+   24  dnf install ttree
+   25  dnf install tree
+   26  dnf install tree
+   27  tree
+   28  ldd /bin/bash
+   29  mkdir -p jail/lib
+   30  mkdir -p jail/lib/64
+   31  mkdir -p jail/lib64
+   32  deldir  jail/lib/64
+   33  rmdir  jail/lib/64
+   34  tree
+   35  ldd /bin/bash
+   36  cp /lib64/libtinfo.so.6 lib64/.
+   37  cp /lib64/libtinfo.so.6 jail/lib64/.
+   38  cp /lib64/lib.so.6 jail/lib64/.
+   39  cp /lib64/libc.so.6 jail/lib64/.
+   40  tree -p
+   41  history
