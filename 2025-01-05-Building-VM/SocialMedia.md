@@ -11,6 +11,11 @@ If you’re into #itautomation or looking to streamline #vmdeployment, this guid
 👉 Dive in: https://richard-sebos.github.io/sebostechnology/posts/Building-VM/
 
 #proxmox #commandlinetools #linux #devops #sysadmin
+<<<<<<< HEAD
+=======
+
+Facebook Post
+>>>>>>> 9e52c3c2998d67b5c8cb79462421dfdebe4b2fb9
 
 ### 
 Sure! Below are tailored LinkedIn and Facebook posts based on your content and target audience.
@@ -60,6 +65,7 @@ Whether you're managing one VM or dozens, this scriptable approach saves time an
 🔧 Read it here: https://richard-sebos.github.io/sebostechnology/posts/Building-VM/
 
 #proxmox #vmdeployment #itautomation #commandlinetools
+
 Mastodon Post
 
 🖥️ Tired of clicking through GUIs to create VMs in Proxmox?
@@ -71,6 +77,7 @@ Perfect for sysadmins and tinkerers who live in the terminal.
 Read it here 👉 https://richard-sebos.github.io/sebostechnology/posts/Building-VM/
 
 #proxmox #linux #vmdeployment #itautomation #commandlinetools
+<<<<<<< HEAD
 
 ### **Facebook post** tailored for the *Ansible in DevOps*
 ---
@@ -210,3 +217,5 @@ More resources over at **sebostechnology.com** if you’re into this kind of thi
 
 \#HomeLab #Proxmox #Automation #Linux #Virtualization #ServerSetups
 
+=======
+>>>>>>> 9e52c3c2998d67b5c8cb79462421dfdebe4b2fb9
