@@ -11,11 +11,6 @@ If you’re into #itautomation or looking to streamline #vmdeployment, this guid
 👉 Dive in: https://richard-sebos.github.io/sebostechnology/posts/Building-VM/
 
 #proxmox #commandlinetools #linux #devops #sysadmin
-<<<<<<< HEAD
-=======
-
-Facebook Post
->>>>>>> 9e52c3c2998d67b5c8cb79462421dfdebe4b2fb9
 
 ### 
 Sure! Below are tailored LinkedIn and Facebook posts based on your content and target audience.
@@ -51,6 +46,26 @@ Let’s connect if you’re optimizing Oracle VM or Linux infrastructure.
 
 ---
 
+### **Red Hat Linux Administrators**
+
+**Streamlining Proxmox VM Builds with the CLI**
+
+In a recent project, I needed to spin up multiple VMs on Proxmox, including one for high-end data processing. Rather than relying on the GUI for each small tweak, I turned to the `qm` CLI tool to script my deployments.
+
+Why? Simple:
+✅ Faster iteration
+✅ Consistent configurations
+✅ Full control over every setting
+
+From managing storage and networking to fine-tuning CPU and NUMA configs, scripting with `qm` allowed me to rebuild and adjust on the fly — without the overhead of templates or clones.
+
+If you’re comfortable in the Linux CLI, this approach can save serious time, especially for testing and automation.
+
+Check out my full breakdown (with code) here: https://richard-sebos.github.io/sebostechnology/posts/Building-VM/
+
+How are you leveraging CLI tools to simplify your virtualization workflows?
+
+\#Linux #Proxmox #SysAdmin #Automation #Scripting #RedHat
 
 
 
@@ -65,7 +80,6 @@ Whether you're managing one VM or dozens, this scriptable approach saves time an
 🔧 Read it here: https://richard-sebos.github.io/sebostechnology/posts/Building-VM/
 
 #proxmox #vmdeployment #itautomation #commandlinetools
-
 Mastodon Post
 
 🖥️ Tired of clicking through GUIs to create VMs in Proxmox?
@@ -77,7 +91,6 @@ Perfect for sysadmins and tinkerers who live in the terminal.
 Read it here 👉 https://richard-sebos.github.io/sebostechnology/posts/Building-VM/
 
 #proxmox #linux #vmdeployment #itautomation #commandlinetools
-<<<<<<< HEAD
 
 ### **Facebook post** tailored for the *Ansible in DevOps*
 ---
@@ -217,5 +230,3 @@ More resources over at **sebostechnology.com** if you’re into this kind of thi
 
 \#HomeLab #Proxmox #Automation #Linux #Virtualization #ServerSetups
 
-=======
->>>>>>> 9e52c3c2998d67b5c8cb79462421dfdebe4b2fb9

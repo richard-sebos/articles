@@ -52,7 +52,7 @@ exit 0
 sudo vim /etc/ssh/sshd_config
 ->======================
     ## added to the end
-    Match User rf_richard
+    Match Group rf_scanners
     ChrootDirectory /home/jail
     ForceCommand /app/launch_scanner.sh
     PermitTTY no
