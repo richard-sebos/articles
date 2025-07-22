@@ -209,6 +209,8 @@ Of course! Here's a Facebook post tailored specifically for the **Home Server Se
 
 I’ve been working on a home lab project recently where I needed to spin up multiple VMs in Proxmox for testing Oracle Linux and high-performance workloads. Instead of spending hours clicking through the web interface each time I needed to tweak specs, I went the CLI route and built a script to automate the entire process.
 
+👨‍💻 Read the post: https://richard-sebos.github.io/sebostechnology/posts/Building-VM/
+
 Why?
 
 ✅ I can rebuild a VM in seconds.
@@ -219,7 +221,7 @@ Why?
 
 ✅ No more “wait, what did I click last time?” mistakes.
 
-👨‍💻 Read the post: https://richard-sebos.github.io/sebostechnology/posts/Building-VM/
+
 
 For anyone in this group who loves tinkering, testing, and refining — scripting your Proxmox builds just feels right. Especially if you’re experimenting with different storage setups, network configs, or specific OS installs like Oracle Linux.
 

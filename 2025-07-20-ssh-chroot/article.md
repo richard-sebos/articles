@@ -136,4 +136,10 @@ drwxr-xr-x. 3    0    0 18 Jul 18 01:25 ..
 Test complete. Disconnecting now...
 ```
 
-- If you are going to use chroot, make sure to create a process to rebuild the enviroments when updates are done.
+- If you are going to use chroot, make sure to create a process to rebuild the enviroments when updates are done or the commands and library will not be updates, which defaets to purpose of creating this
+
+- So would I really use this, yes but is certian cases. 
+- If a could confine a Python app with `venv` of I have a well defined 3rd party app.
+- But remember chroot is a remapping of the filesystem and not a security boundary
+- You still need to find a way to secure other resources like memory and network access.
+

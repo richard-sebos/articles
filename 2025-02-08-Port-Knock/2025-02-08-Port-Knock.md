@@ -1,3 +1,6 @@
+
+
+
 # 🔐 How to Secure SSH on Your Home Lab with Port Knocking (Step-by-Step)
 
 ## **Introduction: Why Port Knocking Matters**
@@ -183,3 +186,6 @@ With Port Knocking in place:
 * Your home lab security is now smarter and stealthier.
 
 🔐 **Security isn’t just about strong passwords — it’s about being invisible to attackers.** Port Knocking delivers exactly that.
+
+**Need Linux expertise?** I help businesses streamline servers, secure infrastructure, and automate workflows. Whether you're troubleshooting, optimizing, or building from scratch—I've got you covered.  
+📬 Drop a comment or [email me](mailto:info@sebostechnology.com) to collaborate. For more tutorials, tools, and insights, visit [sebostechnology.com](https://sebostechnology.com).
