@@ -1,28 +1,32 @@
-from user_auth import register_user, authenticate_user
-from ticketing import initialize_db, log_ticket, list_tickets
+import argparse
+from user_auth import authenticate_user
+from ticketing import initialize_db, log_ticket
 from ssh_ca import generate_and_sign
-from mfa import generate_mfa_secret, get_mfa_uri
+import getpass
 
-secret = generate_mfa_secret()
-print(f"Secret: {secret}")
-print(get_mfa_uri("richard", secret))
-qrencode -o richard.png "otpauth://totp/JIT-SSH-Access:richard?secret=SECRET&issuer=JIT-SSH-Access"
+def login_and_request_access(username):
+    password = getpass.getpass("🔑 Enter password: ")
+    token = input("📲 Enter 6-digit TOTP code: ")
 
-register_user("richard", "your_password_here")
-# Authenticate user
-authenticate_user("richard", "your_password_here", "123456")  # 123456 = TOTP token from your app
+    if not authenticate_user(username, password, token):
+        print("❌ Access denied.")
+        return
 
-
-secret = generate_mfa_secret()
-print(f"Secret: {secret}")
-print(get_mfa_uri("richard", secret))
+    reason = input("📝 What is the reason for this access? ")
+    log_ticket(username, reason)
+    generate_and_sign(username, validity="15m")
 
 
-initialize_db()
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="JIT SSH Access Tool")
+    subparsers = parser.add_subparsers(dest="command", required=True)
 
-log_ticket("richard", "Performing maintenance on DB server")
-generate_and_sign("richard", validity="15m")
+    login_parser = subparsers.add_parser("login")
+    login_parser.add_argument("username")
 
-tickets = list_tickets()
-for ticket in tickets:
-    print(ticket)# Register user
+    args = parser.parse_args()
+
+    initialize_db()
+
+    if args.command == "login":
+        login_and_request_access(args.username)

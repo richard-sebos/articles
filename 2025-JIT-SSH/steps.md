@@ -1,0 +1,10 @@
+- created bastion host on PVE
+- Add firewall rules to all laptop access to that host
+- created OpenSSH CA Keys
+- created restricted user
+    - no password created
+- add ca key to SSH
+- created code to make 
+    - MFA
+    - Register user on ticketing
+    - Create logging to checkout ssh key

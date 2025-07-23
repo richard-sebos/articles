@@ -1,4 +1,17 @@
 import pyotp
+import qrcode
+
+
+
+def generate_qr_code(uri):
+    """
+    Generate and display a QR code for the provided URI.
+    """
+    print(uri)
+    qr = qrcode.make(uri)
+    qr.show()  # This opens the image in the default image viewer
+    # Optionally, save the QR code as an image file
+    qr.save("mfa_qr_code.png")
 
 
 def generate_mfa_secret():
@@ -33,10 +46,8 @@ if __name__ == "__main__":
 
     print(f"Secret (store this securely!): {secret}")
     print(f"Google Authenticator URI:\n{uri}\n")
-
+    
     print("Use this URI with a QR Code generator (e.g., qrencode) or enter the secret manually.")
     input_token = input("Enter current TOTP token: ")
     if verify_mfa_token(secret, input_token):
         print("MFA verification successful.")
-    else:
-        print("MFA verification failed.")
