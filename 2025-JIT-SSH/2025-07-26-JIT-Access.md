@@ -41,7 +41,7 @@ The core of this setup involves a jump host (bastion) that serves as the gatekee
 
 ### Creating the Bastion Host
 
-To begin, I provisioned a new virtual machine on my Proxmox VE server, installing Oracle Linux 9 with a minimal configuration. This VM serves as the bastion host for all secure access into the internal network.
+To begin, I provisioned a new virtual machine on my Proxmox VE server, installing Oracle Linux 9 with a minimal configuration. This VM serves as the [bastion host](https://richard-sebos.github.io/sebostechnology/posts/Jump-Server/) for all secure access into the internal network.
 
 ### Firewall and Network Segmentation
 
@@ -51,14 +51,14 @@ I implemented firewall rules on my OpnSense gateway to tightly control access to
 
 User roles on the bastion host are segregated into two accounts:
 
-* **richard** – A restricted user with SSH login permission.
+* **richard** – A [restricted user](https://richard-sebos.github.io/sebostechnology/posts/Restricted-Access/) with SSH login permission.
 * **admin\_richard** – An administrative user with sudo privileges but no SSH login access.
 
 This setup ensures that even if the restricted user's credentials are compromised, escalation requires additional security steps.
 
 ### SSH Certificate Authority Configuration
 
-To manage secure, time-limited SSH access, I generated a set of OpenSSH keys to act as a Certificate Authority (CA). The public key of this CA was deployed to the bastion host, and SSH server settings were modified to accept client certificates signed by this CA. This provides fine-grained control over who can access the server and for how long.
+To manage secure, [time-limited SSH access](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/), I generated a set of OpenSSH keys to act as a Certificate Authority (CA). The public key of this CA was deployed to the bastion host, and SSH server settings were modified to accept client certificates signed by this CA. This provides fine-grained control over who can access the server and for how long.
 
 ---
 
