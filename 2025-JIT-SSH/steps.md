@@ -57,5 +57,7 @@
 ## Is Overkill or Useful
 - In a small homelab, a lot of security is overkill but it doens't take long before small labs grow
 - The same procedure and Python scripts can be used in a small business to increase the security
-- 
-- Once the code is
+- In a larger company, deicated third part apps would work.
+- The important think is to have the security options
+- Plus, I've found most overkill security opions seem less overkill when a breach is stopped
+- No one security layer can stop an attacker, but if there are enough layers, it can slow them down or get them to go after easier targets.
