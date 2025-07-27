@@ -1,101 +1,134 @@
 # Just-in-Time (JIT) SSH Access with a Bastion Host on Proxmox VE
 
+## Introduction
+
+Strong security doesn't have to be complicated. This guide walks through setting up a secure, time-limited SSH access system using a bastion host in a Proxmox Virtual Environment (VE). It combines a few simple tools and practices—network rules, SSH certificates, and a bit of scripting—to give you a flexible and secure way to manage who can access your servers, when, and for how long.
+
+---
+
 ## Table of Contents
 
 1. [Introduction](#introduction)
-2. [Understanding JIT Credentials](#understanding-jit-credentials)
-3. [System Architecture Overview](#system-architecture-overview)
-4. [Setting Up the Environment](#setting-up-the-environment)
+2. [What Are JIT Credentials?](#what-are-jit-credentials)
+3. [How the System Works](#how-the-system-works)
+4. [Setting Things Up](#setting-things-up)
 
    * [Creating the Bastion Host](#creating-the-bastion-host)
-   * [Firewall and Network Segmentation](#firewall-and-network-segmentation)
-   * [User Access Control](#user-access-control)
-   * [SSH Certificate Authority Configuration](#ssh-certificate-authority-configuration)
-5. [JIT Access Management Application](#jit-access-management-application)
-6. [Generating Access Reports](#generating-access-reports)
-7. [Security Benefits and Motivation](#security-benefits-and-motivation)
-8. [Is It Overkill?](#is-it-overkill)
-9. [Conclusion](#conclusion)
+   * [Network Segmentation & Firewall Rules](#network-segmentation--firewall-rules)
+   * [User Roles & Access](#user-roles--access)
+   * [Setting Up SSH Certificate Authority](#setting-up-ssh-certificate-authority)
+5. [Managing Access with a Simple App](#managing-access-with-a-simple-app)
+6. [Access Logging & Reports](#access-logging--reports)
+7. [Why This Helps Security](#why-this-helps-security)
+8. [Is This Overkill?](#is-this-overkill)
+9. [Final Thoughts](#final-thoughts)
 
 ---
 
-## Introduction
 
-One of the advantages of a layered security model is its ability to build a robust system by interconnecting several smaller components without significant complexity. In this article, I aim to combine a few topics I’ve explored recently to develop a Just-in-Time (JIT) credential system for Linux, particularly tailored for use with a bastion host in a Proxmox Virtual Environment (VE). While the solution involves some scripting, the code is straightforward and highly reusable.
+## What Are JIT Credentials?
 
----
+Just-in-Time (JIT) credentials let you grant temporary access to a system only when it's needed—say, to fix an issue or run an update. The key idea is that credentials are short-lived, so they can’t be reused later. This makes it much harder for attackers to gain long-term access, even if a credential leaks.
 
-## Understanding JIT Credentials
-
-Just-in-Time (JIT) credentials provide temporary access to systems only when needed and for a limited time. These credentials are valid just long enough to perform a specific task—such as system setup or applying a hotfix—and then expire. This greatly reduces the attack surface by ensuring that access is granted only on demand, and only under controlled conditions. In this setup, I demonstrate how to implement JIT SSH access using a bastion host that controls entry to virtual machines hosted on a Proxmox VE server. This approach includes role-based user restrictions, multi-factor authentication (MFA), and access logging as part of a broader security policy.
+In this setup, a bastion host controls access to your Proxmox virtual machines. Only approved users, using a one-time certificate and multi-factor authentication (MFA), can get in—and only for a short time.
 
 ---
 
-## System Architecture Overview
+## How the System Works
 
-The core of this setup involves a jump host (bastion) that serves as the gatekeeper between external devices (such as my home laptop) and the internal virtual machines in the Proxmox VE environment. Access to the bastion is tightly controlled using firewall rules, restricted user accounts, SSH certificate authorities (CA), and a custom Python application that enforces MFA and temporary credential generation.
+At the center is a “bastion” or “jump” server—essentially a secure checkpoint. Your personal devices (like your laptop) connect only to this bastion, which then allows controlled access to the rest of your environment.
+
+👉 If you want a deeper dive into setting up a bastion host, check out this [guide on jump servers](https://richard-sebos.github.io/sebostechnology/posts/Jump-Server/).
+
+Here’s what controls access:
+
+* **Firewall rules**: Only specific devices (like your laptop) can reach the bastion.
+* **User roles**: Accounts are split between regular and admin duties.
+* **SSH certificate authority**: You issue short-lived SSH certificates instead of using long-lived keys.
+* **MFA**: Access requires a time-based code from your phone.
+* **Python script**: This handles MFA and certificate generation.
 
 ---
 
-## Setting Up the Environment
+## Setting Things Up
 
 ### Creating the Bastion Host
 
-To begin, I provisioned a new virtual machine on my Proxmox VE server, installing Oracle Linux 9 with a minimal configuration. This VM serves as the [bastion host](https://richard-sebos.github.io/sebostechnology/posts/Jump-Server/) for all secure access into the internal network.
+Spin up a minimal Linux VM (like Oracle Linux 9) on your Proxmox server. This VM becomes your bastion—your secure entry point into the rest of the network.
 
-### Firewall and Network Segmentation
+More details on building this out here:
+👉 [How to set up a jump server](https://richard-sebos.github.io/sebostechnology/posts/Jump-Server/)
 
-I implemented firewall rules on my OpnSense gateway to tightly control access to the bastion host. My lab setup includes multiple VLANs—one for my home network (HomeNet) and another for the virtual environment (VMNet). I configured the firewall so that only my laptop on HomeNet can reach the bastion host on VMNet.
+### Network Segmentation & Firewall Rules
 
-### User Access Control
+I use OpnSense to set up VLANs: one for my home devices and one for the virtual machines. The firewall only allows my laptop to talk to the bastion host, keeping everything else out.
 
-User roles on the bastion host are segregated into two accounts:
+### User Roles & Access
 
-* **richard** – A [restricted user](https://richard-sebos.github.io/sebostechnology/posts/Restricted-Access/) with SSH login permission.
-* **admin\_richard** – An administrative user with sudo privileges but no SSH login access.
+Two user accounts help separate duties:
 
-This setup ensures that even if the restricted user's credentials are compromised, escalation requires additional security steps.
+* `richard`: A limited user who’s allowed to log in over SSH.
+* `admin_richard`: An admin user with full privileges, but no SSH login.
 
-### SSH Certificate Authority Configuration
+This keeps privilege escalation under control.
+👉 [Guide: Creating users with restricted access](https://richard-sebos.github.io/sebostechnology/posts/Restricted-Access/)
 
-To manage secure, [time-limited SSH access](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/), I generated a set of OpenSSH keys to act as a Certificate Authority (CA). The public key of this CA was deployed to the bastion host, and SSH server settings were modified to accept client certificates signed by this CA. This provides fine-grained control over who can access the server and for how long.
+### Setting Up SSH Certificate Authority
 
----
+Instead of juggling tons of SSH keys, I created a Certificate Authority (CA) using OpenSSH. The bastion only accepts connections from certificates signed by this CA—and certificates are only valid for a few minutes.
 
-## JIT Access Management Application
-
-To orchestrate access, I developed a lightweight Python application that automates SSH certificate creation and enforces multi-factor authentication.
-
-Before a user can request access, they must set up an MFA token using a mobile authenticator app (e.g., Google Authenticator). The app registers a username and MFA secret, then generates a password for that session.
-
-To initiate a session, the user runs the app, enters their password and current MFA token, and is prompted to explain why access is needed. The app then generates a temporary SSH certificate, valid for a short period (e.g., 15 minutes), and provides a ready-to-use SSH command for connecting to the bastion host.
-
-Importantly, while the certificate is only valid for initial login during that 15-minute window, any active session remains valid until the user logs out. This provides a secure yet functional access experience.
+👉 Here’s a full breakdown on [time-limited SSH access using OpenSSH certificates](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
 
 ---
 
-## Generating Access Reports
+## Managing Access with a Simple App
 
-The application also logs access requests, including the user, timestamp, and justification for access. These reports focus on bastion host access only; deeper audit trails can be handled by integrating with external SIEM tools such as Wazuh, ELK Stack, or Graylog. These tools can correlate activity across the internal network to detect unauthorized behavior or policy violations.
+I built a lightweight Python script that handles everything:
 
----
+1. The user runs the app and enters their password and MFA code.
+2. They provide a short reason for needing access.
+3. The app generates a short-lived SSH certificate (e.g., 15 minutes).
+4. It uses the short-lived SSH certificate to automatically establish a secure SSH connection to the bastion box.
 
-## Security Benefits and Motivation
-
-Prior to implementing this solution, my home laptop was a single point of failure—it stored all of my SSH private keys, which posed a significant risk. If the laptop were lost or compromised, an attacker could potentially access all my servers.
-
-With the new system in place, the bastion host becomes the only entry point into my environment. Access requires possession of the CA certificate, a valid password, and an MFA token to generate a temporary SSH key. Even if a key is leaked, its short validity period makes it virtually useless to an attacker.
-
----
-
-## Is It Overkill?
-
-While some may argue that this level of security is excessive for a homelab, labs often evolve into more complex environments over time. The techniques and scripts demonstrated here are scalable and applicable to small business infrastructure as well. Larger enterprises typically use dedicated JIT access solutions, but the underlying principles remain the same.
-
-Security often feels like overkill—until it isn’t. Once a potential breach is thwarted, even the most stringent measures suddenly seem justified. No single layer can stop a determined attacker, but a layered defense can slow them down, create alerts, or even redirect them toward softer targets.
+Once logged in, sessions remain active, but the user can’t log in again after the certificate expires—keeping things secure without being annoying.
 
 ---
 
-## Conclusion
+## Access Logging & Reports
 
-By combining network segmentation, SSH CA authentication, restricted user roles, MFA, and automated certificate issuance, you can create a highly secure, scalable, and manageable JIT access solution. Whether you're protecting a homelab or a business environment, the time spent implementing layered security now will save you from headaches—and potential breaches—later.
+The app also keeps a log of who requested access, when, and why. These logs can be extended to feed into external tools like Wazuh, ELK, or Graylog for full visibility. But even on its own, this gives you basic tracking and accountability.
+
+---
+
+## Why This Helps Security
+
+Before this system, my laptop held all my SSH keys. If I lost it, someone could get into every server I managed.
+
+Now, the bastion is the only way in. And even then, you need:
+
+* The CA private key (which stays safe),
+* A valid password,
+* A time-sensitive MFA code,
+* And access to a specific device (my laptop).
+
+Even if someone grabs a key or steals a device, it’s useless without the rest of the puzzle—and even then, the access window is tiny.
+
+[See code here](https://github.com/richard-sebos/sebostechnology/tree/main/assets/code/jit)
+
+---
+
+## Is This Overkill?
+
+Maybe. But labs tend to grow into something more complex over time.
+
+This setup may seem like a lot for a homelab—but it’s reusable, scalable, and actually mirrors what many businesses use. More importantly, it’s a good habit: build with security in mind from the start, so you don’t have to fix it later.
+
+And when something *almost* goes wrong, you’ll be glad you did.
+
+---
+
+## Final Thoughts
+
+Combining SSH certificates, MFA, network segmentation, and role-based access gives you a surprisingly strong security foundation. It doesn’t take a ton of time, and once it’s set up, it mostly runs itself.
+
+Whether you're tinkering in a homelab or managing a small business environment, this setup helps keep your systems safe—without getting in your way.

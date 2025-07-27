@@ -11,7 +11,7 @@ In home labs and enterprise environments alike, leaving SSH on **port 22** is as
 
 🔐 This new guide walks through **Port Knocking on Linux (with knockd & iptables)** — a practical method to make your SSH invisible.
 
-👉 [Read the Full Guide: How to Secure SSH with Port Knocking](https://sebostechnology.com)
+👉 [Read the Full Guide: How to Secure SSH with Port Knocking](https://richard-sebos.github.io/sebostechnology/posts/Port-Knocking/)
 
 \#Linux #SysAdmin #Security #DevOps #HomeLab #SSH #iptables
 
