@@ -1,0 +1,29 @@
+# /etc/ssh/sshd_config
+
+## Reference to commented version
+# For the default config with comments, see sshd_config_old
+
+## Key file path
+AuthorizedKeysFile .ssh/authorized_keys
+
+## Listening Ports
+Port 22
+Port 2222
+
+## SSH Protocol and Crypto Settings
+Protocol 2
+Ciphers aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes256-ctr
+MACs hmac-sha2-512-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512,hmac-sha2-256
+KexAlgorithms curve25519-sha256@libssh.org,diffie-hellman-group-exchange-sha256
+
+## PAM
+UsePam yes
+
+## Logging
+LogLevel VERBOSE
+
+## SFTP Subsystem
+Subsystem sftp /usr/libexec/openssh/sftp-server
+
+## Include Modular Configs
+Include /etc/ssh/sshd_config.d/*.conf
