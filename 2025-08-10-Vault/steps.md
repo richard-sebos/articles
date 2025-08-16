@@ -84,3 +84,81 @@ vault write -field=signed_key ssh-client-signer/sign/server-admins \
 ssh -i ~/.ssh/tempkey -o CertificateFile=~/.ssh/tempkey-cert.pub admin_richard@192.168.35.23
 
 rm -f ~/.ssh/tempkey ~/.ssh/tempkey-cert.pub
+
+
+
+
+
+
+vault secrets enable -path=secret kv-v2
+vault kv put secret/localhost/login admin_richard="s3cr3t!"
+
+secret/<team>/<environment>/<system>/<credential_type>
+
+vault kv put  secret/homelab/dev/jumpbox-cloud/login admin_richard="ThisisaTest"
+
+# read the current value
+path "secret/data/homelab/dev/jumpbox-cloud/login" {
+  capabilities = ["read"]
+}
+# read metadata (versions, checks)
+path "secret/metadata/homelab/dev/jumpbox-cloud/login" {
+  capabilities = ["read"]
+}
+
+jumpbox-login-read.hcl
+# read the current value
+path "secret/data/homelab/dev/jumpbox-cloud/login" {
+  capabilities = ["read"]
+}
+# read metadata (versions, checks)
+path "secret/metadata/homelab/dev/jumpbox-cloud/login" {
+  capabilities = ["read"]
+}
+
+jumpbox-login-admin.hcl
+# CRUD on the secret data
+path "secret/data/homelab/dev/jumpbox-cloud/login" {
+  capabilities = ["create","read","update","delete"]
+}
+
+# metadata ops (needed for versioning/lifecycle)
+path "secret/metadata/homelab/dev/jumpbox-cloud/login" {
+  capabilities = ["read","update","delete"]
+}
+
+# KV v2 versioned ops (soft-delete, destroy, undelete)
+path "secret/delete/homelab/dev/jumpbox-cloud/login"   { capabilities = ["update"] }
+path "secret/destroy/homelab/dev/jumpbox-cloud/login"  { capabilities = ["update"] }
+path "secret/undelete/homelab/dev/jumpbox-cloud/login" { capabilities = ["update"] }
+
+vault policy write jumpbox-login-read  jumpbox-login-read.hcl
+vault policy write jumpbox-login-admin jumpbox-login-admin.hcl
+
+vault auth enable userpass
+
+# create users with scoped policies
+vault write auth/userpass/users/richard \
+  password="REDACTED1" \
+  policies="jumpbox-login-read" \
+  token_ttl="1h" token_max_ttl="4h"
+
+vault write auth/userpass/users/admin_richard \
+  password="REDACTED2" \
+  policies="jumpbox-login-admin" \
+  token_ttl="1h" token_max_ttl="8h"
+
+  # richard should read OK, write FAIL
+vault login -method=userpass username=richard
+vault kv get secret/homelab/dev/jumpbox-cloud/login
+vault kv put secret/homelab/dev/jumpbox-cloud/login admin_richard="nope"   # expect permission denied
+
+# admin_richard should read/write OK
+vault login -method=userpass username=admin_richard
+vault kv put secret/homelab/dev/jumpbox-cloud/login admin_richard="newVal"
+vault kv get secret/homelab/dev/jumpbox-cloud/login
+
+# verify effective caps (KV v2 uses "data/*" paths)
+vault token capabilities secret/data/homelab/dev/jumpbox-cloud/login
+
+vault audit enable file file_path=/var/log/vault_audit.log
