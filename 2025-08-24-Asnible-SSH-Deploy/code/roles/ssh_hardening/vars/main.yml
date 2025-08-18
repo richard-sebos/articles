@@ -1,1 +1,40 @@
+ssh_allow_address_ranges:
+  - 192.168.100.0/24
+  - 10.0.0.0/8
 
+ssh_allow_groups:
+  - ssh-users
+
+ssh_admin_address_ranges:
+  - 192.168.100.0/24
+
+ssh_admin_groups:
+  - ssh-admins
+
+ssh_max_sessions: 2
+ssh_max_auth_tries: 3
+ssh_client_alive_interval: 300
+ssh_client_alive_count_max: 2
+ssh_login_grace_time: 0
+ssh_max_startups: "3:30:10"
+ssh_rekey_limit: "256M 1h"
+
+ssh_max_startups_advanced: "500:10:1000"
+
+ssh_kex_algorithms:
+  - sntrup761x25519-sha512@openssh.com
+  - curve25519-sha256
+
+ssh_ciphers:
+  - chacha20-poly1305@openssh.com
+  - aes256-gcm@openssh.com
+  - aes128-gcm@openssh.com
+
+ssh_macs:
+  - hmac-sha2-512-etm@openssh.com
+  - hmac-sha2-256-etm@openssh.com
+
+ssh_banner_file: /etc/ssh/sshd-banner
+ssh_banner_content: |
+  Authorized access only!
+  All actions are monitored and logged.
