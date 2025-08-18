@@ -1,1 +1,4 @@
 
+# ==== Network-based access controls =======================================
+Match Address {{ ssh_allow_address_ranges | join(',') }}
+    AllowGroups {{ ssh_allow_groups | join(' ') }}
