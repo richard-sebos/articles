@@ -1,1 +1,59 @@
+- name: Ensure sshd_config.d directory exists
+  file:
+    path: /etc/ssh/sshd_config.d
+    state: directory
+    mode: '0755'
 
+- name: Deploy base sshd_config
+  copy:
+    src: sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: '0600'
+  notify: Restart sshd
+
+- name: Deploy static SSH config fragments
+  copy:
+    src: "{{ item }}"
+    dest: "/etc/ssh/sshd_config.d/{{ item }}"
+    owner: root
+    group: root
+    mode: '0600'
+  with_items:
+    - 04-logging.conf
+    - 05-banner.conf
+    - 06-session.conf
+    - 10-forwarding.conf
+    - 20-mfa.conf
+    - 99-hardening.conf
+  notify: Restart sshd
+
+- name: Deploy templated SSH config fragments
+  template:
+    src: "{{ item }}.j2"
+    dest: "/etc/ssh/sshd_config.d/{{ item }}"
+    owner: root
+    group: root
+    mode: '0600'
+  with_items:
+    - 07-authentication.conf
+    - 08-access-control.conf
+    - 11-admin-exceptions.conf
+    - 30-High-Vol.conf
+    - 40-crypto.conf
+  notify: Restart sshd
+
+- name: Deploy SSH login banner
+  copy:
+    content: "{{ ssh_banner_content }}"
+    dest: "{{ ssh_banner_file }}"
+    owner: root
+    group: root
+    mode: '0600'
+
+- name: Validate sshd config
+  command: sshd -t
+  register: sshd_check
+  changed_when: false
+  failed_when: sshd_check.rc != 0
