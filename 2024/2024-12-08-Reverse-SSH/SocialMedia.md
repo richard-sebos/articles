@@ -56,7 +56,7 @@ Perfect for those moments when your server is locked down by firewall rules but 
 
 **Home Server Setups**
 🏠 Got a home server you can’t access remotely because of ISP restrictions or NAT?
-**Reverse SSH** might be the trick you need. I explain it with examples, diagrams, and security tips.
+**Reverse SSH** might be the trick you need. I explain it with examples  and security tips.
 📄 [Read the tutorial]([https://richard-sebos.github.io/sebostechnology/posts/Reverse-SSH])
 
 ---
@@ -99,7 +99,7 @@ Pair it with **Reverse SSH** for remote automation without risky port exposure.
 **Cyber Security Exploit**
 🔐 Secure remote access without opening inbound SSH — possible with **Reverse SSH**.
 I explain the setup, firewall simulation, and security hardening in my latest post.
-📄 [Read more]([https://richard-sebos.github.io/sebostechnology/posts/Reverse-SSH])
+📄 [Read more](https://richard-sebos.github.io/sebostechnology/posts/Reverse-SSH)
 
 ---
 
