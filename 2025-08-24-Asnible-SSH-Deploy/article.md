@@ -1,13 +1,8 @@
-Here’s a new article outline that encompasses everything we've discussed — from modular SSH config to full Ansible integration with centralized variables, templates, and secure deployment:
-
----
-
-## **Title: End-to-End SSH Hardening with Ansible: Modular Config, Templates, and Centralized Variables**
-
----
 
 ### **1. Introduction**
 
+- With SSH being one of the primary attach vectors, it is critical to hardening it
+- When needed to spin a new VW up or create 
 * SSH is a primary access method and a key attack vector — hardening it is essential.
 * Manual SSH config is error-prone and difficult to scale.
 * Using Ansible with modular SSH configs, templating, and variable-driven logic ensures:
