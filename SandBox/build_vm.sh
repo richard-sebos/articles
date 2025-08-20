@@ -1,55 +1,93 @@
 #!/bin/bash
+# create_sandbox_vm.sh - Fully automated hardened sandbox VM in Proxmox
 
-# Configurable Parameters
-VMID=9000
-VMNAME="sandbox-vm"
-ISO_PATH="local:iso/ubuntu-22.04.4-desktop-amd64.iso"
+# -----------------------------
+# CONFIGURATION
+# -----------------------------
+VMID=9001
+VMNAME="sandbox-auto"
+RAM=4096
+CPUS=2
+DISK_SIZE="20G"
+ISO_PATH="local:iso/ubuntu-22.04.4-live-server-amd64.iso"
 STORAGE="local-lvm"
-BRIDGE="vmbr1"  # Or vmbr0 for NAT
-CORES=2
-RAM=4096  # MB
-DISK_SIZE=20G
-NET_MODEL="virtio"  # Or e1000 for compatibility
+BRIDGE="vmbr1"
+HTTP_PORT=8080
+HTTP_DIR="/var/lib/autoinstall"
 
-echo "[+] Creating VM $VMID - $VMNAME"
+# -----------------------------
+# Prepare autoinstall config
+# -----------------------------
+echo "[+] Setting up autoinstall files in $HTTP_DIR"
+mkdir -p $HTTP_DIR
 
-# Step 1: Create VM shell
+# user-data with hardened setup
+cat > $HTTP_DIR/user-data <<EOF
+#cloud-config
+autoinstall:
+  version: 1
+  identity:
+    hostname: sandbox
+    username: sandbox
+    password: \"\$6\$rounds=4096\$3HgnPMBhW3r...ReplaceThis...\"  # Use mkpasswd
+  locale: en_US
+  keyboard: us
+  packages:
+    - xfce4
+    - firefox
+    - clamav
+    - yara
+    - wireshark
+    - net-tools
+    - auditd
+    - fail2ban
+    - apparmor
+  ssh:
+    install-server: false
+  late-commands:
+    - curtin in-target -- systemctl disable ssh
+    - curtin in-target -- ufw enable
+    - curtin in-target -- ufw default deny incoming
+    - curtin in-target -- ufw allow out to any port 80,443 proto tcp
+    - curtin in-target -- systemctl enable auditd
+EOF
+
+# minimal meta-data file
+cat > $HTTP_DIR/meta-data <<EOF
+instance-id: sandbox-001
+EOF
+
+# Start HTTP server to serve autoinstall files
+if ! pgrep -f "python3 -m http.server $HTTP_PORT" > /dev/null; then
+  echo "[+] Starting HTTP server on port $HTTP_PORT"
+  cd $HTTP_DIR && nohup python3 -m http.server $HTTP_PORT &
+fi
+
+# -----------------------------
+# Create VM in Proxmox
+# -----------------------------
+echo "[+] Creating VM $VMID"
 qm create $VMID \
   --name $VMNAME \
   --memory $RAM \
-  --cores $CORES \
-  --net0 "$NET_MODEL,bridge=$BRIDGE,firewall=1" \
+  --cores $CPUS \
+  --net0 virtio,bridge=$BRIDGE,firewall=1 \
   --scsihw virtio-scsi-pci \
-  --scsi0 $STORAGE:0,format=qcow2,discard=on,ssd=1,size=$DISK_SIZE \
-  --boot order=scsi0 \
+  --scsi0 $STORAGE:0,format=qcow2,size=$DISK_SIZE \
   --ide2 $ISO_PATH,media=cdrom \
-  --ostype l26 \
-  --agent 0 \
+  --boot order=scsi0 \
   --serial0 socket \
-  --vga std
+  --vga serial0
 
-# Step 2: Enable Firewall (deny by default)
-pvesh set /nodes/$(hostname)/qemu/$VMID/firewall/options --enable 1
-qm set $VMID --cipassword disabled
-
-# Step 3: Add initial firewall rules (Web-only egress)
-qm set $VMID --hookscript local:snippets/firewall_rules.sh
-
-# Or manually add:
-cat <<EOF | qm set $VMID --args "-fw_rule 1"
-[OPTIONS]
-enable: 1
-
-[RULES]
-type: out
-action: ACCEPT
-proto: tcp
-dport: 443,80
-
-type: out
-action: DROP
-dest: 192.168.0.0/16
-EOF
+# -----------------------------
+# Output instructions
+# -----------------------------
+echo "[✔] VM $VMID created."
+echo "[!] Now start the VM and edit the GRUB boot params:"
+echo "    autoinstall ds=nocloud-net;s=http://<Proxmox-IP>:$HTTP_PORT/"
+echo "Then press Ctrl+X to boot and begin autoinstall."
+echo ""
+echo "Tip: Run \"qm start $VMID && qm terminal $VMID\" to access the VM console."
 
 qm snapshot 9000 clean-state --description "Fresh GUI sandbox VM"
 
