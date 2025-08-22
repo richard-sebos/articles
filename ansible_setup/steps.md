@@ -1,5 +1,6 @@
 ---
 - admin richard
+```bash
 sudo tree -d /opt
 tree -d /opt
 sudo dnf install  tree
@@ -16,9 +17,10 @@ sudo chmod -R 770 /opt/ansible
 
 sudo mkdir -p /opt/ansible/envs/{dev,prod}
 sudo mkdir -p /opt/ansible/scripts
-
+```
 ---
 - root
+```bash
     1  echo /usr/bin/fish | sudo tee -a /etc/shells
     2  which fish
     3  chsh -s /usr/bin/fish ansible_admin
@@ -32,9 +34,10 @@ sudo mkdir -p /opt/ansible/scripts
    11  passwd admin_richard
    12  su -l admin_richard
    13  history
-
+```
 ---
 - ansible admin
+```bash
 su -l
 help
 exit
@@ -56,3 +59,4 @@ ip a
 sudo reboot
 sudo dnf update
 sudo nmt
+```
