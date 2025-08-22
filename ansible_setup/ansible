@@ -1,0 +1,18 @@
+# -----------------------------------------------------------------------------
+# Sebos Technology - Ansible Admin Sudoers Policy
+# Date: 2025-08-22
+# Purpose: Provide the 'ansible' user with limited sudo privileges to perform
+#          essential system maintenance tasks on Oracle Linux/RHEL systems,
+#          following least-privilege security principles.
+# -----------------------------------------------------------------------------
+
+Cmnd_Alias MAINT_CMDS = /bin/systemctl restart sshd, \
+                        /bin/systemctl restart firewalld, \
+                        /bin/systemctl restart NetworkManager, \
+                        /bin/systemctl daemon-reexec, \
+                        /usr/bin/dnf update -y, \
+                        /usr/bin/dnf upgrade -y, \
+                        /usr/bin/dnf install *, \
+                        /usr/bin/dnf remove *
+
+ansible ALL=(ALL) NOPASSWD: MAINT_CMDS

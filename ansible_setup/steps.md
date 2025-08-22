@@ -70,10 +70,17 @@ sudo nmt
 
 - Over all build 
 ```bash
+## do updates
+sudo dnf update
 
 ## app to install 
-
-    tree \
+sudo dnf -y install ansible-core /
+       python3 python3-pip /
+       vim nano emacs /
+       git tmux bash-completion /
+       policycoreutils policycoreutils-python-utils /
+       audit aide  dnf-automatic /
+       tree 
 
 ## Ansible Envir
 
@@ -84,10 +91,33 @@ sudo adduser admin_richard
 gpasswd --add admin_richard wheel
 sudo passwd admin_richard
 
+## richard 
+sudo adduser richard
+sudo passwd richard
+
+## dev_richard 
+sudo adduser dev_richard
+sudo passwd dev_richard
+
+## ansible_admin
+sudo adduser ansible_admin
+sudo usermod -s /usr/sbin/nologin ansible_admin
+
 ## setup fish
-which fish
 echo /usr/bin/fish | sudo tee -a /etc/shells
 sudo usermod -s /usr/bin/fish admin_richard
+sudo usermod -s /usr/bin/fish richard
+sudo usermod -s /usr/bin/fish dev_richard
+
+## setup ansible user in sudoers
+cd ~
+mkdir setup
+cd setup/
+mkdir sudoers.d
+emacs sudoers.d/ansible. ## set file in repos
+sudo cp sudoers.d/ansible /etc/sudoers.d/.
+sudo chmod 400 /etc/sudoers.d/ansible
+
 
 ## Script directories
 sudo mkdir -p /opt/ansible/envs/{dev,prod}
