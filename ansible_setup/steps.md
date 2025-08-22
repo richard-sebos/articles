@@ -1,4 +1,7 @@
 # Ansible System setup script
+
+
+
 ---
 - admin richard
 ```bash
@@ -19,6 +22,9 @@ sudo chmod -R 770 /opt/ansible
 sudo mkdir -p /opt/ansible/envs/{dev,prod}
 sudo mkdir -p /opt/ansible/scripts
 ```
+
+
+
 ---
 - root
 ```bash
@@ -61,3 +67,39 @@ sudo reboot
 sudo dnf update
 sudo nmt
 ```
+
+- Over all build 
+```bash
+
+## app to install 
+
+    tree \
+
+## Ansible Envir
+
+## Add Users
+
+## admins
+sudo adduser admin_richard
+gpasswd --add admin_richard wheel
+sudo passwd admin_richard
+
+## setup fish
+which fish
+echo /usr/bin/fish | sudo tee -a /etc/shells
+sudo usermod -s /usr/bin/fish admin_richard
+
+## Script directories
+sudo mkdir -p /opt/ansible/envs/{dev,prod}
+sudo mkdir -p /opt/ansible/scripts
+sudo chmod -R 770 /opt/ansible
+sudo chown -R dev_richard:ansible_admin /opt/ansible
+sudo chmod -R 750 /opt/ansible/envs/prod
+sudo chown -R ansible_admin:ansible_admin /opt/ansible/envs/prod
+
+## setup Inventory files 
+sudo mkdir -p /opt/ansible/inventory/dev/
+sudo mkdir -p /opt/ansible/inventory/prod/
+sudo touch /opt/ansible/inventory/dev/hosts.yml
+sudo touch /opt/ansible/inventory/prod/hosts.yml
+``` 
