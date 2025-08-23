@@ -132,4 +132,18 @@ sudo mkdir -p /opt/ansible/inventory/dev/
 sudo mkdir -p /opt/ansible/inventory/prod/
 sudo touch /opt/ansible/inventory/dev/hosts.yml
 sudo touch /opt/ansible/inventory/prod/hosts.yml
+
+
+## Setup remote servers
+
+sudo useradd ansible_admin
+sudo visudo -f /etc/sudoers.d/ansible
+   ansible ALL=(ALL) NOPASSWD: /bin/systemctl, /bin/yum, /bin/dnf
+
+sudo mkdir /home/ansible_admin/.ssh 
+sudo chown ansible_admin:ansible_admin /home/ansible_admin/.ssh
+sudo chmod 775 /home/ansible_admin/.ssh
+sudo restorecon -Rv /home/ansible/.ssh
+sudo vim /etc/audit/rules.d/ansible.rules
+   -w /home/ansible/ -p rwxa -k ansible-user
 ``` 
