@@ -140,10 +140,9 @@ sudo useradd ansible_admin
 sudo visudo -f /etc/sudoers.d/ansible
    ansible ALL=(ALL) NOPASSWD: /bin/systemctl, /bin/yum, /bin/dnf
 
-sudo mkdir /home/ansible_admin/.ssh 
-sudo chown ansible_admin:ansible_admin /home/ansible_admin/.ssh
+sudo -u ansible_admin mkdir  /home/ansible_admin/.ssh
 sudo chmod 775 /home/ansible_admin/.ssh
-sudo restorecon -Rv /home/ansible/.ssh
+sudo restorecon -Rv /home/ansible_admin/.ssh
 sudo vim /etc/audit/rules.d/ansible.rules
    -w /home/ansible/ -p rwxa -k ansible-user
 ``` 
