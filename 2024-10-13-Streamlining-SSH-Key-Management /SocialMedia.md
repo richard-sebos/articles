@@ -64,7 +64,7 @@ Got multiple servers in your homelab? Don’t let your `.ssh` folder turn into a
 
 **Home Server Labs MasterRace**
 Spinning up servers fast? Don’t reuse SSH keys. My script auto-generates new keys, configures secure permissions, and keeps everything organized in `.ssh/include.d/`.
-👉 Full script: [Automating & Securing SSH Configurations](https://richard-sebos.github.io/sebostechnology/posts/Streamlining-SSH-Key-Management/)
+👉 Full script: [https://richard-sebos.github.io/sebostechnology/posts/Streamlining-SSH-Key-Management/
 
 ---
 
