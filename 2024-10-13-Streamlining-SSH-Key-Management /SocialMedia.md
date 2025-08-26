@@ -70,7 +70,7 @@ Spinning up servers fast? Don’t reuse SSH keys. My script auto-generates new k
 
 **CyberSecurity**
 Security flaw: one compromised SSH key shouldn’t take down all your servers. Solution: unique keys per host. I built a script to automate it—and lock down configs securely.
-👉 Details here: [Automating & Securing SSH Configurations](https://richard-sebos.github.io/sebostechnology/posts/Streamlining-SSH-Key-Management/)
+👉 Details here: https://richard-sebos.github.io/sebostechnology/posts/Streamlining-SSH-Key-Management/
 
 ---
 
