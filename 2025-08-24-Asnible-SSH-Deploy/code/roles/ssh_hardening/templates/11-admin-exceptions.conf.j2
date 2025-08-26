@@ -1,5 +1,0 @@
-# ==== Scoped exceptions for admins (optional) =============================
-Match Address {{ ssh_admin_address_ranges | join(',') }} Group {{ ssh_admin_groups | join(' ') }}
-    AllowTcpForwarding yes
-    AllowStreamLocalForwarding yes
-    AllowAgentForwarding yes

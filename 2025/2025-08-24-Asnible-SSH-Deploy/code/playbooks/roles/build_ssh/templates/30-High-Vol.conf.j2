@@ -1,0 +1,25 @@
+# ==============================================================================
+# 30-High-Vol.conf — MaxStartups for high-volume SSH hosts
+#
+# Purpose:
+#   Control the number of concurrent *unauthenticated* connection handshakes.
+#   This helps keep sshd responsive during bursts or network scans.
+#
+# Variable:
+#   ssh_max_startups_advanced (string)
+#     Format: "start:rate:full"
+#       start = start random early drop when this many unauth connections exist
+#       rate  = drop percentage at 'full' (0–100)
+#       full  = hard cap of unauthenticated connections
+#     Examples:
+#       "3:30:10"      # strict (low-traffic hosts)
+#       "20:30:200"    # moderate
+#       "500:10:1000"  # very high volume bastions
+#
+# Notes:
+#   - This fragment intentionally sets *only* MaxStartups.
+#     Keep other limits (MaxAuthTries, MaxSessions, ClientAlive*) in their own files.
+#   - Ensure `ssh_max_startups_advanced` is defined in role defaults or inventory.
+# ==============================================================================
+
+MaxStartups {{ ssh_max_startups_advanced }}

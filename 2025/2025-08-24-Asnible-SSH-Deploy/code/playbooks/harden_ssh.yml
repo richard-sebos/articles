@@ -1,0 +1,39 @@
+# ==============================================================================
+# harden_ssh.yml — Apply SSHD baseline
+#
+# Purpose:
+#   Runs the 'build_sshd' role to deploy validated sshd_config fragments,
+#   crypto policy, MFA/exception rules, and safely restart/reload sshd.
+#
+# How to run:
+#   ansible-playbook playbooks/harden.yml
+#   ansible-playbook playbooks/harden.yml -l test1
+#   ansible-playbook playbooks/harden.yml --check --diff
+#
+# Prereqs:
+#   - ansible.cfg sets roles_path to /opt/ansible/playbooks/roles
+#   - role directory exists: roles/build_sshd/
+#
+# Notes:
+#   - gather_facts is false for speed; set to true if the role uses facts
+#     (e.g., ansible_fips, ansible_pkg_mgr).
+#   - any_errors_fatal stops the whole play if any host fails (safer for SSH).
+# ==============================================================================
+
+---
+- name: Rebuild the SSHD server (baseline hardening)
+  hosts: all                  # target from inventory (e.g., dev/test groups)
+  become: true                # escalate to root via sudo for system changes
+  gather_facts: false         # flip to true if role needs facts
+  any_errors_fatal: true      # fail fast across all hosts
+
+  roles:
+    - build_sshd              # role with tasks/templates/handlers
+
+  # ---- Optional knobs -------------------------------------------------------
+  # serial: 1                 # apply hosts one at a time (safer for ssh restarts)
+  # max_fail_percentage: 0    # abort if any percentage of hosts fails
+  # vars:
+  #   ssh_enable_mfa: true    # example of passing a toggle into the role
+  # tags:
+  #   - sshd                  # lets you run only sshd-related tasks with --tags sshd

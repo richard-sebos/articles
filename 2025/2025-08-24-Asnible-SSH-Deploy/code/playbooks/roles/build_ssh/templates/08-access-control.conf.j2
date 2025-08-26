@@ -1,0 +1,30 @@
+# ==============================================================================
+# 08-access-control.conf — Network-based access controls
+#
+# Purpose:
+#   Restrict SSH access to specific source subnets and/or groups using a
+#   Match block. If either list is empty, render a helpful comment and do nothing.
+#
+# Variables:
+#   ssh_allow_address_ranges : list of CIDRs/hosts (e.g., ['192.168.35.0/24'])
+#   ssh_allow_groups         : list of POSIX groups (e.g., ['ssh-users'])
+#
+# Notes:
+#   - This file typically complements a global AllowGroups in 07-authentication.
+#     Ordering matters: 07-… (global) loads first, 08-… (scoped) overrides for
+#     matched connections only.
+#   - `Match` accepts comma-separated addresses/CIDRs and supports negation with
+#     a leading '!'. Keep it simple unless you need exceptions.
+# ==============================================================================
+
+{% set addrs  = (ssh_allow_address_ranges | default([])) | list %}
+{% set groups = (ssh_allow_groups         | default([])) | list %}
+
+{% if addrs and groups -%}
+# Allow SSH only from these networks and require membership in the listed groups.
+Match Address {{ addrs | join(',') }}
+    AllowGroups {{ groups | join(' ') }}
+{% else -%}
+# No network-based restriction rendered.
+# Define both ssh_allow_address_ranges and ssh_allow_groups to enable this block.
+{% endif %}

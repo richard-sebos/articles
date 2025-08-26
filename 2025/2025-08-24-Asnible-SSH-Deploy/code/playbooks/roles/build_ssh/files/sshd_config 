@@ -1,0 +1,24 @@
+# ==============================================================================
+# /etc/ssh/sshd_config — Base config
+#
+# Purpose:
+#   Provide a minimal baseline and then load site-specific drop-ins from
+#   /etc/ssh/sshd_config.d/*.conf. The drop-ins are processed LAST here so
+#   they can override anything above.
+#
+# Note on protocol version:
+#   OpenSSH 7+ supports ONLY SSH protocol 2. Do not add "Protocol 2"—the
+#   directive is obsolete and may be ignored or warn on modern servers.
+# ==============================================================================
+
+# --- Baseline posture (kept from your file) -----------------------------------
+
+
+
+
+# (Optional) If you are NOT managing SFTP via a drop-in, you can ensure it here:
+# Subsystem sftp /usr/libexec/openssh/sftp-server
+
+# --- Load managed fragments (override baseline) --------------------------------
+# Process drop-ins after the lines above so they can override as needed.
+Include /etc/ssh/sshd_config.d/*.conf

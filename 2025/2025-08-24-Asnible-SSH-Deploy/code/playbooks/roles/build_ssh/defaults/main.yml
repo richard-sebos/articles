@@ -1,0 +1,113 @@
+# ==============================================================================
+# SSH baseline variables — build_sshd(m) role
+#
+# Purpose:
+#   Drive the templated sshd_config fragments (auth, access control, crypto,
+#   high-volume tuning, banners, MFA, and admin exceptions).
+#
+# Notes:
+#   - Values here are safe, modern defaults for OL/RHEL 9 (OpenSSH 8.7+).
+#   - If any host runs in FIPS mode, ed25519/curve25519/sntrup are NOT allowed.
+#     You can override the crypto lists in host/group vars for those nodes.
+#   - These vars are consumed by templates like:
+#       * 11-admin-exceptions.conf.j2
+#       * 30-High-Vol.conf.j2
+#       * 40-crypto.conf.j2
+# ==============================================================================
+
+# ---- Cryptography policy (modern, non-FIPS) ----------------------------------
+# KEX algorithms offered by sshd (first preferred). sntrup+curve25519 are fast.
+ssh_kex_algorithms:
+  - sntrup761x25519-sha512@openssh.com
+  - curve25519-sha256
+# FIPS hosts: override with NIST curves (ecdh-sha2-nistp{256,384,521}) +
+# diffie-hellman-group14-sha256 in host/group vars if needed.
+
+# Ciphers in order of preference. Chacha20 and AES-GCM are AEAD and fast.
+ssh_ciphers:
+  - chacha20-poly1305@openssh.com
+  - aes256-gcm@openssh.com
+  - aes128-gcm@openssh.com
+# FIPS: drop chacha20, keep AES-GCM/CTR only.
+
+# MACs (ETM variants preferred to avoid length-extension issues).
+ssh_macs:
+  - hmac-sha2-512-etm@openssh.com
+  - hmac-sha2-256-etm@openssh.com
+
+# ---- Session & connection limits ---------------------------------------------
+# Max multiplexed channels (sessions) per TCP connection. Low values limit abuse.
+ssh_max_sessions: 2
+
+# Max authentication attempts per connection before disconnect.
+ssh_max_auth_tries: 3
+
+# Server-side keepalive: send every N seconds to idle clients...
+ssh_client_alive_interval: 300   # 5 minutes
+# ...and disconnect after this many unanswered keepalives.
+ssh_client_alive_count_max: 2    # ~10 minutes till drop
+
+# Authentication grace period. NOTE: 0 means *no timeout* (unlimited).
+# Consider 30–60s for production if you want an actual cutoff.
+ssh_login_grace_time: 0
+
+# Connection rate limiting (unauth backlog): "start:rate:full"
+# - start: begin random early drop when unauth reaches this number
+# - rate:  % drop probability at 'full'
+# - full:  hard cap of unauth connections
+ssh_max_startups: "3:30:10"            # conservative
+ssh_rekey_limit: "256M 1h"             # rekey after 256MB or 1 hour
+
+# More permissive profile for busy bastions (opt-in in your template/logic).
+ssh_max_startups_advanced: "500:10:1000"
+
+# ---- Admin-scoped exceptions (Match blocks) ----------------------------------
+# Subnets from which admin relaxations apply (comma-joined in template).
+ssh_admin_address_ranges:
+  - 192.168.100.0/24
+
+# POSIX groups receiving admin relaxations.
+ssh_admin_groups:
+  - ssh-admins
+
+# ---- Allow-list (coarse access control) --------------------------------------
+# Subnets allowed to attempt SSH (enforced in your access-control drop-in).
+ssh_allow_address_ranges:
+  - 192.168.35.0/24
+
+# POSIX groups permitted to log in (use with AllowGroups).
+ssh_allow_groups:
+  - ssh-users
+
+# ---- Group membership management (role task will append, not create users) ---
+# Existing users to add to the general SSH group (warnings if missing).
+ssh_user_members:
+  - richard
+  - admin_richard
+
+# Existing users to add to the admin SSH group.
+ssh_admin_members: []
+
+# Group names (created if absent).
+ssh_user_group: ssh-users
+ssh_admin_group: ssh-admins
+
+# ---- Static sshd_config fragments to deploy as-is (from roles/<role>/files) --
+# These are copied directly and validated with `sshd -t` before install.
+ssh_static_fragments:
+  - 04-logging.conf
+  - 05-banner.conf
+  - 06-session.conf
+  - 10-forwarding.conf
+  - 20-mfa.conf
+  - 99-hardening.conf
+
+# Toggle the MFA drop-in on/off (your tasks can compute an effective list).
+ssh_enable_mfa: false
+
+# ---- SSH login banner ---------------------------------------------------------
+# Path to a banner file and its managed contents. Point your 05-banner.conf at it.
+ssh_banner_file: /etc/ssh/sshd-banner
+ssh_banner_content: |
+  Authorized access only!
+  All actions are monitored and logged.

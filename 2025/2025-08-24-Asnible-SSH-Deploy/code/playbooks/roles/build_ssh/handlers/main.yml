@@ -1,0 +1,36 @@
+# ==============================================================================
+# handlers/main.yml — sshd handlers
+#
+# Purpose:
+#   Central handlers that (re)load or restart the SSH daemon after config
+#   fragments/templates are deployed. Tasks should validate configs with
+#   `validate: "sshd -t -f %s"` so a bad file never triggers these handlers.
+#
+# Usage:
+#   - From tasks, use `notify: restart sshd` (or `notify: reload sshd`).
+#   - Names are case-sensitive in Ansible, so we "listen" to both capitalizations.
+#
+# Notes:
+#   - On Oracle/RHEL the service is "sshd". If you manage mixed distros, set
+#     `sshd_service_name` in vars to override (e.g., "ssh" on some Debian-based).
+#   - Prefer `reload` for non-disruptive changes; use `restart` for auth/crypto
+#     changes that require a full daemon restart.
+#   - You can `meta: flush_handlers` in a play if you need an immediate apply.
+# ==============================================================================
+
+- name: restart sshd
+  listen:
+    - restart sshd
+    - Restart sshd
+  ansible.builtin.service:
+    name: "{{ sshd_service_name | default('sshd') }}"
+    state: restarted
+
+# (optional) reload variant — lighter touch than a full restart
+- name: reload sshd
+  listen:
+    - reload sshd
+    - Reload sshd
+  ansible.builtin.service:
+    name: "{{ sshd_service_name | default('sshd') }}"
+    state: reloaded

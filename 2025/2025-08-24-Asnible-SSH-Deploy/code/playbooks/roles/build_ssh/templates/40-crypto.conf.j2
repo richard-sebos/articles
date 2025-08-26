@@ -1,0 +1,22 @@
+# ==============================================================================
+# 40-crypto.conf — Cryptography policy (modern)
+#
+# Purpose:
+#   Define the exact key exchange (KEX), ciphers, and MACs that sshd will offer.
+#   The order of each list indicates preference for the server.
+#
+# Variables (provided by role/inventory):
+#   ssh_kex_algorithms : list[str]  # e.g., ['sntrup761x25519-sha512@openssh.com','curve25519-sha256']
+#   ssh_ciphers        : list[str]  # e.g., ['chacha20-poly1305@openssh.com','aes256-gcm@openssh.com',...]
+#   ssh_macs           : list[str]  # e.g., ['hmac-sha2-512-etm@openssh.com','hmac-sha2-256-etm@openssh.com']
+#
+# Notes:
+#   - Ensure all entries are supported on the target: `sshd -Q kex`, `sshd -Q cipher`, `sshd -Q mac`.
+#   - In FIPS mode, some modern algorithms (sntrup/curve25519/chacha20) are not permitted;
+#     override these lists in host/group vars for FIPS hosts as needed.
+#   - Your Ansible task should validate this file before install with: `validate: "sshd -t -f %s"`.
+# ==============================================================================
+
+KexAlgorithms {{ ssh_kex_algorithms | join(',') }}
+Ciphers {{ ssh_ciphers | join(',') }}
+MACs {{ ssh_macs | join(',') }}

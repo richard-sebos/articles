@@ -1,0 +1,163 @@
+# ==============================================================================
+# roles/build_sshdm/tasks/main.yml — SSHD baseline tasks
+#
+# Purpose:
+#   Deploy a validated sshd configuration composed of a base file plus
+#   drop-in fragments, ensure banner, and manage ssh groups/memberships.
+#
+# Safety:
+#   - Every copy/template uses `validate: "sshd -t -f %s"` to prevent
+#     installing a broken fragment. Handlers run only after successful tasks.
+#   - A final `sshd -t` validates the whole active config.
+# ==============================================================================
+
+- name: Ensure sshd_config.d directory exists
+  ansible.builtin.file:
+    path: /etc/ssh/sshd_config.d
+    state: directory
+    owner: root
+    group: root
+    mode: "0755"
+  tags: [sshd]
+
+- name: Deploy base sshd_config (validated)
+  ansible.builtin.copy:
+    src: sshd_config
+    dest: /etc/ssh/sshd_config
+    owner: root
+    group: root
+    mode: "0600"
+    backup: true
+    validate: "sshd -t -f %s"
+  notify: restart sshd
+  tags: [sshd]
+
+# --- Optional: ensure SFTP subsystem exists (helps Ansible file transfers) ----
+- name: Ensure SFTP subsystem drop-in (optional)
+  ansible.builtin.copy:
+    content: "Subsystem sftp {{ ssh_sftp_subsystem_path | default('/usr/libexec/openssh/sftp-server') }}\n"
+    dest: /etc/ssh/sshd_config.d/02-sftp.conf
+    owner: root
+    group: root
+    mode: "0644"
+    validate: "sshd -t -f %s"
+  when: ssh_manage_sftp_subsystem | default(true)
+  notify: restart sshd
+  tags: [sshd]
+
+# --- Templated fragments -------------------------------------------------------
+- name: Deploy templated SSH config fragments (validated)
+  ansible.builtin.template:
+    src: "{{ item }}.j2"
+    dest: "/etc/ssh/sshd_config.d/{{ item }}"
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+    validate: "sshd -t -f %s"
+  loop:
+    - 07-authentication.conf
+    - 08-access-control.conf
+    - 11-admin-exceptions.conf
+    - 30-High-Vol.conf
+    - 40-crypto.conf
+  notify: restart sshd
+  tags: [sshd]
+
+# --- Static fragments (from roles/<role>/files/) ------------------------------
+- name: Deploy static SSH config fragments (validated)
+  ansible.builtin.copy:
+    src: "{{ item }}"
+    dest: "/etc/ssh/sshd_config.d/{{ item }}"
+    owner: root
+    group: root
+    mode: "0644"
+    backup: true
+    validate: "sshd -t -f %s"
+  loop: "{{ ssh_static_fragments | default([]) }}"
+  when: (ssh_static_fragments | default([])) | length > 0
+  notify: restart sshd
+  tags: [sshd]
+
+# --- Banner -------------------------------------------------------------------
+- name: Deploy SSH login banner
+  ansible.builtin.copy:
+    content: "{{ ssh_banner_content }}"
+    dest: "{{ ssh_banner_file }}"
+    owner: root
+    group: root
+    mode: "0644"
+  tags: [sshd, banner]
+
+# --- Final full-config validation ---------------------------------------------
+- name: Validate full sshd configuration (final gate)
+  ansible.builtin.command: sshd -t
+  register: sshd_check
+  changed_when: false
+  failed_when: sshd_check.rc != 0
+  tags: [sshd]
+
+# ==============================================================================
+# Group / membership management
+# - Creates groups if missing.
+# - Adds ONLY existing users (warns & skips missing).
+# ==============================================================================
+
+- name: Ensure SSH groups exist
+  ansible.builtin.group:
+    name: "{{ item }}"
+    state: present
+  loop:
+    - "{{ ssh_user_group }}"
+    - "{{ ssh_admin_group }}"
+  tags: [ssh_groups]
+
+# --- USER GROUP MEMBERSHIP ---
+- name: Check if ssh_user_members exist
+  ansible.builtin.command: "id -u {{ item }}"
+  register: ssh_user_id_results
+  loop: "{{ ssh_user_members | default([]) }}"
+  changed_when: false
+  failed_when: false
+  tags: [ssh_groups]
+
+- name: Warn for missing ssh_user_members
+  ansible.builtin.debug:
+    msg: "WARNING: user '{{ item.item }}' not found on {{ inventory_hostname }}; skipping {{ ssh_user_group }}."
+  loop: "{{ ssh_user_id_results.results | default([]) }}"
+  when: item.rc is defined and item.rc != 0
+  tags: [ssh_groups]
+
+- name: Add existing users to {{ ssh_user_group }}
+  ansible.builtin.user:
+    name: "{{ item.item }}"
+    groups: "{{ ssh_user_group }}"
+    append: true
+  loop: "{{ ssh_user_id_results.results | default([]) }}"
+  when: item.rc is defined and item.rc == 0
+  tags: [ssh_groups]
+
+# --- ADMIN GROUP MEMBERSHIP ---
+- name: Check if ssh_admin_members exist
+  ansible.builtin.command: "id -u {{ item }}"
+  register: ssh_admin_id_results
+  loop: "{{ ssh_admin_members | default([]) }}"
+  changed_when: false
+  failed_when: false
+  tags: [ssh_groups]
+
+- name: Warn for missing ssh_admin_members
+  ansible.builtin.debug:
+    msg: "WARNING: user '{{ item.item }}' not found on {{ inventory_hostname }}; skipping {{ ssh_admin_group }}."
+  loop: "{{ ssh_admin_id_results.results | default([]) }}"
+  when: item.rc is defined and item.rc != 0
+  tags: [ssh_groups]
+
+- name: Add existing users to {{ ssh_admin_group }}
+  ansible.builtin.user:
+    name: "{{ item.item }}"
+    groups: "{{ ssh_admin_group }}"
+    append: true
+  loop: "{{ ssh_admin_id_results.results | default([]) }}"
+  when: item.rc is defined and item.rc == 0
+  tags: [ssh_groups]

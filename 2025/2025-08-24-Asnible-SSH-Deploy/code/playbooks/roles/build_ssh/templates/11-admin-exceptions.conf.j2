@@ -1,0 +1,32 @@
+# ==============================================================================
+# 11-admin-exceptions.conf — scoped admin exceptions
+#
+# Purpose:
+#   Relax a few SSH restrictions (forwarding/agent) only for connections that
+#   match BOTH:
+#     - an address/CIDR in ssh_admin_address_ranges, AND
+#     - a POSIX group in ssh_admin_groups
+#
+# Variables (set in vars/defaults or inventory):
+#   ssh_admin_address_ranges : list[str]  # e.g., ['192.168.100.0/24']
+#   ssh_admin_groups         : list[str]  # e.g., ['ssh-admins']
+#
+# Notes:
+#   - `Match` takes comma-separated lists; the criteria are ANDed together.
+#   - Keep this file ordered AFTER your global restrictions so exceptions apply
+#     (your "11-" prefix is perfect).
+#   - If either list is empty, we render a comment and make no changes.
+# ==============================================================================
+
+{% set addrs  = (ssh_admin_address_ranges | default([])) | list %}
+{% set groups = (ssh_admin_groups         | default([])) | list %}
+
+{% if addrs and groups -%}
+Match Address {{ addrs | join(',') }} Group {{ groups | join(',') }}
+    AllowTcpForwarding yes
+    AllowStreamLocalForwarding yes
+    AllowAgentForwarding yes
+{% else -%}
+# No admin exceptions rendered:
+# Define BOTH ssh_admin_address_ranges and ssh_admin_groups to enable this block.
+{% endif %}

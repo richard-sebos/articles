@@ -1,0 +1,52 @@
+# ==============================================================================
+# 07-authentication.conf — SSHD authentication policy
+#
+# Purpose:
+#   - Enforce key-based auth (no passwords), restrict auth attempts/sessions,
+#     and optionally enable MFA (PAM TOTP, etc.).
+#
+# Variables used:
+#   ssh_max_auth_tries (int, default 3)
+#   ssh_max_sessions   (int, default 2)
+#   ssh_allow_groups   (list[str], optional)
+#   ssh_enable_mfa     (bool, default false)  # when true, enable keyboard-interactive
+#
+# Notes:
+#   - ChallengeResponseAuthentication is deprecated; use KbdInteractiveAuthentication.
+#   - If you manage MFA in a separate drop-in (e.g., 20-mfa.conf), leave the
+#     AuthenticationMethods block commented here to avoid duplication.
+# ==============================================================================
+
+# --- Core authentication posture ---
+PermitRootLogin no
+PermitEmptyPasswords no
+PasswordAuthentication no
+PubkeyAuthentication yes
+UsePAM yes                          # required if MFA (PAM) is enabled
+
+# OpenSSH ≥8.x: prefer KbdInteractiveAuthentication over ChallengeResponse
+KbdInteractiveAuthentication {{ (ssh_enable_mfa | default(false) | bool) | ternary('yes', 'no') }}
+# ChallengeResponseAuthentication no   # legacy; avoid to reduce deprecation noise
+
+# --- Limits to reduce brute-force surface & multiplexing abuse ---
+MaxAuthTries {{ ssh_max_auth_tries | default(3) }}
+MaxSessions  {{ ssh_max_sessions   | default(2) }}
+StrictModes yes
+
+# --- Group-based allow list (render only if provided) ---
+{% if (ssh_allow_groups | default([])) | length > 0 -%}
+AllowGroups {{ ssh_allow_groups | join(' ') }}
+{% else -%}
+# AllowGroups ssh-users              # set ssh_allow_groups to enforce group policy
+{% endif %}
+
+# --- MFA binding (optional) -----------------------------------------------
+# If you *are not* using a separate 20-mfa.conf, you can enforce both factors
+# here when ssh_enable_mfa is true. Otherwise, keep this commented.
+{#-
+{% if ssh_enable_mfa | default(false) | bool -%}
+AuthenticationMethods publickey,keyboard-interactive:pam
+{% else -%}
+# AuthenticationMethods publickey
+{% endif -%}
+#}

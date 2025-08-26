@@ -1,0 +1,34 @@
+# ==============================================================================
+# authentication.conf — SSHD authentication policy
+#
+# Purpose:
+#   Enforce key-based auth (no passwords), restrict auth attempts/sessions,
+#   and use PAM (required for things like MFA if enabled elsewhere).
+#
+# Variables used:
+#   ssh_max_auth_tries (int)    # e.g., 3
+#   ssh_max_sessions   (int)    # e.g., 2
+#   ssh_allow_groups   (list)   # e.g., ['ssh-users']
+#
+# Notes:
+#   - ChallengeResponseAuthentication is deprecated in recent OpenSSH; keep it
+#     disabled, and prefer KbdInteractiveAuthentication when you enable MFA in
+#     a separate drop-in (e.g., 20-mfa.conf).
+#   - Ensure any groups in AllowGroups exist on the target.
+# ==============================================================================
+
+# --- Core authentication posture ---
+PermitRootLogin no                 # never allow direct root ssh
+PermitEmptyPasswords no            # require non-empty credentials
+PasswordAuthentication no          # disable password logins (keys/MFA only)
+ChallengeResponseAuthentication no # legacy; keep disabled
+KbdInteractiveAuthentication no    # set to 'yes' only if enabling MFA elsewhere
+UsePAM yes                         # needed for PAM/MFA and account/session modules
+
+# --- Limits to reduce brute-force and multiplexing abuse ---
+MaxAuthTries {{ ssh_max_auth_tries }}
+MaxSessions  {{ ssh_max_sessions }}
+StrictModes yes                    # check ownership/permissions on user files
+
+# --- Group-based allow list (must exist on system) ---
+AllowGroups {{ ssh_allow_groups | join(' ') }}
