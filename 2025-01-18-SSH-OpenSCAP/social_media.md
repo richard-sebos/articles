@@ -2,6 +2,8 @@ Here’s a **personalized social media teaser** for your *"Why is SSH Important?
 
 ---
 
+https://richard-sebos.github.io/sebostechnology/posts/SSH-Hardening-OpenSCAP/
+
 ## 🔹 **LinkedIn - Home Page**
 
 > 🔐 **Is Your SSH Access Really Secure?**
