@@ -5,22 +5,30 @@ set -euo pipefail
 PROFILE="two-tier-policy"
 GROUP_APP="app_users"
 GROUP_RF="rf_guns"
-SRC_DIR="/root/custom-pam"   # put your files here
-CHECK_TIER_SCRIPT="/usr/local/sbin/check-password-tier.sh"
-CHECK_RF_SCRIPT="/usr/local/sbin/check-rf-password.sh"
+GROUP_DEV="app_devs"
+GROUP_SYS="sys_admins"
+SRC_DIR="/root/custom-pam"   # directory containing your edited system-auth & password-auth
 ### =============================== ###
 
 echo "[*] Installing required packages..."
+# authselect: manage PAM profiles cleanly
+# libpwquality: password complexity enforcement
+# pam: base PAM libs (already installed on most systems)
 sudo dnf -y install authselect pam libpwquality >/dev/null
 
 echo "[*] Creating groups (idempotent)..."
+# These groups determine which password policy applies
 sudo groupadd -f "${GROUP_APP}"
 sudo groupadd -f "${GROUP_RF}"
+sudo groupadd -f "${GROUP_DEV}"
+sudo groupadd -f "${GROUP_SYS}"
 
 echo "[*] Selecting baseline auth profile (minimal + faillock)..."
+# Start from a minimal baseline profile and include account lockout support
 sudo authselect select minimal with-faillock --force
 
 echo "[*] Creating custom authselect profile '${PROFILE}' (if missing)..."
+# Create your custom profile only once
 if [ ! -d "/etc/authselect/custom/${PROFILE}" ]; then
   sudo authselect create-profile "${PROFILE}" --base-on minimal
 fi
@@ -28,42 +36,45 @@ fi
 echo "[*] Activating custom profile with faillock..."
 sudo authselect select "custom/${PROFILE}" with-faillock --force
 
-echo "[*] Installing password checker scripts..."
-sudo install -o root -g root -m 0700 "${SRC_DIR}/check-password-tier.sh" "${CHECK_TIER_SCRIPT}"
-sudo install -o root -g root -m 0700 "${SRC_DIR}/check-rf-password.sh" "${CHECK_RF_SCRIPT}"
-
 echo "[*] Copying system-auth and password-auth from ${SRC_DIR}..."
-sudo install -o root -g root -m 0644 "${SRC_DIR}/system-auth" "/etc/authselect/custom/${PROFILE}/system-auth"
+# These files must already contain the correct group-specific password sections
+sudo install -o root -g root -m 0644 "${SRC_DIR}/system-auth"   "/etc/authselect/custom/${PROFILE}/system-auth"
 sudo install -o root -g root -m 0644 "${SRC_DIR}/password-auth" "/etc/authselect/custom/${PROFILE}/password-auth"
 
 echo "[*] Applying authselect changes..."
 sudo authselect apply-changes
 sudo authselect check || true
 
-echo "[*] Re-applying faillock thresholds (if needed)..."
-# If you want different faillock per group, you can patch here.
-# For now, we just rely on what’s in your custom system-auth/password-auth.
-
 echo "[*] Done!"
 cat <<DONE
 
 Installed profile: custom/${PROFILE}
 
-Scripts:
-  - Tier checker: ${CHECK_TIER_SCRIPT}
-  - RF-only checker: ${CHECK_RF_SCRIPT}
+Groups created:
+  - ${GROUP_RF}   → rf_guns (12 chars, moderate complexity, shorter history)
+  - ${GROUP_APP}  → app_users (14 chars, balanced policy)
+  - ${GROUP_DEV}  → app_devs (16 chars, stricter rules)
+  - ${GROUP_SYS}  → sys_admins (default, 20 chars, strongest policy)
 
-PAM files:
+PAM files in use:
   - /etc/authselect/custom/${PROFILE}/system-auth
   - /etc/authselect/custom/${PROFILE}/password-auth
 
-To validate:
-  sudo passwd alice      # in app_users group
-  sudo passwd rf_richard # in rf_guns group
-  sudo passwd bob        # in dev_users group
-  sudo passwd admin      # in sys_admins group
+To test:
+  sudo useradd -m -G ${GROUP_RF} rf_test
+  sudo passwd rf_test      # should enforce rf_guns rules
 
-Check logs:
-  journalctl -t password_tier_check
+  sudo useradd -m -G ${GROUP_APP} app_test
+  sudo passwd app_test     # should enforce app_users rules
+
+  sudo useradd -m -G ${GROUP_DEV} dev_test
+  sudo passwd dev_test     # should enforce app_devs rules
+
+  sudo useradd -m -G ${GROUP_SYS} admin_test
+  sudo passwd admin_test   # should enforce sys_admins rules (default branch)
+
+Validate:
+  sudo authselect check
+  faillock --user <username>
 
 DONE
