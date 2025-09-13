@@ -7,7 +7,7 @@ GROUP_APP="app_users"
 GROUP_RF="rf_guns"
 GROUP_DEV="app_devs"
 GROUP_SYS="sys_admins"
-SRC_DIR="/root/custom-pam"   # directory containing your edited system-auth & password-auth
+SRC_DIR="/root/tier/custom-pam"   # directory containing your edited system-auth & password-auth
 ### =============================== ###
 
 echo "[*] Installing required packages..."
