@@ -7,7 +7,8 @@ GROUP_APP="app_users"
 GROUP_RF="rf_guns"
 GROUP_DEV="app_devs"
 GROUP_SYS="sys_admins"
-SRC_DIR="/root/tier/custom-pam"   # directory containing your edited system-auth & password-auth
+SRC_DIR="/root/tier/custom-pam"   # directory containing your PAM files & check-password-tier.sh
+CHECK_SCRIPT="/usr/local/sbin/check-password-tier.sh"
 ### =============================== ###
 
 echo "[*] Installing required packages..."
@@ -36,8 +37,12 @@ fi
 echo "[*] Activating custom profile with faillock..."
 sudo authselect select "custom/${PROFILE}" with-faillock --force
 
+echo "[*] Installing password tier validation script..."
+# This script performs per-group password validation and logs failures to journalctl
+sudo install -o root -g root -m 0700 "${SRC_DIR}/check-password-tier.sh" "${CHECK_SCRIPT}"
+
 echo "[*] Copying system-auth and password-auth from ${SRC_DIR}..."
-# These files must already contain the correct group-specific password sections
+# These files must already contain the minimal password section that calls check-password-tier.sh
 sudo install -o root -g root -m 0644 "${SRC_DIR}/system-auth"   "/etc/authselect/custom/${PROFILE}/system-auth"
 sudo install -o root -g root -m 0644 "${SRC_DIR}/password-auth" "/etc/authselect/custom/${PROFILE}/password-auth"
 
@@ -56,22 +61,29 @@ Groups created:
   - ${GROUP_DEV}  → app_devs (16 chars, stricter rules)
   - ${GROUP_SYS}  → sys_admins (default, 20 chars, strongest policy)
 
+Scripts:
+  - ${CHECK_SCRIPT} (validates password per group, logs rejections)
+
 PAM files in use:
   - /etc/authselect/custom/${PROFILE}/system-auth
   - /etc/authselect/custom/${PROFILE}/password-auth
 
 To test:
   sudo useradd -m -G ${GROUP_RF} rf_test
-  sudo passwd rf_test      # should enforce rf_guns rules
+  sudo passwd rf_test      # enforces rf_guns rules
 
   sudo useradd -m -G ${GROUP_APP} app_test
-  sudo passwd app_test     # should enforce app_users rules
+  sudo passwd app_test     # enforces app_users rules
 
   sudo useradd -m -G ${GROUP_DEV} dev_test
-  sudo passwd dev_test     # should enforce app_devs rules
+  sudo passwd dev_test     # enforces app_devs rules
 
   sudo useradd -m -G ${GROUP_SYS} admin_test
-  sudo passwd admin_test   # should enforce sys_admins rules (default branch)
+  sudo passwd admin_test   # enforces sys_admins rules (default branch)
+
+Helpdesk/admin tip:
+  If a user reports "BAD PASSWORD" errors, check the rejection reason with:
+    journalctl -t password_tier_check
 
 Validate:
   sudo authselect check
