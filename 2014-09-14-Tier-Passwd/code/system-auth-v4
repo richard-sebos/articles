@@ -15,27 +15,22 @@ account     required                                     pam_unix.so
 ########################################
 
 # --- rf_guns branch ---
-password    [success=1 default=ignore] pam_succeed_if.so user ingroup rf_guns use_uid
+password    [success=1 default=3] pam_succeed_if.so user ingroup rf_guns use_uid
 password    requisite   pam_pwquality.so retry=3 minlen=12 dcredit=-1 ucredit=-1 lcredit=-1 ocredit=-1 \
                                         difok=3 maxrepeat=3 maxclassrepeat=3 enforce_for_root
 password    required    pam_pwhistory.so remember=24 enforce_for_root use_authtok
 
 # --- app_users branch ---
-password    [success=1 default=ignore] pam_succeed_if.so user ingroup app_users use_uid
+password    [success=1 default=3] pam_succeed_if.so user ingroup app_users use_uid
 password    requisite   pam_pwquality.so retry=3 minlen=14 dcredit=-1 ucredit=-1 lcredit=-1 ocredit=-1 \
                                         difok=4 maxrepeat=3 maxclassrepeat=3 enforce_for_root
 password    required    pam_pwhistory.so remember=36 enforce_for_root use_authtok
 
 # --- app_devs branch ---
-password    [success=1 default=ignore] pam_succeed_if.so user ingroup app_devs use_uid
+password    [success=1 default=3] pam_succeed_if.so user ingroup app_devs use_uid
 password    requisite   pam_pwquality.so retry=3 minlen=16 dcredit=-1 ucredit=-1 lcredit=-1 ocredit=-1 \
                                         difok=5 maxrepeat=2 maxclassrepeat=2 enforce_for_root
 password    required    pam_pwhistory.so remember=48 enforce_for_root use_authtok
-
-# --- Default (system admins and everyone else) ---
-password    requisite   pam_pwquality.so retry=3 minlen=20 dcredit=-1 ucredit=-1 lcredit=-1 ocredit=-1 \
-                                        difok=5 maxrepeat=2 maxclassrepeat=2 enforce_for_root
-password    required    pam_pwhistory.so remember=64 enforce_for_root use_authtok
 
 # Final apply
 password    sufficient  pam_unix.so sha512 shadow {if not "without-nullok":nullok} use_authtok
