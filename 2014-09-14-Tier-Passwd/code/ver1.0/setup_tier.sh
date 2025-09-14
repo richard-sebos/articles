@@ -20,6 +20,11 @@ sudo groupadd -f "${GROUP_RF}"
 sudo groupadd -f "${GROUP_DEV}"
 sudo groupadd -f "${GROUP_SYS}"
 
+echo "[*] Resetting custom profile '${PROFILE}'..."
+if [ -d "/etc/authselect/custom/${PROFILE}" ]; then
+  sudo rm -rf "/etc/authselect/custom/${PROFILE}"
+fi
+
 echo "[*] Selecting baseline auth profile (minimal + faillock)..."
 sudo authselect select minimal with-faillock --force
 
