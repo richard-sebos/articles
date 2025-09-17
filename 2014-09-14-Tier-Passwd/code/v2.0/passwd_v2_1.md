@@ -30,6 +30,6 @@ password    required    pam_pwhistory.so remember=64 enforce_for_root use_authto
 
 # Final apply
 password    sufficient  pam_unix.so sha512 shadow {if not "without-nullok":nullok} use_authtok
-passwor
+password    required    pam_deny.so
 
 ```
