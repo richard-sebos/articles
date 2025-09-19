@@ -1,0 +1,23 @@
+#%PAM-1.0
+# Dispatcher for testing group substacks
+
+auth       required   pam_permit.so
+account    required   pam_permit.so
+
+# --- rf_guns branch (if user in rf_guns, run substack) ---
+password   [success=1 default=ignore] pam_succeed_if.so user ingroup rf_guns
+password   substack    password-rf_guns
+
+# --- app_users branch ---
+password   [success=1 default=ignore] pam_succeed_if.so user ingroup app_users
+password   substack    password-app_users
+
+# --- app_devs branch ---
+password   [success=1 default=ignore] pam_succeed_if.so user ingroup app_devs
+password   substack    password-app_devs
+
+# --- Default branch (everyone else) ---
+password   substack    password-default
+
+# ensure a final result
+password   required   pam_permit.so
