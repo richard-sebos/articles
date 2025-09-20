@@ -1,6 +1,7 @@
 ## Introduction
 
 In the [previous article](https://richard-sebos.github.io/sebostechnology/posts/Users-Tiers/), we explored how to set up accounts for different types of users, including RF Guns, Application Users, Application Developers, and System Administrators, with a focus on account locks and expirations. Building on that foundation, this article examines how to implement password criteria tailored to each of these user types.
+
 ---
 
 ## Table of Contents
