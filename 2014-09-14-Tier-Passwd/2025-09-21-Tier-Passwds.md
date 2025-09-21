@@ -84,19 +84,22 @@ password required  pam_deny.so
 Inside `system-auth` or `password-auth`, we can reference this substack so that members of the `rf_guns` group follow different criteria than others:
 
 ```bash
-# Apply RF Guns substack if user is in rf_guns group
-password [success=ok default=2] pam_succeed_if.so user ingroup rf_guns
-password substack password-rf_guns
-password [success=done default=ignore] pam_succeed_if.so user ingroup rf_guns
+# If the user is in rf_guns, run the rf_guns substack
+# (if requirement is met next line runs; substack file contains pwquality + pam_unix)
+password    [success=ok default=2]        pam_succeed_if.so user ingroup rf_guns
+password    substack                      password-rf_guns
+password    [success=done default=die] pam_succeed_if.so user ingroup rf_guns
 
-# Default policy for all other users
-password requisite pam_pwquality.so retry=3 minlen=20 dcredit=-1 ucredit=-1 lcredit=-1 ocredit=-1 difok=5 enforce_for_root
-password required  pam_pwhistory.so remember=64 enforce_for_root use_authtok
-password sufficient pam_unix.so sha512 shadow use_authtok
-password required  pam_deny.so
+# Default branch (everyone else) — minimal example, put your real default policy here
+password   requisite   pam_pwquality.so retry=3 minlen=20 dcredit=-1 ucredit=-1 lcredit=-1 ocredit=-1 difok=5 enforce_for_root
+password   required    pam_pwhistory.so remember=64 enforce_for_root use_authtok
+password   sufficient  pam_unix.so sha512 shadow nullok use_authtok
+password   required    pam_deny.so
 ```
 
-The same approach can be extended to other groups, such as `app_users`, by creating a `password-app_users` substack and referencing it in a similar way. This ensures each group has password criteria aligned with its security needs.
+This PAM block checks if the user is in the rf_guns group and, if so, applies the custom password-rf_guns substack. Users in that group stop processing after their rules, while all others skip ahead to the default password policy.
+
+The same approach can be extended to other groups, such as `app_users`, `app_devs` and 'sys_admins' by creating  additional substack and referencing it in a similar way. This ensures each group has password criteria aligned with its security needs.
 
 ---
 
