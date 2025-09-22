@@ -7,3 +7,6 @@
 - are the gui interfaces
 can I just be Jetson with an SP 32?
 
+- start up, installing crowd strike again on production servers
+- follow up with Albert Crouch strikes on the service he was talking about last week
+
