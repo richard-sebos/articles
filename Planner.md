@@ -13,6 +13,7 @@ can I just be Jetson with an SP 32?
 - follow up with Albert Crouch strikes on the service he was talking about last week
 
 ### This week
+- smb://Frafile1/dor_fpr did it map
 - SFTP Did I hear back from:
   - Brenda - Alpha Location list
   - Adrian - Can Farzad ok blanket list
