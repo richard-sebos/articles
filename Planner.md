@@ -4,7 +4,8 @@
 - did the US get back to me on cup server set up
 - [CUPS](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/Article1/Intro_CUPS.md)
 
-. Book on robots, how do I set up the three computers they're using
+- Book on robots, how do I set up the three computers they're using
+  - [Uses Cases](https://github.com/richard-sebos/ros2_robot_sim/blob/main/RobotAI/uses_cases.md)
 - are the gui interfaces
 can I just be Jetson with an SP 32?
 
