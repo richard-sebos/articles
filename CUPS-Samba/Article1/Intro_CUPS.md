@@ -15,12 +15,13 @@ Introduce readers to CUPS as the foundational printing system for Unix/Linux env
 ---
 
 ### 1. **Introduction**
-Printing nowadays, is one of those weird tech technologies. 
-For my personal perspective, I can't remember the last time I printed something for myself
-From an enterprise perspective, it is still done and used to drive critical task
-this was decades ago, but remember a time when a user would enter something into the web it would get printed out, and someone else would type it into an enterprise solution
-- but when he stopped to think about it, putting is everywhere from cash register machines to the package you got delivered from Amazon
-Allow that printing is done to printer set up on a network with a computer just feed away
+- Printing nowadays, is one of those weird tech technologies, that nobody thinks they use, but it's everywhere.
+- but when he stopped to think about it, printing is everywhere from cash register machines to the package you got delivered from Amazon
+- From an enterprise perspective, it is still done and used to drive critical task
+- The CUPS service allows 
+
+
+- Allow that printing is done to printer set up on a network with a computer just feed away
 - CUPS is an application to define network print cues for other devices to print to
 * What is CUPS?
 * Brief history (originally by Apple, now maintained by OpenPrinting)
