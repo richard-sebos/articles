@@ -18,7 +18,34 @@ Introduce readers to CUPS as the foundational printing system for Unix/Linux env
 - Printing nowadays, is one of those weird tech technologies, that nobody thinks they use, but it's everywhere.
 - but when he stopped to think about it, printing is everywhere from cash register machines to the package you got delivered from Amazon
 - From an enterprise perspective, it is still done and used to drive critical task
-- The CUPS service allows 
+
+### Netork Work Printers
+- A printer is either directly connected to a computer or accessible through a network (whether it’s a built-in network printer or a local printer shared over the network).
+- A network printer is a printer that allows remotes users to access printer services through a IP address.
+- A print controller is part of a printer that allows print jobs to be buffer
+- A print server is a service that manages access to network printers centrally. It acts as a middle layer between users and printers, handling job spooling and scheduling. 
+- By queuing jobs on the server, it effectively increases the size of the printer’s print buffer, since jobs can wait on the server until the printer is ready.
+- The CUPS (Common Unix Printing System) is the default printer service for Linux.
+> Note: Default as in core Linux distro install it be default
+- if it is not there it can be installed and started
+
+#### On Debian/Ubuntu:
+
+```bash
+sudo apt update
+sudo apt install cups
+sudo systemctl enable --now cups
+```
+
+#### On RHEL/CentOS/Rocky:
+
+```bash
+sudo dnf install cups
+sudo systemctl enable --now cups
+```
+
+
+---
 
 
 - Allow that printing is done to printer set up on a network with a computer just feed away
