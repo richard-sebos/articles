@@ -47,7 +47,10 @@ sudo systemctl enable --now cups
 
 ---
 
+```bash
 
+lpadmin -p label_126 -E -v socket://192.168.35.126:9100 -m raw
+```
 
 
 ```bash
