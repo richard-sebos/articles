@@ -48,6 +48,41 @@ sudo systemctl enable --now cups
 ---
 
 
+
+
+```bash
+
+# Restrict CUPS to listen only on the given network interface/IP and port.
+# In this case, the server will accept IPP connections only on 192.168.35.125:631.
+Listen 192.168.35.125:631
+
+# Restrict access to the server...
+<Location />
+  Order allow,deny
+  Allow localhost
+  Allow 192.168.35.0/24
+  Allow 192.168.20.0/24
+</Location>
+
+# Restrict access to the admin pages...
+<Location /admin>
+  AuthType Default
+  Require group lpadmin
+  Order allow,deny
+  Allow 192.168.20.0/24
+  Allow 192.168.20.0/24
+</Location>
+
+```
+
+
+```bash
+
+sudo groupadd lpadmin
+udo usermod -G lpadmin admin_richard
+
+
+```
 - Allow that printing is done to printer set up on a network with a computer just feed away
 - CUPS is an application to define network print cues for other devices to print to
 * What is CUPS?
