@@ -42,6 +42,10 @@ sudo systemctl enable --now cups
 ```bash
 sudo dnf install cups
 sudo systemctl enable --now cups
+
+sudo firewall-cmd --permanent --add-port=631/tcp
+sudo firewall-cmd --reload
+
 ```
 
 
