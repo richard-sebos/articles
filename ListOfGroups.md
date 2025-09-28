@@ -12,6 +12,16 @@ LinkedIn - Linux Admins
 LinkedIn - The Linux Foundation 
 LinkedIn - Redhat Linux Administrators
 LinkedIn - Linux Sysadmins Community
+
+
+LinkedIn - Linux
+LinkedIn - Gnu/Linux Users
+LinkedIn - Linux Mint
+LinkedIn - Linux Expert Exchange
+LinkedIn - Linux Advanced Technical Experts
+LinkedIn - SUSE Linux Users Group
+
+
 Facebook - Home Page
 Facebook - Cyber Security Exploit
 Facebook - Proxmox - Virtual Environment
@@ -23,3 +33,9 @@ Facebook - Home Server Setups
 Facebook - Linux Group
 Facebook - Home Server Labs MasterRace
 Facebook - Linux: Intro to Expert
+
+Facebook - Linux For Beginners
+Facebook - Linux Users Group
+Facebook - Linux
+Facebook - Linux Group
+Facebook - LINUX SOLUTIONS
