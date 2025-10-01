@@ -114,8 +114,9 @@ Here’s a set of **group‑specific teaser posts** for your Fail2Ban article:
 * Configure Fail2Ban for SSH
 * Test it with a brute‑force script
 * Unban IPs manually
-  📘 [Get started](https://richard-sebos.github.io/sebostechnology/posts/Fail2Ban/)
-  #Proxmox #HomeServer #Fail2Ban #LinuxSecurity
+  
+📘 [Get started] https://richard-sebos.github.io/sebostechnology/posts/Fail2Ban/
+#Proxmox #HomeServer #Fail2Ban #LinuxSecurity
 
 ---
 
