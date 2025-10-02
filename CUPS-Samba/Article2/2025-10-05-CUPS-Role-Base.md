@@ -25,5 +25,21 @@
 - each of these users would have different access under RBAC with end users with the lease access and admins with the most.
 - RBAC doesn't decide who is more or less important since with out end uses, help desk and admins are not needed, without admins there are not systems for help desk and end users to use and help desk is needed because i've known a few admin that should never ever talk to end users.
 
+## CUPS users
+- CUPS allows users to be either Default, Digest or Kerberos depending on your version of CUPS.
+- Digest, depending on your version could be depecated and Kerberos needs a Active Directory type user authentication so I will be using Default for these examples
+- Under default, CUPS uses the default Linux user authnicator to validate users
+- The Linux users will be assigned to groups and those group will be used by CUPS to allow access to different features
+    - cups_viewer will be the end users
+    - cups_help_desk will be the help desk users
+    - cups_admin will be the admins
+If we wanted to assigne the end users role to a user all we need to do is
+```bash
+sudo usermod -aG cups_view <user id>
+```
+SO, how does CUPS enforce the roles?
+
+
+
 
 
