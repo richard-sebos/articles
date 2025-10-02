@@ -26,9 +26,9 @@
 - RBAC doesn't decide who is more or less important since with out end uses, help desk and admins are not needed, without admins there are not systems for help desk and end users to use and help desk is needed because i've known a few admin that should never ever talk to end users.
 
 ## CUPS users
-- CUPS allows users to be either Default, Digest or Kerberos depending on your version of CUPS.
-- Digest, depending on your version could be depecated and Kerberos needs a Active Directory type user authentication so I will be using Default for these examples
-- Under default, CUPS uses the default Linux user authnicator to validate users
+- CUPS allows users to be either Basic, Digest or Kerberos depending on your version of CUPS.
+- Digest, depending on your version could be depecated and Kerberos needs a Active Directory type user authentication so I will be using Basic for these examples
+- Under Basic, CUPS uses the default Linux user authnicator to validate users
 - The Linux users will be assigned to groups and those group will be used by CUPS to allow access to different features
     - cups_viewer will be the end users
     - cups_help_desk will be the help desk users
@@ -39,7 +39,37 @@ sudo usermod -aG cups_view <user id>
 ```
 SO, how does CUPS enforce the roles?
 
+## Locations and Policies
+- The CUPS configureation files uses a Apache-style configuration syntax
+- There are Location and Policy tag when we can assign block of directives to users and groups
 
+### Locations
+- when I first saw location, my first thought was where access can come from but, it is the location relative to the root branch of the website
+ - `<Location />` is the home page of the CUPS server page - `<Locaton /admin>` is access to the Administration page
+ - To allow cups_admin to Administration page
+```bash
+<Location /admin>
+  AuthType Basic             ## use Linux base auth
+  Require group cups_admin   ## RBAC access for admin by groups
+  Allow localhost            ## What IPs I came frim
+  Allow 192.168.20.0/24
+  Allow 192.168.35.0/24
+  Order deny,allow           ## This tells the CUPS daemon to process Deny rules first, then apply Allow rules.
+  Encryption Required
+</Location>
+```
 
+- There is a nice catch all with `Require valid-user` so any Linux user can see the CUPS home page where there is no functional, just menu to other pages
+```bash
+<Location />
+  Order allow,deny
+  Allow localhost
+  Allow 192.168.20.0/24
+  Allow 192.168.35.0/24
+  AuthType Basic
+  Require valid-user
+  Encryption Required
+</Location>
+```
 
 
