@@ -140,6 +140,7 @@ Here’s a set of **group‑specific teaser posts** for your Fail2Ban article:
 * Checking bans with `fail2ban-client`
 
 📘Readit here https://richard-sebos.github.io/sebostechnology/posts/Fail2Ban/
+
 #Linux #Fail2Ban #Security #Sysadmin
 
 ---
