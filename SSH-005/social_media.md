@@ -139,7 +139,7 @@ Here’s a set of **group‑specific teaser posts** for your Fail2Ban article:
 * Creating jail.local files
 * Checking bans with `fail2ban-client`
 
-📘 [Read it here](https://richard-sebos.github.io/sebostechnology/posts/Fail2Ban/)
+📘[Read it here] https://richard-sebos.github.io/sebostechnology/posts/Fail2Ban/
 #Linux #Fail2Ban #Security #Sysadmin
 
 ---
