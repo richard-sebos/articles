@@ -24,4 +24,38 @@
 - So why do you need `Qubes`
 
 ## Why have Qubes
+- I like yto think of Qubes as zones on a firewall, but where firewall zone can filter traffic `Qubes` give you an isolated space to run apps
+- They allow you to create a custom enviroments to running applications in, including what apps and custom firewall rules if needed.
+- `Work Qube`, which I am using now, I use for writing and publishing related task.
+- `Personal Qube`, I have setup my email Thunderbird.
+- `Untrusted Qube`, I opened a shell, installed `ClamAV` and scanned a thumb drive.
+- Each one feels like you are running an application and not VM, beside a minor delay when starting but I am running it on older hardware.
+- Copying files between two `Untrusted` file manager works, which should sound surprising but again, they are running outside the VM host windows.
+- Alt-Tab between windows in that are really in different `Qubes` works.
+
+## So What's The Bad
+- I've only been using `QubesOS` for 2 days so far but the bad far isn't that bad.
+- The first step back was when I boot up the fresh install plugged in a mouse and was greeted with a message asking to allow it access to `Dom0`, flash back to Windows Vista
+- There is a `sys-usb` which is a `Qube` where the  mouse dungle gets mounted, isolation in actions
+- It is a bit of a pain but now when you pop in a thumb drive, it is treated the same what which is good
+> Note: I really should have install Clam globally and added to the `sys-usb` and scanned the drive before adding it to untrusted.
+- Copy and Paste between `Qubes` is allowed but you need to create rules for it, which is expected
+- Opening Firefox or other application can be slow if the `Qube` they running in isn't started, which again is expected but if you start the `Qube` first, it faster.
+- Since `Qubes` are isolated, Firefox in each `Qube` will have its own set of favourites, which could be a pain but again I like for the security
+
+## Who is this for:
+- `QubesOS` is target it journalist, activist and cybersecurity professional.
+- Installs with encrypted harddrive
+- Since `Qubes` can be cloned, created, backup, restore and deleted this makes sense.
+- It makes it easy to clone a `Qube` do what you need, send it off throught the web and destroy the `Qube`
+- It was easy to added a OpenVPN config file and once started, all the `Qube` had VPN access
+- There was a list of VPN providers, I used OpenVPN because my provider was not there
+
+## Overall
+- I thought `QubesOS` security would be the wow factor, which is there but how the `Qube` applications windows file like you using the desktop was nice.
+- Not be able Copy and Paste between `Qubes` will take time to get use to but that is small compared to the isolation security of`Qubes`
+- `QubesOS` addes enough friction when doing things that you stop and ask youself, what is the security and what I want to add.
+- So it is `A reasonably secure operating system`
+
+
 
