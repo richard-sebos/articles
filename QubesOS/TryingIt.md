@@ -1,61 +1,96 @@
-- A few years a good, an IT professional I trusted, said Linux is not secure.
-- His claim was not, it was more or less secure than other systems just that the default Linux system had issues like all OS
-- No not sure how many times I teases Windows uses about they security and now someone I trusted did to me.
-- The myth was shattered in my mind
-- That started me down the path of `what can I do to better secure my systems`
-- Years later, I am typing the article on QubesOS
+# Qubes OS: My Journey Toward a “Reasonably Secure Operating System”
 
-## Qubes OS
-- QubesOS marketing is `A reasonably secure operating system`, which does come off a vag but is some how ackurit.
-- I've seen different article and video claiming it is the most secure Linux Distro, which is a big claim since there are some very harden and Ephemeral Linux distro.
-- At a high level, QubosOS security is based on:
-  - Qubes OS relies on modern CPUs that support hardware virtualization (Intel VT-x/VT-d or AMD-V/AMD-Vi) to enforce strong isolation between virtual machines.
-  - dom0 (Domain 0): When you log in, you’re in dom0. This is the minimal, highly restricted domain that runs the desktop environment and the Qubes Manager. It does not have network access.
-  - Qubes (VMs): All applications and services run inside separate, predefined qubes (virtual machines). Each qube is isolated, so if one is compromised, the others remain protected.
-  - Networking: Not all qubes have internet access—networking is routed through special “service qubes” (like sys-net and sys-firewall) to control and limit exposure.
-- this philosophy for security provides a sense of security and a bit of head scratching when you it.
-- In a very positive way, I would say `QubesOS give you the place do something dumb when needed`, which is a good thing.
+## Introduction: Shattering the Myth
 
-## When a Qube doesn't Feel like a VM
-- When I first starting looking into `QubesOS` my though it was just another Hypervisor.
-- Everything is a VM and why not just use Proxmox, Qemu or other homelab VM application?
-- What is the `magic sause` that makes `QubesOS` different beside the specific hardware?
-- When you run an app in a `Qube` you don't feel like you are in a VM and if give it a true desktop experances which is nice
-- So why do you need `Qubes`
+A few years ago, an IT professional I trusted made a statement that stuck with me: *Linux is not secure.* He didn’t mean that Linux was inherently less secure than Windows or macOS, but rather that—like every operating system—it comes with flaws and misconfigurations by default.
 
-## Why have Qubes
-- I like yto think of Qubes as zones on a firewall, but where firewall zone can filter traffic `Qubes` give you an isolated space to run apps
-- They allow you to create a custom enviroments to running applications in, including what apps and custom firewall rules if needed.
-- `Work Qube`, which I am using now, I use for writing and publishing related task.
-- `Personal Qube`, I have setup my email Thunderbird.
-- `Untrusted Qube`, I opened a shell, installed `ClamAV` and scanned a thumb drive.
-- Each one feels like you are running an application and not VM, beside a minor delay when starting but I am running it on older hardware.
-- Copying files between two `Untrusted` file manager works, which should sound surprising but again, they are running outside the VM host windows.
-- Alt-Tab between windows in that are really in different `Qubes` works.
+That comment shattered a long-held belief of mine. For years I had teased Windows users about their security problems, only to realize that my own trusted system wasn’t flawless. It was a turning point that sent me down the path of asking: *what can I do to better secure my systems?*
 
-## So What's The Bad
-- I've only been using `QubesOS` for 2 days so far but the bad far isn't that bad.
-- The first step back was when I boot up the fresh install plugged in a mouse and was greeted with a message asking to allow it access to `Dom0`, flash back to Windows Vista
-- There is a `sys-usb` which is a `Qube` where the  mouse dungle gets mounted, isolation in actions
-- It is a bit of a pain but now when you pop in a thumb drive, it is treated the same what which is good
-> Note: I really should have install Clam globally and added to the `sys-usb` and scanned the drive before adding it to untrusted.
-- Copy and Paste between `Qubes` is allowed but you need to create rules for it, which is expected
-- Opening Firefox or other application can be slow if the `Qube` they running in isn't started, which again is expected but if you start the `Qube` first, it faster.
-- Since `Qubes` are isolated, Firefox in each `Qube` will have its own set of favourites, which could be a pain but again I like for the security
+---
+## Table of Contents
 
-## Who is this for:
-- `QubesOS` is target it journalist, activist and cybersecurity professional.
-- Installs with encrypted harddrive
-- Since `Qubes` can be cloned, created, backup, restore and deleted this makes sense.
-- It makes it easy to clone a `Qube` do what you need, send it off throught the web and destroy the `Qube`
-- It was easy to added a OpenVPN config file and once started, all the `Qube` had VPN access
-- There was a list of VPN providers, I used OpenVPN because my provider was not there
+1. [Introduction: Shattering the Myth](#introduction-shattering-the-myth)
+2. [Qubes OS at a Glance](#qubes-os-at-a-glance)
+3. [When a Qube Doesn’t Feel Like a VM](#when-a-qube-doesnt-feel-like-a-vm)
+4. [Why Have Qubes?](#why-have-qubes)
+5. [The Downsides](#the-downsides)
+6. [Who Is Qubes OS For?](#who-is-qubes-os-for)
+7. [Final Thoughts](#final-thoughts)
 
-## Overall
-- I thought `QubesOS` security would be the wow factor, which is there but how the `Qube` applications windows file like you using the desktop was nice.
-- Not be able Copy and Paste between `Qubes` will take time to get use to but that is small compared to the isolation security of`Qubes`
-- `QubesOS` addes enough friction when doing things that you stop and ask youself, what is the security and what I want to add.
-- So it is `A reasonably secure operating system`
+---
 
 
+Today, years later, I’m writing this article not on a standard Linux distribution, but on **Qubes OS**.
 
+---
+
+## Qubes OS at a Glance
+
+Qubes OS bills itself as *“a reasonably secure operating system.”* That slogan sounds vague at first, but it’s also surprisingly accurate. Many articles and videos go further, calling it *the most secure Linux distribution*. That’s a bold claim given the existence of hardened and ephemeral Linux distros, but Qubes OS does offer something unique.
+
+At a high level, Qubes OS security is based on:
+
+* **Hardware isolation**: It relies on CPUs with virtualization extensions (Intel VT-x/VT-d or AMD-V/AMD-Vi) to separate virtual machines at the hardware level.
+* **Dom0 (Domain 0)**: When you log in, you enter dom0, a minimal and highly restricted domain. It runs the desktop and Qubes Manager but has no network access.
+* **Qubes (VMs)**: Applications and services run in isolated qubes (virtual machines). If one qube is compromised, others remain unaffected.
+* **Service qubes**: Networking is routed through specialized qubes like `sys-net` and `sys-firewall`, which restrict exposure and enforce separation.
+
+This approach can be a bit mind-bending at first, but in a good way. Qubes OS gives you a safe space to “do something dumb” when needed—without risking your entire system.
+
+---
+
+## When a Qube Doesn’t Feel Like a VM
+
+At first, I assumed Qubes OS was just another hypervisor like Proxmox or QEMU. After all, everything in Qubes OS runs inside virtual machines. But there’s a key difference: when you launch an application in a qube, it feels like a native desktop app, not like working inside a separate VM window.
+
+This seamless integration is what sets Qubes OS apart. You can alt-tab between apps that technically live in different qubes, and file managers in separate qubes can interact in ways that don’t feel foreign. It gives you the security of virtualization with the usability of a single desktop.
+
+---
+
+## Why Have Qubes?
+
+I like to think of qubes as the digital equivalent of firewall zones. Where a firewall filters network traffic, a qube isolates applications and workflows.
+
+Here are some examples from my setup:
+
+* **Work Qube**: Used for writing and publishing tasks.
+* **Personal Qube**: Runs email via Thunderbird.
+* **Untrusted Qube**: A sandbox for scanning USB drives with ClamAV.
+
+Each qube feels like a standalone environment. Switching between windows is natural. There’s a slight delay when launching a new qube, especially on older hardware, but once it’s running, the experience feels fluid.
+
+---
+
+## The Downsides
+
+After just two days of use, the downsides haven’t been dealbreakers, but they are worth mentioning.
+
+The first surprise came right after installation: when I plugged in a USB mouse, Qubes OS asked if I wanted to grant it access to dom0. It reminded me of Windows Vista’s constant security prompts. The reason is `sys-usb`, a dedicated USB qube that isolates devices like mice and thumb drives. It adds friction, but in exchange, external devices are treated as untrusted by default.
+
+Other challenges include:
+
+* **Clipboard sharing**: Copy and paste between qubes works only if you configure rules.
+* **App startup delays**: If a qube isn’t running, opening an app takes longer.
+* **Browser separation**: Each qube has its own Firefox profile, including bookmarks. Great for security, slightly annoying for convenience.
+
+These inconveniences are trade-offs, but they reinforce the philosophy of isolation and intentionality.
+
+---
+
+## Who Is Qubes OS For?
+
+Qubes OS isn’t aimed at the average user. Its target audience is journalists, activists, and cybersecurity professionals—people who need strong isolation guarantees and who don’t mind some friction in exchange for security.
+
+It installs with disk encryption by default and supports easy creation, cloning, backup, and deletion of qubes. This makes it possible to spin up a qube for a specific task, do what is need, and then destroy it afterward, leaving not foot print.
+
+VPN integration is simple too: I was able to drop in an OpenVPN config and route an entire qube through it. While the system supports certain providers out of the box, manual configuration works fine for others.
+
+---
+
+## Final Thoughts
+
+I expected the security model to be the wow factor of Qubes OS, and while it is impressive, what surprised me most was how seamless the user experience felt. Application windows from different qubes coexist naturally on the same desktop, creating the illusion of a single environment.
+
+Yes, copy-and-paste restrictions and startup delays take some adjustment, but they also encourage me to pause and think: *what is the security risk here, and what am I willing to allow?* That mindfulness seems part of the design.
+
+Qubes OS truly lives up to its motto: it is *“a reasonably secure operating system”*—and in today’s threat landscape, that’s a lot to say.
