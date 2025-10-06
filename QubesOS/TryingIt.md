@@ -15,4 +15,13 @@
   - Networking: Not all qubes have internet access—networking is routed through special “service qubes” (like sys-net and sys-firewall) to control and limit exposure.
 - this philosophy for security provides a sense of security and a bit of head scratching when you it.
 - In a very positive way, I would say `QubesOS give you the place do something dumb when needed`, which is a good thing.
-- 
+
+## When a Qube doesn't Feel like a VM
+- When I first starting looking into `QubesOS` my though it was just another Hypervisor.
+- Everything is a VM and why not just use Proxmox, Qemu or other homelab VM application?
+- What is the `magic sause` that makes `QubesOS` different beside the specific hardware?
+- When you run an app in a `Qube` you don't feel like you are in a VM and if give it a true desktop experances which is nice
+- So why do you need `Qubes`
+
+## Why have Qubes
+
