@@ -1,5 +1,5 @@
 ---
-title: Qubes OS: A Journey to a “Reasonably Secure Operating System”
+title: Qubes OS A Journey to a “Reasonably Secure Operating System”
 subtitle: Exploring Compartmentalization, dom0, and the Security Mindset Behind Qubes
 date: 2025-10-11 10:00 +0000
 categories: [Linux, Security]
