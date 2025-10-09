@@ -19,13 +19,37 @@
 - If that wasn't scary enough, what could happen if a threat actor got in and started deleting/changing things
 - The the CUPS web page, printers in CUPS have RBAC features to that control where print jobes can come from and who access printers on the website.
 
-## Printer Lever RBAC
+## Printer Level RBAC
+### Where print jobs can come from
 - Now a days, you could have a printer that only prints shipping labels or prints receipts.
 - The printer has a network address so other device have access to it.
 - Hopefully is on a isolated network with tigh firewall controls.
-- CUPS does allow for
+- CUPS does allow for crontroller where print jobs can come from
+```
+## Restrictions for Shipping Label printer
+## Inside of cupsd.conf
+<Location /printers/SH_LABEL_IL_01>
+  AuthType Basic
+  Require ip 10.10.1.10         # From order system to print labels
+  Require ip 127.0.0.1          # Allow localhost
+</Location>
+```
 
--  
+### Who Can Print
+- The [last article](https://richard-sebos.github.io/sebostechnology/posts/CUPS-RBAC/) outline how to restict access to website at globel level but it can also be done at printer level
+- What if you needed a user or group of users to have access to a print, like a check printer.
+- In the `printer.conf` you can assign the group like ap_sup `Require group` or `Require user` specify a user
+- The allows for only letting using in the `ap_sup` AP superviers to print checks
+```
+### Before changes'
+<Printer AP_CHECHS>
+  PrinterId 10
+  Require group ap_sup
+  ...
+</Printer>
+```
+The same users should be able to see these print job 
+
 ## Great opener just not for this article
 ### Why should the care
 - In my younger days, I used to think I was clever, and kept track of where the best resources where.
