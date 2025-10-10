@@ -1,6 +1,3 @@
-Here's a rewritten version of your article in clean, professional paragraph form, while preserving your tone and intent. I've also made grammatical corrections and clarified some points for better readability and flow. You can paste this directly into your documentation in Markdown.
-
----
 
 ## Securing Printers with CUPS: Why It Matters
 
@@ -24,7 +21,7 @@ Now imagine a malicious actor gaining access. Without proper controls, they coul
 
 Today, you might have specialized printers—like those printing shipping labels or receipts—connected to your network. Ideally, these printers are on isolated subnets behind strict firewall rules. But even so, CUPS gives you fine-grained control over who can send print jobs.
 
-You can define restrictions in `cupsd.conf` that allow only specific IP addresses to send jobs to a particular printer. For example, a shipping label printer may only need to accept jobs from the order processing system and the local host:
+You can define restrictions in `cupsd.conf` that allow only specific IP addresses to send jobs to a particular printer. For example, a shipping label printer may only need to accept jobs from the remote order processing system and the local host:
 
 ```conf
 ## Restrictions for Shipping Label Printer
@@ -54,7 +51,64 @@ You can assign access to specific users or groups using the `Require user` or `R
 </Printer>
 ```
 
-Not only does this limit who can send jobs, but it also limits who can view those jobs—helping protect sensitive information.
+Not only does this limit who can send jobs.
+### CUPS and Emails
+- Special printing like check, highend printers or secure location, may want to track what has been printed.
+-  CUPS provides a subscription option to receive and email when:
+  - printer-stopped → printer paused/offline.
+  - printer-state-changed → covers paused, resumed, etc.
+  - printer-restarted → CUPS server restarted.
+  - job-completed → job finished.
+  - server-restarted → CUPS daemon restarted.
 
+```bash
+## example of email when printing
+lp -d PRINTER_NAME \
+   -o notify-recipient-uri=mailto:you@example.com \
+   -o notify-events=job-completed
 
-Would you like a diagram showing how printer-level RBAC in CUPS fits into a networked environment (with example IP restrictions and group-based access)? I can generate one for documentation use.
+## or 
+## Send email when any printer is paused or offline
+lp -o notify-recipient-uri=mailto:you@example.com \
+   -o notify-events=printer-stopped
+```
+
+- the latter one can be useful when a printer pauses because of network issues.
+- It allows you to look into the logs shortly after the printer is having issues.
+> Note: CUPS needs access to an SMTP server to be able send emails out.
+  
+### Policies and Printer
+
+- CUPS Policies defined in the `cupsd.conf` are used to define what a user can see in CUPS web portal
+- The Polices can be assigned to a printer giving granuality control over what a user can do
+- So on a check printer, you would not want the option to reprint
+
+```bash
+## In the printer.conf
+<Printer AP_CHECKS>
+  PrinterId 10
+  Require group ap_sup
+  ...
+ # Assignd  custom policy check-print
+  OpPolicy check-print
+</Printer>
+```
+```bash
+## Sets custom policy
+<Policy check-print>
+  <Limit CUPS-Get-Document>
+    AuthType Default
+    Order deny,allow
+    Deny from all
+  </Limit>
+</Policy
+```
+
+## Do you Need to Do This
+- CUPS will install and work without these options and these options do not make the service run CUPS any more secure
+- These are about securing the business process (restircted user in check printing), ensure critical resources are only used for what is needed (spefic IP a label printer) and getting a had of issues (emails when printers are down)
+
+ Side note, CUPS like Putty was released in 1999.  
+ - Back in 1999, the average CPU where single core process running 300-600MHz.
+ - Now my home server has two socker each with 12 cores and running at 2.5Ghz but CUPS is the same plain looking print server about to hand a couple of print job here an there and I have server that can 500,000 jobs a month.
+ - I've being in IT just a little longer than them but I can't remember a time when I was working professional and not having them around.
