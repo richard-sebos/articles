@@ -1,4 +1,13 @@
-# Securing Printers with CUPS: Why It Matters
+---
+title: Securing Printers with CUPS Why It Matters
+subtitle: Hardening Linux Print Infrastructure with Role-Based Access Control and Policies
+date: 2025-10-09 10:00 +0000
+categories: [Linux, Infrastructure, Security]
+tags: [CUPS, RBAC, Printing, LinuxSecurity, PrintServer]
+image:
+  path: /assets/img/CUPS_Security.png
+  alt: Securing Printers with CUPS and RBAC
+---
 
 
 ## Introduction
