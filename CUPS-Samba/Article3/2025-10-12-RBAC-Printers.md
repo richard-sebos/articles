@@ -56,7 +56,7 @@ This ensures only authorized systems—like the order system or localhost—can 
 
 ### Controlling Who Can Print
 
-In a [previous article](https://richard-sebos.github.io/sebostechnology/posts/CUPS-RBAC/), I covered global access restrictions via the CUPS web interface. However, you can also restrict **printer-level** access based on users or groups. This is especially important for sensitive printers, such as those printing checks.
+In a [previous article](https://richard-sebos.github.io/sebostechnology/posts/CUPS-RBAC/), I covered global access restrictions via the CUPS web interface. You can also restrict **printer-level** access based on users or groups. This is especially important for sensitive printers, such as those printing checks.
 
 In `printers.conf`, you can assign access using directives like `Require user` or `Require group`. For example, to restrict check printing to the `ap_sup` group (Accounts Payable Supervisors):
 
