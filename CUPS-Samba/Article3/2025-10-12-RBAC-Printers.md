@@ -1,47 +1,64 @@
+# Securing Printers with CUPS: Why It Matters
 
-## Securing Printers with CUPS: Why It Matters
+## Table of Contents
 
-As a Linux administrator, you often find yourself tackling some surprising tasks—and printer management is definitely one of them. For me, it all started with three CUPS servers managing over 50 printers. Thankfully, CUPS was relatively easy to work with at a high level. But as the infrastructure grew from 3 to 7 servers and over a hundred printers spread across the country, I started wondering: should a user on the East Coast really be able to see and print to a West Coast printer?
+1. [Introduction](#introduction)
+2. [Why You Should Care](#why-you-should-care)
+3. [Printer-Level Access Control](#printer-level-access-control)
 
-That simple question led me down a path of exploring how CUPS handles access control, and more importantly, how it can be secured at the **printer level**.
+   * [Controlling Where Print Jobs Come From](#controlling-where-print-jobs-come-from)
+   * [Controlling Who Can Print](#controlling-who-can-print)
+4. [Using Email Notifications in CUPS](#using-email-notifications-in-cups)
+5. [Using Custom Policies](#using-custom-policies)
+6. [Do You Really Need All This?](#do-you-really-need-all-this)
+7. [Final Thoughts](#final-thoughts)
+8. [CUPS Resources](#cups-resources)
+9. [CUPS Command Cheat Sheet](#cups-command-cheat-sheet)
+
+---
+
+## Introduction
+
+As a Linux administrator, you’ll often find yourself assigned to unexpected responsibilities—managing printers being a classic example. My journey with CUPS (Common UNIX Printing System) began with three servers handling over 50 printers. Over time, that infrastructure expanded to seven servers and over a hundred printers deployed across the country.
+
+One question kept nagging me: should someone on the East Coast be able to see and print to a West Coast printer? This curiosity sparked a deeper dive into CUPS' access control capabilities and how it can be hardened to support secure, enterprise-scale print management.
 
 ---
 
 ## Why You Should Care
 
-CUPS (Common UNIX Printing System) is deceptively straightforward. It offers a lot of flexibility and user-friendliness—great traits until you realize that same ease of use can lead to potential security issues. Sure, it's handy when users can check the status of their print jobs or see printer queues. But what if they can pause a printer, cancel someone else’s jobs, or worse—delete the printer entirely?
+CUPS is deceptively simple. It provides a flexible, user-friendly printing environment for UNIX-like systems. That ease of use is great—until you realize it can lead to security vulnerabilities. By default, CUPS makes it fairly easy for users to view printer queues or job statuses. But without proper restrictions, users could pause a printer, cancel others’ print jobs, or even delete printers entirely.
 
-Now imagine a malicious actor gaining access. Without proper controls, they could cause real damage—deleting jobs, changing printer configurations, or accessing sensitive documents. Thankfully, CUPS offers built-in role-based access control (RBAC) features that allow you to manage who can print, where print jobs can come from, and who can see or modify printers—all at the **individual printer level**.
+Now consider what happens if an unauthorized or malicious actor gains access. They could disrupt business operations by deleting or altering configurations or accessing sensitive print jobs. Fortunately, CUPS includes **Role-Based Access Control (RBAC)** capabilities that can be configured on a per-printer basis—offering precise control over who can access what, and from where.
 
 ---
 
-## Understanding Printer-Level RBAC in CUPS
+## Printer-Level Access Control
 
-### Controlling Where Print Jobs Can Come From
+### Controlling Where Print Jobs Come From
 
-Today, you might have specialized printers—like those printing shipping labels or receipts—connected to your network. Ideally, these printers are on isolated subnets behind strict firewall rules. But even so, CUPS gives you fine-grained control over who can send print jobs.
+In modern environments, printers often serve highly specific roles—printing shipping labels, receipts, checks, or legal documents. Ideally, these printers are isolated on their own subnets behind tight firewall rules. But CUPS lets you go a step further: you can limit exactly **which IP addresses** are allowed to send jobs to individual printers.
 
-You can define restrictions in `cupsd.conf` that allow only specific IP addresses to send jobs to a particular printer. For example, a shipping label printer may only need to accept jobs from the remote order processing system and the local host:
+Here’s an example configuration in `cupsd.conf` that restricts access to a shipping label printer:
 
 ```conf
-## Restrictions for Shipping Label Printer
-## Inside of cupsd.conf
+## Inside cupsd.conf
 <Location /printers/SH_LABEL_IL_01>
   AuthType Basic
-  Require ip 10.10.1.10         # Order system
+  Require ip 10.10.1.10         # Order processing system
   Require ip 127.0.0.1          # Localhost
 </Location>
 ```
 
-This ensures that only authorized systems can send print jobs to that printer, reducing the attack surface significantly.
+This ensures only authorized systems—like the order system or localhost—can send jobs, significantly reducing the printer’s exposure.
 
 ---
 
 ### Controlling Who Can Print
 
-In a [previous article](https://richard-sebos.github.io/sebostechnology/posts/CUPS-RBAC/), I discussed how to restrict access to the CUPS web interface at a global level. However, CUPS also allows for similar restrictions **per printer**. This becomes especially useful for sensitive devices like check printers.
+In a [previous article](https://richard-sebos.github.io/sebostechnology/posts/CUPS-RBAC/), I covered global access restrictions via the CUPS web interface. However, you can also restrict **printer-level** access based on users or groups. This is especially important for sensitive printers, such as those printing checks.
 
-You can assign access to specific users or groups using the `Require user` or `Require group` directives in the printer configuration. For example, only members of the `ap_sup` (Accounts Payable Supervisors) group should be able to print checks:
+In `printers.conf`, you can assign access using directives like `Require user` or `Require group`. For example, to restrict check printing to the `ap_sup` group (Accounts Payable Supervisors):
 
 ```conf
 <Printer AP_CHECKS>
@@ -51,64 +68,111 @@ You can assign access to specific users or groups using the `Require user` or `R
 </Printer>
 ```
 
-Not only does this limit who can send jobs.
-### CUPS and Emails
-- Special printing like check, highend printers or secure location, may want to track what has been printed.
--  CUPS provides a subscription option to receive and email when:
-  - printer-stopped → printer paused/offline.
-  - printer-state-changed → covers paused, resumed, etc.
-  - printer-restarted → CUPS server restarted.
-  - job-completed → job finished.
-  - server-restarted → CUPS daemon restarted.
+This not only restricts who can send print jobs, but also who can view them—helping prevent sensitive data leaks.
+
+---
+
+## Using Email Notifications in CUPS
+
+For high-value printers—like check printers or those in secure locations—you may want better visibility into what’s being printed or when issues occur. CUPS supports a **subscription model** for sending email notifications on various printer or job events:
+
+Common use cases include:
+
+* `job-completed` – when a print job finishes
+* `printer-stopped` – printer goes offline or is paused
+* `printer-state-changed` – status change (pause/resume)
+* `server-restarted` – when the CUPS daemon restarts
+
+Example:
 
 ```bash
-## example of email when printing
+## Notify when job completes
 lp -d PRINTER_NAME \
    -o notify-recipient-uri=mailto:you@example.com \
    -o notify-events=job-completed
+```
 
-## or 
-## Send email when any printer is paused or offline
+Or to track printer outages:
+
+```bash
+## Notify when printer is stopped
 lp -o notify-recipient-uri=mailto:you@example.com \
    -o notify-events=printer-stopped
 ```
 
-- the latter one can be useful when a printer pauses because of network issues.
-- It allows you to look into the logs shortly after the printer is having issues.
-> Note: CUPS needs access to an SMTP server to be able send emails out.
-  
-### Policies and Printer
+> **Note:** CUPS needs access to an SMTP server to send email notifications.
 
-- CUPS Policies defined in the `cupsd.conf` are used to define what a user can see in CUPS web portal
-- The Polices can be assigned to a printer giving granuality control over what a user can do
-- So on a check printer, you would not want the option to reprint
+---
 
-```bash
-## In the printer.conf
+## Using Custom Policies
+
+In addition to user and IP-based controls, you can define **custom operation policies** in `cupsd.conf` to limit what actions are allowed per printer. These policies are assigned directly in the printer’s configuration.
+
+For example, if you want to prevent check reprints by blocking access to `CUPS-Get-Document`:
+
+```conf
+## printers.conf
 <Printer AP_CHECKS>
   PrinterId 10
   Require group ap_sup
-  ...
- # Assignd  custom policy check-print
   OpPolicy check-print
 </Printer>
 ```
-```bash
-## Sets custom policy
+
+Then define the policy in `cupsd.conf`:
+
+```conf
 <Policy check-print>
   <Limit CUPS-Get-Document>
     AuthType Default
     Order deny,allow
     Deny from all
   </Limit>
-</Policy
+</Policy>
 ```
 
-## Do you Need to Do This
-- CUPS will install and work without these options and these options do not make the service run CUPS any more secure
-- These are about securing the business process (restircted user in check printing), ensure critical resources are only used for what is needed (spefic IP a label printer) and getting a had of issues (emails when printers are down)
+This level of control gives you compliance-grade auditing and enforcement over who can do what with each printer.
 
- Side note, CUPS like Putty was released in 1999.  
- - Back in 1999, the average CPU where single core process running 300-600MHz.
- - Now my home server has two socker each with 12 cores and running at 2.5Ghz but CUPS is the same plain looking print server about to hand a couple of print job here an there and I have server that can 500,000 jobs a month.
- - I've being in IT just a little longer than them but I can't remember a time when I was working professional and not having them around.
+---
+
+## Do You Really Need All This?
+
+Technically, no—CUPS will work fine out of the box without any of these customizations. But if you're running an enterprise print infrastructure, these configurations **don’t just secure the service—they secure your business processes**.
+
+* You **prevent unauthorized use** of critical printers (like checks).
+* You **limit exposure** by IP for function-specific printers (like shipping labels).
+* You **proactively detect issues** via email alerts before users even call the help desk.
+
+---
+
+## Final Thoughts
+
+A side note for the nerds: CUPS, like PuTTY, was released in 1999. Back then, single-core processors ran at 300–600 MHz. Today, I have a home server with dual sockets, 24 cores, and clocks around 2.5 GHz—and yet, CUPS remains that same humble, reliable print server quietly managing hundreds of thousands of jobs per month.
+
+I've been in IT just a bit longer than CUPS has been around, and I honestly can’t recall a time when I didn’t have it as part of my toolbox. Whether you’re running three printers or three hundred, investing time in CUPS security and visibility features is worth every second.
+
+---
+
+## CUPS Resources
+
+* 🔗 [CUPS Man Pages – Official Documentation](https://www.cups.org/doc/man-cupsd.conf.html)
+* 📚 [General CUPS Documentation](https://www.cups.org/doc/)
+* 🔐 [Previous Article: Global RBAC in CUPS](https://richard-sebos.github.io/sebostechnology/posts/CUPS-RBAC/)
+
+---
+
+## CUPS Command Cheat Sheet
+
+| Command                                                 | Description                                                   |
+| ------------------------------------------------------- | ------------------------------------------------------------- |
+| `lp -d PRINTER_NAME -o notify-recipient-uri=mailto:...` | Print a file and receive email notification on job completion |
+| `lp -o notify-events=printer-stopped`                   | Subscribe to printer offline events                           |
+| `cupsctl`                                               | Configure CUPS settings from CLI                              |
+| `lpstat -p`                                             | Show printer status                                           |
+| `cancel -a`                                             | Cancel all print jobs                                         |
+| `lpr -P printer file.txt`                               | Print a file to a specific printer                            |
+| `lpadmin -p printer -u allow:user`                      | Restrict users from accessing a printer                       |
+| `systemctl restart cups`                                | Restart CUPS service                                          |
+| `lpoptions -p printer -l`                               | List available options for a printer                          |
+
+
