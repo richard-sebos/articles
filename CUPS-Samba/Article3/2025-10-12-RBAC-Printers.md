@@ -5,7 +5,7 @@ date: 2025-10-09 10:00 +0000
 categories: [Linux, Infrastructure, Security]
 tags: [CUPS, RBAC, Printing, LinuxSecurity, PrintServer]
 image:
-  path: /assets/img/CUPS_Security.png
+  path: /assets/img/RBAC_Printers.png
   alt: Securing Printers with CUPS and RBAC
 ---
 
