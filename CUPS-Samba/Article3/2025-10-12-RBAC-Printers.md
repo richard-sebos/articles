@@ -1,5 +1,13 @@
 # Securing Printers with CUPS: Why It Matters
 
+
+## Introduction
+
+As a Linux administrator, you’ll often find yourself assigned to unexpected responsibilities—managing printers being a classic example. My journey with CUPS (Common UNIX Printing System) began with three servers handling over 50 printers. Over time, that infrastructure expanded to seven servers and over a hundred printers deployed across the country.
+
+One question kept nagging me: should someone on the East Coast be able to see and print to a West Coast printer? This curiosity sparked a deeper dive into CUPS' access control capabilities and how it can be hardened to support secure, enterprise-scale print management.
+
+---
 ## Table of Contents
 
 1. [Introduction](#introduction)
@@ -14,14 +22,6 @@
 7. [Final Thoughts](#final-thoughts)
 8. [CUPS Resources](#cups-resources)
 9. [CUPS Command Cheat Sheet](#cups-command-cheat-sheet)
-
----
-
-## Introduction
-
-As a Linux administrator, you’ll often find yourself assigned to unexpected responsibilities—managing printers being a classic example. My journey with CUPS (Common UNIX Printing System) began with three servers handling over 50 printers. Over time, that infrastructure expanded to seven servers and over a hundred printers deployed across the country.
-
-One question kept nagging me: should someone on the East Coast be able to see and print to a West Coast printer? This curiosity sparked a deeper dive into CUPS' access control capabilities and how it can be hardened to support secure, enterprise-scale print management.
 
 ---
 
@@ -147,9 +147,9 @@ Technically, no—CUPS will work fine out of the box without any of these custom
 
 ## Final Thoughts
 
-A side note for the nerds: CUPS, like PuTTY, was released in 1999. Back then, single-core processors ran at 300–600 MHz. Today, I have a home server with dual sockets, 24 cores, and clocks around 2.5 GHz—and yet, CUPS remains that same humble, reliable print server quietly managing hundreds of thousands of jobs per month.
+A side note for the nerds like me: CUPS, like PuTTY, was released in 1999. Back then, single-core processors ran at 300–600 MHz. Today, I have a home server with dual sockets, 24 cores, and clocks around 2.5 GHz—and yet, CUPS is still that same humble, no-frills print server. Despite its simplicity, it’s capable of scaling to support environments handling hundreds of thousands of print jobs per month—proof that solid engineering doesn’t need to be flashy.
 
-I've been in IT just a bit longer than CUPS has been around, and I honestly can’t recall a time when I didn’t have it as part of my toolbox. Whether you’re running three printers or three hundred, investing time in CUPS security and visibility features is worth every second.
+I’ve been in IT just a bit longer than CUPS has been around, and I can’t think of a time in my career when I wasn’t at least aware of it or working around it in some way. Whether it’s been running in the background quietly doing its job or acting as a key part of a larger print strategy, CUPS has always seemed to be there.
 
 ---
 
