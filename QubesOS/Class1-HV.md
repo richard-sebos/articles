@@ -17,6 +17,10 @@
 ### QubesOS 
 - QwbesOS is a Zen Hypervisor installed on bare metal that creates groups of VM working together to create a desktop enviroment
 - On the surface level this seem like a waste of resources and  would make a weird zone of application the feels awkware to use, but it not
-- 
+- As a traditional hypervision allow you to create VM to create business process, QubesOS allow you take you daily takes and break them into Qubes Apss based on security
+
+### Qubes Apps
+Qubes Apps are the grouping of different appication in a VM to create different level of security
+
 ## Classes of Hypervisors
 - A  
