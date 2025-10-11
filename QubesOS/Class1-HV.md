@@ -20,17 +20,38 @@
 - As a traditional hypervision allow you to create VM to create business process, QubesOS allow you take you daily takes and break them into Qubes Apss based on security
 
 ### Qubes Apps
+- With social media, software as a service (SAAS) and other web interactions, the internet is now a critical technology
+- The risk is become greater that one miss step can cause sensity information to be expose, stolen or ranson
 - Qubes Apps are the grouping of different appication in a VM to create different level of security.
 - the Qube App levels are `untrusted`, `personal`, `work` and `vault`
 
-### What have App Zones
-- Like database and application are used to create business applications, Qubes(VM) are used to create secure work flows
-- Were you every researching something on the web and come across a link that had the answer but seems shady
-- You can use a Tor Qubes to route network traffic for a research Qubes so you can write a article in a work qube.
-- The Tor and research qubes hide you traffic while containing the browser in a throw wawy qubes
-- Your work qubes, which has it's network isolated to a different qube is seperated
+#### Vaults Qubes
+`Vaults` are examples qubes with not network access and their own storage space
+- like a qubes, you can clone a default provided qube and create a personal or work `vault`
+- these are greate for password and shared note apps.
 
-### 
+#### Work Qubes
+- As a content creater, I need ways of isolating my write life from my research life
+- There is a security that come with the isolcaton of the qube but there is also a socologoly factor.
+- When I am using the `work` cube, I am more focus and am else likes to do other distractive multtask things
+- It helps the laptop I am using has crappy speakers.
+- I could pair my bluetooth headset or speaker but it feels like it defeats the purpose os using QubosOS for security reason.
 
-## Classes of Hypervisors
-- A  
+#### Personal
+- For me and my use, this is were QubesOS gets interesting
+- I clone the `person` into `bills` and `social` qubes
+- This allows me to keeps my banksing information saft and personal social media seperate from my work social media
+
+#### Untrusted
+- `untrusted` is were QubesOS really shines by providing an area to isolate you from the risk of the web.
+- now a days, we are always one click away from opening up an unsecure actions
+- The will only become worste was AI us used to create target threats.
+- Unsecure provides a place to navegate this the web
+- It can also be configure to opens the URL in a Disposable VM (DispVM)
+
+### Who is the For
+- As a person who works in the IT work, I help people with their computer needs so I see how people use computers.
+- Do most people need something like QubesOS to keep them secure?
+- Yes, would they use it right?
+- I think you need a secure first mindset to want to use OS like QubesOS
+- 
