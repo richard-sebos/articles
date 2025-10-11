@@ -32,7 +32,7 @@ That's where **QubesOS** comes in.
 
 At first glance, it might seem like an inefficient use of resources — why fragment your system across multiple VMs just to do everyday tasks? But that’s missing the point.
 
-Qubes doesn’t just virtualize for convenience — it virtualizes for **security**. Just as enterprise hypervisors isolate business processes into separate VMs, QubesOS isolates your daily computing activities based on **trust levels**.
+Qubes doesn’t just virtualize for convenience — it virtualizes for **security**. Just as enterprise hypervisors isolate business processes into separate VMs, QubesOS isolates your daily  activities based on **trust levels**.
 
 ---
 
