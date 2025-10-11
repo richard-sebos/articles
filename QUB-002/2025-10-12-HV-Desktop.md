@@ -78,7 +78,7 @@ For example, I keep separate qubes for:
 * Writing (`work-write`)
 * Research (`work-research`)
 
-This isn’t just about security — there’s a psychological benefit too. When I’m in a focused work qube, I’m less tempted to multitask or get distracted by other apps. The enforced separation helps me stay on task.
+This isn’t just about security — there’s a psychological benefit too. When I’m in a focused work qube, I’m less tempted to multitask or get distracted by other apps. The enforced security and separation helps me stay on task.
 
 Also — side note — my laptop’s speakers are terrible, which discourages streaming or social media in my work VMs. Sure, I could pair Bluetooth speakers, but that kind of defeats the purpose of using QubesOS to begin with.
 
