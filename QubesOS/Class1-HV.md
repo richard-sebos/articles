@@ -20,7 +20,17 @@
 - As a traditional hypervision allow you to create VM to create business process, QubesOS allow you take you daily takes and break them into Qubes Apss based on security
 
 ### Qubes Apps
-Qubes Apps are the grouping of different appication in a VM to create different level of security
+- Qubes Apps are the grouping of different appication in a VM to create different level of security.
+- the Qube App levels are `untrusted`, `personal`, `work` and `vault`
+
+### What have App Zones
+- Like database and application are used to create business applications, Qubes(VM) are used to create secure work flows
+- Were you every researching something on the web and come across a link that had the answer but seems shady
+- You can use a Tor Qubes to route network traffic for a research Qubes so you can write a article in a work qube.
+- The Tor and research qubes hide you traffic while containing the browser in a throw wawy qubes
+- Your work qubes, which has it's network isolated to a different qube is seperated
+
+### 
 
 ## Classes of Hypervisors
 - A  
