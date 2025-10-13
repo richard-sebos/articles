@@ -154,3 +154,29 @@ Absolutely! Here's the **updated list of teaser posts** for each **LinkedIn** an
 ---
 
 Would you like **image preview cards**, a **carousel-style infographic**, or **short-form video scripts** for some of these posts to boost engagement across LinkedIn or Facebook?
+
+
+Absolutely! Here's a **Mastodon-friendly teaser** for your article, tailored for the decentralized and often more technically-minded audience on platforms like Mastodon (e.g., Fosstodon, Mastodon.social, etc.).
+
+---
+
+### 🐘 **Mastodon Post (500 characters or less)**
+
+🖨️ Managing printers with #CUPS?
+Don’t let everyone pause queues or delete jobs.
+
+🔐 Implement Role-Based Access Control (RBAC) for secure, role-specific print access:
+
+* 🎯 End user, help desk, admin roles
+* 🌍 Location/IP-based restrictions
+* ✉️ Email alerts for job events
+* 🚫 Block document reprints
+
+Full guide:
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Printers-RBAC/](https://richard-sebos.github.io/sebostechnology/posts/Printers-RBAC/)
+
+#Linux #FOSS #Sysadmin #SelfHosting #Infosec
+
+---
+
+Would you like versions in multiple languages or hashtags aligned with specific Mastodon instances (like #Fosstodon or #LinuxAdmin)?
