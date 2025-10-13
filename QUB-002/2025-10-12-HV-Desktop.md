@@ -1,5 +1,5 @@
 ---
-title: QubesOS: A Hypervisor as a Desktop
+title: QubesOS A Hypervisor as a Desktop
 subtitle: Exploring Compartmentalization, dom0, and the Security Mindset Behind Qubes
 date: 2025-10-11 10:00 +0000
 categories: [Linux, Security]
