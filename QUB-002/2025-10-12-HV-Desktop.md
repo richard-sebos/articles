@@ -1,4 +1,20 @@
-# QubesOS: A Hypervisor as a Desktop
+---
+title: QubesOS: A Hypervisor as a Desktop
+subtitle: Exploring Compartmentalization, dom0, and the Security Mindset Behind Qubes
+date: 2025-10-11 10:00 +0000
+categories: [Linux, Security]
+tags: [QubesOS, Virtualization, LinuxSecurity, Compartmentalization, Privacy]
+image:
+  path: /assets/img/QubesOS.png
+  alt: Qubes OS Desktop with Multiple Isolated Qubes
+---
+
+## Introduction
+
+Running a desktop environment inside a hypervisor isn't new. Tech enthusiasts and home lab users have been doing it for years with tools like VMware Workstation and VirtualBox. These run on top of existing operating systems like Windows, Linux, or macOS, allowing users to spin up VMs without giving up their primary OS.
+
+---
+
 
 ## Table of Contents
 
@@ -13,10 +29,6 @@
 9. [Links and Resources](#links-and-resources)
 
 ---
-
-## Introduction
-
-Running a desktop environment inside a hypervisor isn't new. Tech enthusiasts and home lab users have been doing it for years with tools like VMware Workstation and VirtualBox. These run on top of existing operating systems like Windows, Linux, or macOS, allowing users to spin up VMs without giving up their primary OS.
 
 However, there's another class of hypervisors — known as bare-metal or Type 1 hypervisors — like VMware ESXi, Xen, and KVM. These run directly on the hardware, with the virtual machines acting as independent operating environments. In typical enterprise setups, these VMs work together to run business-critical services like web servers, application layers, and databases.
 
