@@ -5,7 +5,7 @@ date: 2025-10-11 10:00 +0000
 categories: [Linux, Security]
 tags: [QubesOS, Virtualization, LinuxSecurity, Compartmentalization, Privacy]
 image:
-  path: /assets/img/QubesOS.png
+  path: /assets/img/HV-Desktop.png
   alt: Qubes OS Desktop with Multiple Isolated Qubes
 ---
 
