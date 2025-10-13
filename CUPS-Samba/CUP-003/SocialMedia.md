@@ -120,7 +120,7 @@ Absolutely! Here's the **updated list of teaser posts** for each **LinkedIn** an
 
 > 🖨️ **Managing Printers on Linux? Add Access Control.**
 > Define roles (end user, help desk, admin) and control who can manage queues, restart printers, or delete jobs.
-> 🔗 [See how](https://richard-sebos.github.io/sebostechnology/posts/Printers-RBAC/)
+> 🔗 See how https://richard-sebos.github.io/sebostechnology/posts/Printers-RBAC/
 > #Linux #CUPS #HomeLab #AccessControl
 
 #### **Facebook – Cyber Security Exploit / CyberSecurity**
