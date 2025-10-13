@@ -1,7 +1,7 @@
 Absolutely! Here's the **updated list of teaser posts** for each **LinkedIn** and **Facebook** group/page — now with the correct link to the article:
 
 🔗 **Link to article**:
-👉 [https://richard-sebos.github.io/sebostechnology/posts/Printers-RBAC/](https://richard-sebos.github.io/sebostechnology/posts/Printers-RBAC/)
+👉 https://richard-sebos.github.io/sebostechnology/posts/Printers-RBAC/)
 
 ---
 
@@ -11,7 +11,7 @@ Absolutely! Here's the **updated list of teaser posts** for each **LinkedIn** an
 
 > 🖨️ **Printers still matter—and so does access control.**
 > Learn how to implement Role-Based Access Control (RBAC) in CUPS to manage what users, help desk, and admins can do with printers—securely.
-> 🔗 [Read the article](https://richard-sebos.github.io/sebostechnology/posts/Printers-RBAC/)
+> 🔗 https://richard-sebos.github.io/sebostechnology/posts/Printers-RBAC/
 > #Linux #SysAdmin #CUPS #RBAC #PrinterSecurity
 
 #### **LinkedIn – Linux Experts**
