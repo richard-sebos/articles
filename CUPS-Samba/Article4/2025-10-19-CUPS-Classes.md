@@ -3,7 +3,7 @@
 > *"There's never enough time to do it right, but there's always enough time to do it over."*
 > — Jack Bergman
 
-This quote has echoed in my head more than once in my career. I've worked on projects where a last-minute requirement fundamentally shifted the scope—from what the customer *wanted* to what they truly *needed*. Despite the extra effort, I always felt vindicated when, after delivery, a user would say something like, “Too bad it didn’t do *this*—that’s what I really wanted to add.”
+Time and again, I’ve been on projects where the original request missed the mark. Only after adapting to shifting needs did the true solution come into view. That’s why I never minded the extra effort—because in the end, a user would often say, “That’s what I really wanted all along.”
 
 That’s why I appreciate projects that build in flexibility from the beginning. CUPS, the Common Unix Printing System, is one of those systems that offers just that. It includes features that not only handle basic print jobs but also scale up to meet more complex printing needs without re-architecting your environment. One of the most overlooked features is **CUPS Classes**, which can simplify everything from load balancing to failover in printer-heavy environments.
 
@@ -13,8 +13,18 @@ That’s why I appreciate projects that build in flexibility from the beginning.
 
 1. [What Are CUPS Classes?](#what-are-cups-classes)
 2. [Round Robin Printing](#round-robin-printing)
+     • [Step 1: Define Printers](#step-1-define-printers)
+     • [Step 2: Create a Printer Class](#step-2-create-a-printer-class)
 3. [Failover Printing](#failover-printing)
+     • [Step 1: Create Two Printers](#step-1-create-two-printers)
+     • [Step 2: Create a Failover Queue](#step-2-create-a-failover-queue)
+     • [Step 3: Set Up the Class and Control Job Flow](#step-3-set-up-the-class-and-control-job-flow)
 4. [Final Thoughts](#final-thoughts)
+5. [🖨️ Command Summary](#️-command-summary)
+     • [📌 Printer Setup](#-printer-setup)
+     • [🧩 Creating a Printer Class](#-creating-a-printer-class)
+     • [⛑️ Failover Setup](#-failover-setup)
+     • [⚙️ Managing Printer States](#-managing-printer-states)
 
 ---
 
@@ -99,3 +109,89 @@ This acts as a manual failover mechanism. Unfortunately, I haven’t found a rel
 CUPS Classes are a feature that many administrators overlook. I’ll admit, as a former developer, the term “class” initially made me think of object-oriented programming, and I dismissed it. But when I needed a solution for failover printing, I gave it a second look—and I’m glad I did.
 
 This is one of those rare features that takes a standard, open-source tool and gives it enterprise-level flexibility. Whether you need speed, reliability, or both, CUPS Classes can help you build a more resilient printing infrastructure without having to redesign your environment.
+
+---
+
+## 🖨️ Command Summary
+
+### 📌 Printer Setup
+
+```bash
+# Add a printer to CUPS
+sudo lpadmin -p <printer_name> -E -v <device_uri> -P <ppd_file>
+```
+
+**Example:**
+
+```bash
+sudo lpadmin -p vprinter1a -E -v ipp://192.168.35.131:631/printers/fileprint -P /etc/cups/ppd/vprinter1a.ppd
+```
+
+* `-p`: Printer name
+* `-E`: Enable the printer and accept jobs
+* `-v`: URI of the printer (e.g., IPP, USB)
+* `-P`: Path to the printer PPD file
+
+---
+
+### 🧩 Creating a Printer Class
+
+```bash
+# Add a printer to a class (creates the class if it doesn't exist)
+sudo lpadmin -p <printer_name> -c <class_name>
+```
+
+**Example:**
+
+```bash
+sudo lpadmin -p vprinter1a -c rr_labels
+```
+
+* `-c`: Class name. If the class does not exist, it's created.
+
+---
+
+### ⛑️ Failover Setup
+
+```bash
+# Create a secondary "failover" printer pointing to another device
+sudo lpadmin -p <failover_name> -E -v <failover_uri> -P <ppd_file>
+```
+
+**Example:**
+
+```bash
+sudo lpadmin -p vprinter1ab -E -v ipp://192.168.35.132:631/printers/fileprint -P /etc/cups/ppd/vprinter1b.ppd
+```
+
+---
+
+### ⚙️ Managing Printer States
+
+```bash
+# Reject jobs for a printer
+sudo reject <printer_name>
+
+# Accept jobs for a printer
+sudo accept <printer_name>
+
+# Enable a printer
+sudo cupsenable <printer_name>
+
+# Disable a printer
+sudo cupsdisable <printer_name>
+```
+
+**Example (Failover Switch):**
+
+```bash
+# Disable primary
+sudo reject vprinter1a
+sudo cupsdisable vprinter1a
+
+# Enable backup
+sudo accept vprinter1ab
+sudo cupsenable vprinter1ab
+```
+
+
