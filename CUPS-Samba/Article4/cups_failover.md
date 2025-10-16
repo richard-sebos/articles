@@ -49,6 +49,20 @@ sudo lpadmin -p vprinter1e -c rr_labels
 sudo lpadmin -p vprinter1a -E -v ipp://192.168.35.131:631/printers/fileprint -P /etc/cups/ppd/vprinter1a.ppd
 
 ## Seconard printer, with it's own print queue
-sudo lpadmin -p vprinter1b -E -v ipp://192.168.35.132:631/printers/fileprint -P /etc/cups/ppd/vprinter1b.pp
+sudo lpadmin -p vprinter1b -E -v ipp://192.168.35.132:631/printers/fileprint -P /etc/cups/ppd/vprinter1b.ppd
 ```
-- now 
+- now lets create a failover queue to the second printer
+```bash
+## Create the failover printer queue
+sudo lpadmin -p vprinter1ab -E -v ipp://192.168.35.132:631/printers/fileprint -P /etc/cups/ppd/vprinter1b.ppd
+```
+- Like the `round robin` setup the printer class but this time with `vprinter1a` and `vprinter1ab`
+- set `vprinter1ab` to reject jobs all jobs.
+- This send all the jobs to `vprinter1a`.
+- When `vprinter1a` fails, the users can set `vprinter1a` to reject and `vprinter1ab` to active
+- I couldn't find a way to automatically do this relibilty in CUPS.
+
+- CUPS class could be one of those options that admin overlook.
+- I know I my cases as an ex-programmer the order class throw me off and it wasn't until I needed failover that it came up
+- It is one of those features that  takes an standard option and makes it enterprise grade.
+- 
