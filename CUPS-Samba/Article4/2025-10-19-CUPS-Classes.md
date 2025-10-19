@@ -1,3 +1,14 @@
+---
+title: Making CUPS Classes Work for You
+subtitle: Simplifying Load Balancing and Failover Printing in Business Environments
+date: 2025-10-19 10:00 +0000
+categories: [Linux, Infrastructure]
+tags: [CUPS, Printing, LinuxAdmin, Automation, LoadBalancing, Failover]
+image:
+  path: /assets/img/CUPS_Classes.png
+  alt: CUPS Class configuration for printer load balancing and failover
+---
+
 # Making CUPS Classes Work for You
 
 > *"There's never enough time to do it right, but there's always enough time to do it over."*
