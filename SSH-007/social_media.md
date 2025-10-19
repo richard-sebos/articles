@@ -1,6 +1,6 @@
-Perfect 👍 — thanks for confirming!
-
-Here’s your **finalized “tell” teaser set** for *Making CUPS Classes Work for You*, now with your link gracefully integrated for **LinkedIn** and **Facebook** (all group-appropriate, no self-promotion vibe).
+Excellent — this *Just-in-Time (JIT) Access* article is a perfect fit for cybersecurity, DevOps, and homelab audiences.
+Below are your **“tell” teasers** (community-friendly, non-promotional) for **LinkedIn** and **Facebook**, each customized for its group or page — and each ending with your live link:
+👉 [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 ---
 
@@ -8,73 +8,73 @@ Here’s your **finalized “tell” teaser set** for *Making CUPS Classes Work 
 
 **Home Page**
 
-> Most admins overlook this feature — but CUPS Classes can make your printers faster *and* more reliable. Discover how load balancing and failover printing can turn chaos into calm in your print environment.
-> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Strong security doesn’t have to be complicated. This guide walks through creating time-limited SSH access using a bastion host, MFA, and certificates — ideal for both homelabs and production.
+> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux Experts**
 
-> You’ve mastered daemons, services, and automation — but have you optimized your printers? Learn how CUPS Classes bring enterprise-level load balancing to your Linux print servers.
-> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Ever wished you could give SSH access that *expires automatically*? This JIT access setup uses OpenSSH certificates and MFA for secure, time-limited logins — no key sprawl, no risk.
+> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Red Hat Experts**
 
-> Running RHEL in production? Don’t ignore the print subsystem. This guide on CUPS Classes shows how to apply Red Hat-style redundancy to your print pipeline.
-> 🔗 Full article → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> RHEL and security go hand-in-hand. This JIT SSH system uses a bastion host and OpenSSH CA to deliver short-lived, auditable access for admins — all on standard Linux tools.
+> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Oracle Linux and Oracle VM User Group**
 
-> Whether it’s application servers or label printers, uptime matters. Here’s how Oracle Linux admins can use CUPS Classes for load balancing and failover printing.
-> 🔗 Full walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Oracle Linux makes a great foundation for secure access control. This guide shows how to implement a JIT SSH model using OpenSSH CA and MFA — directly inside your Proxmox environment.
+> 🔗 Full walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux Community**
 
-> From servers to desktops, Linux has tools for everything — even smarter printing. See how CUPS Classes add redundancy and efficiency with almost no re-architecture.
-> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> SSH keys that never expire are risky. This post shows how to set up time-limited SSH access that disappears automatically — secure by design, simple to maintain.
+> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux and Unix Sysadmins**
 
-> You automate backups and monitoring — why not print queues? This walkthrough shows how to build simple round-robin and failover setups using CUPS Classes.
-> 🔗 Step-by-step guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Control who gets into your servers — and for how long. This JIT SSH setup combines certificates, MFA, and logging to bring enterprise-grade control to your homelab or small business.
+> 🔗 Step-by-step → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux/DevOps/Cloud Engineer**
 
-> Think DevOps for printers: automate, distribute, and prevent downtime. CUPS Classes let you scale printing like a microservice.
-> 🔗 Full write-up → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Think of it as “ephemeral credentials for SSH.” This JIT system uses a bastion host and certificate-based MFA to issue access on demand — ideal for DevOps workflows.
+> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux Sysadmins Community – RHEL, CentOS, Ubuntu, Debian & Rocky Linux**
 
-> Load balance your printers the same way you balance your servers. CUPS Classes let you scale and fail over your print jobs — no new hardware required.
-> 🔗 Details → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> If you’ve ever worried about key sprawl or stale SSH accounts, this is for you. Set up a bastion-based JIT access system that enforces short-lived certificates and MFA.
+> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Community for Unix and Linux Employment Opportunities (Tech Q&A)**
 
-> Looking for a practical project to show off your sysadmin skills? Implementing load-balanced printing with CUPS Classes is a great example of Linux automation.
-> 🔗 How-to → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Want to build a portfolio project that shows real-world security skills? Implementing JIT SSH with OpenSSH CA and MFA is a perfect demo of Linux access control.
+> 🔗 Full details → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Proxmox Virtual Environment**
 
-> Proxmox admins understand redundancy — CUPS Classes bring that same mindset to print services. Perfect for hybrid lab setups.
-> 🔗 Learn how → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Proxmox makes a great platform for secure access systems. This JIT SSH setup uses a bastion VM, firewalls, and certificate-based access for full control and visibility.
+> 🔗 Walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux Admins**
 
-> There’s elegance in simple automation. With just a few `lpadmin` commands, you can give your users uninterrupted printing with CUPS Classes.
-> 🔗 Commands inside → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Short-lived SSH certificates, MFA, and logging — all without third-party tools. A practical way to modernize Linux access control.
+> 🔗 Learn how → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **The Linux Foundation**
 
-> Open source at its best — CUPS Classes turn ordinary printers into a coordinated print cluster. A small but powerful example of Linux flexibility.
-> 🔗 Explore → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Open source tools like OpenSSH, Python, and firewalld can build an impressive security layer. This JIT access model proves how effective Linux fundamentals can be.
+> 🔗 Full read → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Redhat Linux Administrators**
 
-> We harden servers and automate updates — why not printing? CUPS Classes are the Red Hat way: simple, stable, scalable.
-> 🔗 Tutorial → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Using Red Hat principles of least privilege and traceability, this JIT SSH setup introduces expiring credentials and access logs — all built on open tools.
+> 🔗 Details → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux Sysadmins Community**
 
-> Ever had a “stuck printer” halt production? Learn to build redundancy right into CUPS — no extra tools, no downtime.
-> 🔗 Walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> JIT access for SSH — a modern approach to controlling privileged sessions. Certificates expire automatically, and logs track every request.
+> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 ---
 
@@ -82,33 +82,33 @@ Here’s your **finalized “tell” teaser set** for *Making CUPS Classes Work 
 
 **Linux**
 
-> CUPS Classes are an underused gem — easy to set up, powerful in production. Print faster, fail less.
-> 🔗 Full setup → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Temporary SSH access that expires by design — a practical security model built with standard Linux tools.
+> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Gnu/Linux Users**
 
-> Tired of print queues failing at the worst time? Learn how GNU/Linux’s CUPS can balance jobs and create instant failover.
-> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Combine OpenSSH, firewalld, and MFA to grant short-lived, auditable SSH access — no password sharing, no long-term keys.
+> 🔗 Full tutorial → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux Mint**
 
-> Even on desktop distros like Mint, you can take advantage of enterprise CUPS features — balancing print jobs and automating recovery.
-> 🔗 Article → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Even in a homelab, strong access control matters. This JIT SSH setup makes it simple and secure.
+> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux Expert Exchange**
 
-> Load balancing isn’t just for Nginx and HAProxy — it’s for CUPS too. Learn how to distribute and fail over print jobs with class.
-> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> No vaults or complex tools — just Linux, OpenSSH, and scripting. Here’s how to create time-bound SSH access for your environment.
+> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux Advanced Technical Experts**
 
-> Deep dive: how CUPS Classes implement round-robin job assignment and manual failover at the spooler level. Minimal config, maximum uptime.
-> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Deep dive: use an SSH CA and MFA to create JIT credentials that expire automatically, reducing long-term attack surfaces.
+> 🔗 Full read → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **SUSE Linux Users Group**
 
-> SUSE built its reputation on stability — and CUPS Classes carry that same spirit. Simple scripts, no single point of failure.
-> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> SUSE users can easily adapt this JIT SSH model — using the same open standards to secure administrative sessions.
+> 🔗 Walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 ---
 
@@ -116,85 +116,84 @@ Here’s your **finalized “tell” teaser set** for *Making CUPS Classes Work 
 
 **Home Page**
 
-> 🖨️ Ever wish your printers could balance jobs automatically? CUPS Classes can — here’s how to set up round-robin and failover printing on Linux.
-> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🔐 Strong security, simple setup. Use a bastion host, SSH certificates, and MFA to create expiring SSH access. Perfect for home labs or small business servers.
+> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Cyber Security Exploit**
 
-> 🧱 Printer outages can cause workflow chaos (and security gaps). This guide shows how to keep your print services resilient using CUPS Classes.
-> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🧠 Short-lived SSH access = fewer persistent threats. This JIT system combines MFA, certificates, and firewall rules to enforce zero-trust access.
+> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Proxmox – Virtual Environment**
 
-> ⚙️ Combine your Proxmox lab with CUPS Classes — build virtualized print clusters for redundancy and faster print jobs.
-> 🔗 Details → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> ⚙️ Deploy a bastion host inside Proxmox and manage JIT SSH access for your VMs. Simple, secure, and flexible.
+> 🔗 Full tutorial → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Ansible in DevOps**
 
-> 🔁 Print automation made easy: use CUPS Classes to load balance printers. Bonus — easy to wrap into an Ansible playbook!
-> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🔁 Automate SSH certificate issuance and MFA checks with a lightweight Python script — the backbone of JIT access control.
+> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **CyberSecurity**
 
-> Even print systems can be single points of failure. CUPS Classes introduce isolation and redundancy — two core principles of secure system design.
-> 🔗 Full article → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Just-in-Time credentials are a cornerstone of modern zero-trust networks. Here’s how to build them with standard Linux tools.
+> 🔗 Full read → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Ansible DevOps**
 
-> 🧩 CUPS Classes fit perfectly in DevOps workflows — automate setup, control failover, and monitor print performance like any other service.
-> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🧩 Tie your JIT access model into Ansible workflows for fully auditable SSH sessions. No vaults, no clutter.
+> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Proxmox Tutorials and Troubleshooting**
 
-> 🖨️ Like HA clustering in Proxmox, but for printers — CUPS Classes let you failover instantly between print devices.
-> 🔗 Learn how → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🖥️ Add another layer of security to your Proxmox setup — a bastion host that controls time-limited access via SSH certificates.
+> 🔗 Tutorial → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Home Server Setups**
 
-> 💡 Want enterprise-style printing at home? CUPS Classes make it simple — set up multiple printers as one, with load balancing built-in.
-> 🔗 Details → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 💡 Secure your home lab like an enterprise. This JIT SSH system grants temporary access with MFA and automatic expiry.
+> 🔗 How-to → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux Group**
 
-> 🧠 Learn a feature most overlook: CUPS Classes. Add redundancy and speed to your Linux print system in minutes.
-> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🧠 Stop managing endless SSH keys. This JIT system uses certificates that expire automatically — security that runs itself.
+> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Home Server Labs MasterRace**
 
-> 🧰 Print redundancy for your lab? Check. CUPS Classes let you test failover logic and load balancing right at home.
-> 🔗 Full article → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🧰 Bastion host + MFA + expiring certificates = solid home lab security. Easy to build, easy to manage.
+> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux: Intro to Expert**
 
-> From beginner to pro — learn how one small CUPS feature can make your Linux setup more reliable and scalable.
-> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Want to learn a real-world security upgrade? JIT SSH access gives you short-lived logins — great for admins and tinkerers alike.
+> 🔗 Full post → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux For Beginners**
 
-> Don’t fear the command line — this guide walks you step-by-step through creating faster, more reliable printers using CUPS Classes.
-> 🔗 Step-by-step tutorial → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🔒 Simple tools, serious security. Learn how to use OpenSSH and MFA to make SSH keys that expire automatically.
+> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux Users Group**
 
-> 🖨️ Make your printers act smarter. With CUPS Classes, you can balance loads and switch devices when one fails.
-> 🔗 Full setup → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Just-in-Time SSH access reduces risk and simplifies management — all built on Linux.
+> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux**
 
-> CUPS isn’t just for adding printers — it can manage whole fleets. Learn how to make your print jobs faster and fault-tolerant.
-> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Modern SSH security made simple: short-lived certificates, MFA, and a bastion host — all explained step-by-step.
+> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **Linux Group**
 
-> Ever had to stop production because of a failed printer? This CUPS guide shows how to prevent that with a few simple commands.
-> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Give users controlled SSH access that automatically expires — easy to build, hard to exploit.
+> 🔗 Tutorial → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 **LINUX SOLUTIONS**
 
-> 🧱 Redundancy = reliability. CUPS Classes are your built-in Linux solution for load-balanced and failover printing.
-> 🔗 Full walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🧱 One-time access, permanent peace of mind. Use OpenSSH and MFA to create short-lived credentials that boost security without complexity.
+> 🔗 Full walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/](https://richard-sebos.github.io/sebostechnology/posts/JIT-Access/)
 
 ---
 
-Would you like me to now do a **“sell version”** of this same set — one designed specifically for **your own pages (LinkedIn + Facebook Home)** that uses first-person tone and stronger engagement phrasing (while staying professional)?
-That version is ideal for sharing under your own profile instead of within groups.
+Would you like me to create a **“sell version”** next for this JIT SSH article too — one for your personal **LinkedIn + Facebook home pages** that uses light first-person tone (e.g., “In this article, I walk through how…”), with optional hashtags for visibility?
