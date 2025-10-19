@@ -23,19 +23,19 @@ That’s why I appreciate projects that build in flexibility from the beginning.
 ## Table of Contents
 
 1. [What Are CUPS Classes?](#what-are-cups-classes)
-2. [Round Robin Printing](#round-robin-printing)
-     • [Step 1: Define Printers](#step-1-define-printers)
-     • [Step 2: Create a Printer Class](#step-2-create-a-printer-class)
-3. [Failover Printing](#failover-printing)
-     • [Step 1: Create Two Printers](#step-1-create-two-printers)
-     • [Step 2: Create a Failover Queue](#step-2-create-a-failover-queue)
-     • [Step 3: Set Up the Class and Control Job Flow](#step-3-set-up-the-class-and-control-job-flow)
+2. [Round Robin Printing](#round-robin-printing)  
+   - [Step 1: Define Printers](#step-1-define-printers)  
+   - [Step 2: Create a Printer Class](#step-2-create-a-printer-class)
+3. [Failover Printing](#failover-printing)  
+   - [Step 1: Create Two Printers](#step-1-create-two-printers)  
+   - [Step 2: Create a Failover Queue](#step-2-create-a-failover-queue)  
+   - [Step 3: Set Up the Class and Control Job Flow](#step-3-set-up-the-class-and-control-job-flow)
 4. [Final Thoughts](#final-thoughts)
-5. [🖨️ Command Summary](#️-command-summary)
-     • [📌 Printer Setup](#-printer-setup)
-     • [🧩 Creating a Printer Class](#-creating-a-printer-class)
-     • [⛑️ Failover Setup](#-failover-setup)
-     • [⚙️ Managing Printer States](#-managing-printer-states)
+5. [Command Summary](#command-summary)  
+   - [Printer Setup](#printer-setup)  
+   - [Creating a Printer Class](#creating-a-printer-class)  
+   - [Failover Setup](#failover-setup)  
+   - [Managing Printer States](#managing-printer-states)
 
 ---
 
