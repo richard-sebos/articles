@@ -1,7 +1,7 @@
 Absolutely! Here are **tailored social media teaser posts** for your Qubes OS article, customized for the same groups as before on **LinkedIn** and **Facebook**. The tone ranges from educational to technical, depending on the audience.
 
 🔗 **Article Link**:
-[**Qubes OS: A Journey to a “Reasonably Secure Operating System”**](hhttps://richard-sebos.github.io/sebostechnology/posts/QubesOS/)
+https://richard-sebos.github.io/sebostechnology/posts/QubesOS/
 
 ---
 
