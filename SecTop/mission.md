@@ -1,3 +1,9 @@
+Optional Even Shorter Version (for a GitHub bio or tagline):
+>
+>Secure Linux, reimagined: containment-first, audit-ready, built for real work.
+>
+>
+
 ## 🧭 Mission Statement (Updated)
 
 I've been exploring Linux for over a decade, but until now, my path has been scattered — jumping from topic to topic without a clear direction. With this project, I’m shifting gears.
