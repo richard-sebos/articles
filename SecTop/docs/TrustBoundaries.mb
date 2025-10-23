@@ -1,0 +1,164 @@
+## 3.1  Trust Boundaries and Threat Model
+
+### Overview
+
+QCAF enforces layered trust separation between three functional domains:
+
+| Domain                                 | Example Qube | Privileges                                       | Primary Role                                                   |
+| -------------------------------------- | ------------ | ------------------------------------------------ | -------------------------------------------------------------- |
+| **System Controller (Dom0)**           | dom0         | root privileges; orchestrates but cannot decrypt | Collects raw audit data and coordinates audit runs             |
+| **Security Processor (Security Qube)** | sec-audit    | isolated VM with full keypair                    | Validates provenance, generates reports, encrypts and signs    |
+| **Cold Storage (Vault Qube)**          | vault        | isolated, verify-only                            | Verifies signatures and hash chains, stores immutable archives |
+
+Each layer treats the next as untrusted until cryptographic verification succeeds.
+All inter-domain communication occurs via Qubes qrexec; no component ever exposes data to a network interface.
+
+---
+
+### Trust Boundary Diagram
+
+```
+Dom0 (Collector)
+ ├─ generates audit data
+ ├─ hashes + signs
+ └─ sends JSON
+        │
+        │  Boundary #1 – Integrity (Dom0 → Security)
+        ▼
+Security Qube (Processor)
+ ├─ verifies Dom0 signature
+ ├─ generates report
+ ├─ encrypts + signs package
+ └─ passes encrypted output
+        │
+        │  Boundary #2 – Confidentiality (Security → Vault)
+        ▼
+Vault Qube (Archive)
+ ├─ verifies signatures
+ ├─ validates hash chain
+ └─ stores encrypted archive
+```
+
+---
+
+### Boundary #1 – Dom0 → Security Qube
+
+**Purpose**
+Guarantee that only authentic, unaltered audit data collected by Dom0 enters the processing stage.
+
+**Verification Sequence**
+
+1. Dom0 signs a detached SHA-256 digest of each audit artifact.
+2. Security Qube verifies:
+    • Dom0’s signature using its public key.
+    • The file’s SHA-256 hash matches the signed digest.
+3. If verification fails, processing stops and a signed failure notice is produced.
+
+**Threats Mitigated**
+
+* Tampering between VMs.
+* Replay of previous data.
+* Spoofed inputs pretending to originate from Dom0.
+
+**Residual Risk**
+If Dom0 itself is compromised, its newly signed data may be malicious; however, previously sealed audits remain provably intact because Vault verification will detect any alteration of stored artifacts.
+
+---
+
+### Boundary #2 – Security Qube → Vault Qube
+
+**Purpose**
+Preserve confidentiality and integrity of processed reports and logs in long-term storage.
+
+**Verification Sequence**
+
+1. Security Qube encrypts the package using **age (Curve25519)** for Vault’s public key.
+2. It signs `manifest.json` with its **minisign (Ed25519)** private key.
+3. Vault Qube performs:
+    • Signature verification of the manifest.
+    • Recalculation of file hashes (if authorized).
+    • Validation of hash continuity within the ProofTrail chain.
+
+**Threats Mitigated**
+
+* Eavesdropping or data leakage.
+* Injection or modification of in-transit data.
+* Rollback or deletion of previous records.
+
+**Residual Risk**
+If the Security Qube’s private key is compromised, confidentiality and signing authority are lost until key rotation.
+Vault verification still detects tampering or replay attempts.
+
+---
+
+### Boundary #3 – Human / External Interfaces
+
+**Purpose**
+Control and attest all human-initiated or external inputs to the audit framework.
+
+**Verification Sequence**
+
+* Administrative commands execute only via defined systemd units in Dom0.
+* Every artifact carries timestamped logs and a signature linked to the operator’s key ID.
+* Vault may optionally publish signed ProofTrail digests to an external transparency log for third-party verification.
+
+**Threats Mitigated**
+
+* Operator mistakes or unauthorized manual edits.
+* Silent modification of stored data.
+* Log loss through human error.
+
+---
+
+### Verification Summary
+
+| Layer            | Trusts               | Verifies                        | Primary Protection      | Mechanism                          |
+| ---------------- | -------------------- | ------------------------------- | ----------------------- | ---------------------------------- |
+| Dom0             | itself only          | none                            | root of collection      | local checks                       |
+| Security Qube    | Dom0’s signed data   | Dom0 signature + SHA-256        | tamper / replay / spoof | minisign verify + hash match       |
+| Vault Qube       | Security’s packages  | manifest signature + hash chain | tamper / rollback       | minisign verify + ProofTrail check |
+| External Auditor | published ProofTrail | signature chain                 | forgery / loss          | detached signature verification    |
+
+---
+
+### Cryptographic Verification Points
+
+| Stage                             | Algorithm           | Verification Performed By |
+| --------------------------------- | ------------------- | ------------------------- |
+| Dom0 signing                      | Ed25519 (minisign)  | Security Qube             |
+| File hashing                      | SHA-256             | Security Qube             |
+| Package encryption                | Curve25519 (age)    | Vault Qube                |
+| Manifest signing                  | Ed25519             | Vault Qube                |
+| ProofTrail linking                | SHA-256 chain       | Security and Vault        |
+| Optional transparency attestation | Ed25519 or minisign | Independent auditor       |
+
+---
+
+### Threat Surface and Containment
+
+| Threat                     | Boundary Defending It | Mitigation                                   |
+| -------------------------- | --------------------- | -------------------------------------------- |
+| Modification between qubes | #1 and #2             | All transfers are signed + hash-verified     |
+| Leakage of plaintext       | #2                    | Only encrypted data leaves Security Qube     |
+| Replay / rollback attacks  | #2                    | ProofTrail hash chain                        |
+| Key compromise             | All                   | Quarterly rotation + Vault key archive       |
+| Operator error             | #3                    | Controlled systemd workflow + signature logs |
+| Hardware tamper            | #2                    | Encryption at rest + signed manifests        |
+| Clock skew                 | #1–#3                 | UTC + monotonic timestamps in manifest       |
+
+---
+
+### Boundary Cross-Check Summary
+
+* Every boundary crossing includes a cryptographic verification before data is accepted.
+* No component implicitly trusts input from another domain; trust is earned per message.
+* Each domain can independently prove that the data it received originated unaltered from the previous domain.
+
+---
+
+### Key Takeaway
+
+QCAF’s trust model transforms every system boundary into a verifiable handshake.
+Integrity and authenticity are never assumed—they are demonstrated through cryptographic evidence.
+Even if one domain is compromised, its ability to falsify the broader audit history is mathematically constrained by the ProofTrail chain and independent Vault verification.
+
