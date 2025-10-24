@@ -56,12 +56,11 @@ Legend:
 
 ## 📈 Metrics & Feedback (Optional)
 
-| Post Title | Platform | Date | Views | Likes | Comments | Click-Throughs | Key Feedback |
-|-------------|-----------|-------|--------|----------|----------------|---------------|
-| Securing Samba Like It’s 2025 | LinkedIn | 2025-10-27 | 1,230 | 55 | 9 | 32 | Interest in legacy hardening tips. |
-| Every File Deserves a Fingerprint | Mastodon | 2025-10-29 | 720 | 18 | 3 | 14 | Good reaction to “trust” phrasing. |
+| Post Title                         | Platform | Date       | Views | Likes | Comments | Click-Throughs | Key Feedback                         |
+|------------------------------------|----------|------------|------:|------:|---------:|---------------:|--------------------------------------|
+| Securing Samba Like It’s 2025      | LinkedIn | 2025-10-27 | 1,230 |    55 |        9 |             32 | Interest in legacy hardening tips.   |
+| Every File Deserves a Fingerprint  | Mastodon | 2025-10-29 |   720 |    18 |        3 |             14 | Good reaction to “trust” phrasing.   |
 
----
 
 ## 🧱 Ideas Backlog
 *(Quick capture zone — move items into tracker when ready.)*
