@@ -52,7 +52,7 @@ By the end of 10 days you will have:
 ---
 |    | Channel                 | Topic                 | Title                                                       | State                | Publish Date |
 |----| ----------------------- | --------------------- | ----------------------------------------------------------- | -------------------- |--------------|
-|   1| Legacy                  | Samba Overview              |                                                       |  Rough               |  Oct 26      |
+|   1| Legacy                  | Samba Overview              |   [Secure File Sharing for Mixed Environments](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-001/2025-10-26-Samba.md)                                                    |  Rough               |  Oct 26      |
 |   2| Legacy                  | Sanba Security              |                                                       |  Planning            |  Nov 2       |
 |   3| Legacy                  |                             |                                                       |  Planning            |  Nov 2       |
 |   4| Legacy                  |                             |                                                       |  Planning            |  Nov 2       |
