@@ -50,7 +50,19 @@ By the end of 10 days you will have:
 | **10** | Schedule next 3 weeks          | Queue everything across platforms, finalize your cadence calendar.                                 | Reward yourself — you’re now 3 weeks ahead.                     |
 
 ---
+|    | Channel                 | Topic                 | Title                                                       | State                | Publish Date |
+|----|| ----------------------- | --------------------- | ----------------------------------------------------------- | -------------------- |--------------|
+|   1| Legacy                  | Samba Overview              |                                                       |  Rough               |  Oct 26      |
+|   2| Legacy                  | Sanba Security              |                                                       |  Planning            |  Nov 2       |
+|   3| Legacy                  |                             |                                                       |  Planning            |  Nov 2       |
+|   4| Legacy                  |                             |                                                       |  Planning            |  Nov 2       |
+|   1| ProofTrail              | QVM Overview                |                                                       |  Planning            |  Oct 28      |
+|   2| ProofTrail              |                             |                                                       |  Planning            |  Oct 28      |
+|   3| ProofTrail              |                 |                                                       |  Planning            |  Oct 28      |
+|   1| ProofTrail              |                 |                                                       |  Planning            |  Oct 28      |
 
+
+---
 ## 🧱 Example Content Architecture (3-Week Preview)
 
 | Week | Legacy                                             | Edge / ProofTrail                                               | Breadcrumb 1                                 | Breadcrumb 2                                |
