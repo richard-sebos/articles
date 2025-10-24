@@ -53,13 +53,13 @@ By the end of 10 days you will have:
 |    | Channel                 | Topic                 | Title                                                       | State                | Publish Date |
 |----| ----------------------- | --------------------- | ----------------------------------------------------------- | -------------------- |--------------|
 |   1| Legacy                  | Samba Overview              |   [Secure File Sharing for Mixed Environments](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-001/2025-10-26-Samba.md)                                                    |  Rough               |  Oct 26      |
-|   2| Legacy                  | Sanba Security              |                                                       |  Planning            |  Nov 2       |
-|   3| Legacy                  |                             |                                                       |  Planning            |  Nov 2       |
-|   4| Legacy                  |                             |                                                       |  Planning            |  Nov 2       |
+|   2| Legacy                  | Sanba Security              |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-002/article.md)                                                    |  Planning            |  Nov 2       |
+|   3| Legacy                  |                             |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-003/article.md)                                                    |  Planning            |  Nov 2       |
+|   4| Legacy                  |                             |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-004/article.md)                                                     |  Planning            |  Nov 2       |
 |   1| ProofTrail              | QVM Overview                |                                                       |  Planning            |  Oct 28      |
-|   2| ProofTrail              |                             |                                                       |  Planning            |  Oct 28      |
-|   3| ProofTrail              |                 |                                                       |  Planning            |  Oct 28      |
-|   1| ProofTrail              |                 |                                                       |  Planning            |  Oct 28      |
+|   2| ProofTrail              |                             |                                                       |  Planning            |  Nov 4      |
+|   3| ProofTrail              |                 |                                                       |  Planning            |  Nov 12      |
+|   1| ProofTrail              |                 |                                                       |  Planning            |  Nov 18      |
 
 
 ---
