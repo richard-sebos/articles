@@ -5,13 +5,9 @@
 ---
 
 ## 📝 Introduction
-AI has changed the speed of threat evolution — attacks can now learn, adapt, and pivot faster than most defensive systems can log a packet. The only sustainable defense isn’t more detection; it’s architecture.
+I began my IT career as a client/server programmer before transitioning into Linux system administration. More recently, I’ve been focusing on deepening my knowledge of networking — an area filled with concepts like subnetting, CIDR, ingress, egress, MTU, and VLANs. At first, these felt like abstract jargon. But as the landscape of cybersecurity evolves, the importance of understanding these fundamentals has become crystal clear.
 
-QubesOS embodies that mindset. Instead of trusting software not to break, it assumes compromise is inevitable and contains the blast radius. Each virtual machine is a self-contained zone, isolated by design, with networking that forces every packet to earn its way out.
-
-Over the past few weeks, I’ve been stress-testing how that model behaves in the wild — tracing VPN, TOR, and firewall flows, verifying isolation, and looking for cracks in the chain.
-
-This isn’t a lab demo; it’s a blueprint for how we can design AI-ready containment systems — architectures that adapt faster than the threats they face.
+AI has radically accelerated the pace of threat evolution. Modern attacks aren’t just faster — they’re adaptive, capable of learning and pivoting in real time. Defensive systems can barely log a packet before the threat has already morphed. In this new environment, more detection isn’t the answer. Architecture is.
 ---
 ## 🔖 Table of Contents
 
@@ -26,12 +22,25 @@ This isn’t a lab demo; it’s a blueprint for how we can design AI-ready conta
 9. [Conclusion](#conclusion)
 
 ---
+## QubesOS embraces that philosophy
+QubesOS embraces that philosophy. It doesn’t rely on the hope that software won’t break — it assumes compromise is inevitable and minimizes the impact. Each virtual machine operates as an isolated zone, with tightly controlled networking where every packet must earn its way out.
+
+Over the past few weeks, I’ve been putting that model to the test: tracing VPN, TOR, and firewall flows, verifying isolation boundaries, and looking for weaknesses. This isn’t just another lab experiment — it’s a real-world exploration of how we can build AI-resilient containment systems. Architectures that adapt as fast as the threats they’re designed to survive.
+
 ## 🌐 QubesOS Networking Basics
 
-Cover the key concepts:
+QubesOS works by splitting your computer into separate compartments, each with its own virtual network connection. Only one part of the system is allowed to talk directly to the physical network, and it passes network access to the others, acting like a secure gatekeeper.
 
-* `sys-net`: hardware-facing NetVM
-* `sys-firewall`: policy control, per-VM network rules
+###  `sys-net`
+sys-net uses the physical network interface to connect to you network.
+Other VMs use NAT and get internal IPs from sys-net.
+It uses subnetting  to carve up the network into isolated subnet of IP address
+From the outside, it looks like all traffic comes from sys-net.
+
+ ## `sys-firewall`
+ - is a VM that filter traffic between `sys-net` and VMs
+ - 
+* 
 * `AppVMs`: user VMs like `work`, `untrusted`
 * `sys-vpn`: custom VPN routing
 * `sys-whonix`: TOR-based anonymity
