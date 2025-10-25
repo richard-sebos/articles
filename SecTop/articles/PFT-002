@@ -1,0 +1,49 @@
+# 🧩 **ProofTrail 2 — “Signed Integrity: Turning Hashes Into Evidence”**
+
+### 🎯 Goal
+
+Move from *knowing what changed* to *proving who verified it* using digital signatures.
+
+---
+
+## Outline
+
+### 1. Hook
+
+> “A hash is honesty. A signature is accountability.”
+
+### 2. Why Signatures Matter
+
+* Hash files can be replaced.
+* Signatures authenticate your baseline as “known good.”
+
+### 3. Linux Walkthrough
+
+```bash
+minisign -S -s ~/.keys/sys.key -m ~/.prooftrail/baseline.hashes
+minisign -V -p ~/.keys/sys.pub -m ~/.prooftrail/baseline.hashes
+```
+
+### 4. QubesOS Dom0 Walkthrough
+
+* Store signing key in Dom0 or a dedicated “Vault” qube.
+* Dom0 signs baselines for other qubes:
+
+  ```bash
+  qvm-run -p work "sha256sum /etc/hostname" > work.hash
+  minisign -S -s ~/.keys/dom0.key -m work.hash
+  ```
+* Verification:
+
+  ```bash
+  minisign -V -p ~/.keys/dom0.pub -m work.hash
+  ```
+
+### 5. Takeaway
+
+> “Now your baselines aren’t just snapshots — they’re testimony.”
+
+### 6. ProofTrail Teaser
+
+> “Next, we’ll chain these proofs together over time — building memory into integrity.”
+
