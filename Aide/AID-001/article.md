@@ -7,7 +7,20 @@
 ---
 
 ## 🔍 Why File Integrity Still Matters
-- First heard of 
+- First heard of file intrusion back in the early 2000 when a co-work install an Open Source version of Tripwire.
+- Tripwire scanned the Linux system he keep under his desk and he save the results to a flash drive mounted as read only.
+- It seems like overkill back then but now days host-based intrusion detection tool are a key are of systne integrity
+- One tool you often see is `AIDE` but what is it?
+
+## AIDE
+- **AIDE** or (Advanced Intrusion Detection Environment) takes a snapshit of the meta date for a number of directory in your Linux system.
+- It creates a cryptographic hash for the files properties  create a way to verify the meta date was not changes.
+- It created a conpress database file contain the baseline metadate that is read only and store where only root as access
+- The compress database is used in the futre to compare files changes.
+- These changes can be view to see which were validate and which could have been changed by an intruder.
+- Why no use logs to find this information?
+
+## 
 System logs can lie. Attackers can clean traces. But file fingerprints don’t.  
 Every binary, config, and script has a cryptographic identity — and when that identity changes, it means something changed your system.
 
