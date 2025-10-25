@@ -61,7 +61,7 @@ sudo mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
 
 ## 🔎 Verify Integrity
 
-Run a check to compare the current filesystem to your baseline.
+The baseline can be used to check the valitity of you system by running:
 
 ```bash
 sudo aide --check | less
@@ -69,16 +69,17 @@ sudo aide --check | less
 
 You’ll see a summary like:
 
-```
-AIDE found differences between database and filesystem!!
+```bash
+sudo aide --check
+[sudo] password for admin_richard: 
+Start timestamp: 2025-10-25 17:36:40 -0600 (AIDE 0.16)
+AIDE found NO differences between database and filesystem. Looks okay!!
 
-Added entries:
-    /etc/cron.d/aide
-Changed entries:
-    /var/log/messages
+Number of entries:	66624
 ```
+- Your number of entries will be different from mine.
+- My existing system matches what the baseline is for the files AIDE is keeping track of.
 
-Those lines mean AIDE noticed a difference — in this case, a new cron job and an updated log file.
 
 ---
 
@@ -88,14 +89,29 @@ Let’s make a harmless modification and rerun the check.
 
 ```bash
 sudo touch /etc/testfingerprint
-sudo aide --check | grep testfingerprint
 ```
 
 Expected output:
 
 ```
+sudo aide --check 
+Start timestamp: 2025-10-25 17:40:43 -0600 (AIDE 0.16)
+AIDE found differences between database and filesystem!!
+
+Summary:
+  Total number of entries:	66625
+  Added entries:		1
+  Removed entries:		0
+  Changed entries:		0
+
+---------------------------------------------------
 Added entries:
-    /etc/testfingerprint
+---------------------------------------------------
+
+f++++++++++++++++: /etc/testfingerprint
+
+
+
 ```
 
 That’s integrity in action — a single added file, immediately noticed.
