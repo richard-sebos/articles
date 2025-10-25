@@ -33,28 +33,33 @@
 sudo dnf update -y
 sudo dnf install aide -y
 ````
+- A `/etc/aide.conf` will be created as part of the install and AIDE uses it to determine what to scan.
+- It also create `/var/lib/aide/` where the compress database are kept.
+
 
 This installs the configuration at `/etc/aide.conf`
 and creates a working directory at `/var/lib/aide/`.
 
 ---
 
-## 🧩 Step 2 — Initialize Your Baseline
-
-Run AIDE once to build the first **database of checksums** —
-your system’s initial fingerprint.
-
+## 🧩 Initialize Your Baseline
+- Before AIDE cand protect your system, a basedline needs to be created.
+- To create a baseline run:
 ```bash
 sudo aide --init
-sudo mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
 ```
 
-That file now holds cryptographic hashes (SHA256, by default)
-for thousands of files across the OS.
+- It will store the baseline in  `/var/lib/aide/` as `aide.db.new.gz`.
+- The `aide.db.new.gz` is generate when `aide --init` is run and needs to me moved to `aide.db.gz` to indicate it is an offical baseline.
+
+```bash
+sudo mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
+```
+- `aide.db.gz`  holds the cryptographic hashes for the directories specified in `aide.conf`
 
 ---
 
-## 🔎 Step 3 — Verify Integrity
+## 🔎 Verify Integrity
 
 Run a check to compare the current filesystem to your baseline.
 
