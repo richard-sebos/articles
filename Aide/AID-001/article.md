@@ -7,7 +7,7 @@
 ---
 
 ## 🔍 Why File Integrity Still Matters
-
+- First heard of 
 System logs can lie. Attackers can clean traces. But file fingerprints don’t.  
 Every binary, config, and script has a cryptographic identity — and when that identity changes, it means something changed your system.
 
