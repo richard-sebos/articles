@@ -4,6 +4,15 @@
 
 ---
 
+## 📝 Introduction
+AI has changed the speed of threat evolution — attacks can now learn, adapt, and pivot faster than most defensive systems can log a packet. The only sustainable defense isn’t more detection; it’s architecture.
+
+QubesOS embodies that mindset. Instead of trusting software not to break, it assumes compromise is inevitable and contains the blast radius. Each virtual machine is a self-contained zone, isolated by design, with networking that forces every packet to earn its way out.
+
+Over the past few weeks, I’ve been stress-testing how that model behaves in the wild — tracing VPN, TOR, and firewall flows, verifying isolation, and looking for cracks in the chain.
+
+This isn’t a lab demo; it’s a blueprint for how we can design AI-ready containment systems — architectures that adapt faster than the threats they face.
+---
 ## 🔖 Table of Contents
 
 1. [Introduction](#introduction)
@@ -17,17 +26,6 @@
 9. [Conclusion](#conclusion)
 
 ---
-
-## 📝 Introduction
-AI has changed the speed of threat evolution — attacks can now learn, adapt, and pivot faster than most defensive systems can log a packet. The only sustainable defense isn’t more detection; it’s architecture.
-
-QubesOS embodies that mindset. Instead of trusting software not to break, it assumes compromise is inevitable and contains the blast radius. Each virtual machine is a self-contained zone, isolated by design, with networking that forces every packet to earn its way out.
-
-Over the past few weeks, I’ve been stress-testing how that model behaves in the wild — tracing VPN, TOR, and firewall flows, verifying isolation, and looking for cracks in the chain.
-
-This isn’t a lab demo; it’s a blueprint for how we can design AI-ready containment systems — architectures that adapt faster than the threats they face.
----
-
 ## 🌐 QubesOS Networking Basics
 
 Cover the key concepts:
