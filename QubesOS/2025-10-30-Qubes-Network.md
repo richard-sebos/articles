@@ -41,28 +41,6 @@ QubesOS works by splitting your computer into separate compartments, each with i
 | **`sys-whonix`**   | - Routes network traffic through the Tor network.<br>- Provides anonymity for VMs using it.<br>- Some websites may block or restrict Tor traffic.                                                                           |
 
 
-###  `sys-net`
-sys-net uses the physical network interface to connect to you network.
-Other VMs use NAT and get internal IPs from sys-net.
-It uses subnetting  to carve up the network into isolated subnet of IP address
-From the outside, it looks like all traffic comes from sys-net.
-
- ## `sys-firewall`
- - is a VM that filter traffic between `sys-net` and VMs
- - to check the firewall ruls you can use
-```bash
-qvm-firewall sys-firewall
-```
-QubesOS has a list of `qvm` command to check different aspects off the Qube VM.  More to come in future articles
-##  `sys-vpn`
-- `sys-vpn` is a clone of `sys-net` that a added a OpenVPN service to.
-- It OpenVPN service start automatically on VM startup and any VM using `sys-vpn` for network access goes through the VPN.
-
-##`sys-whonix`
-- `sys-whonix` is a network proxy that routes traffic out the TOR network.
-- This allow VM traffice to be hidden on the TOR network
-- This can cause problems for with some website the discomanate against TOR traffic.
-
 ---
 
 
@@ -85,35 +63,15 @@ QubesOS has a list of `qvm` command to check different aspects off the Qube VM. 
 
 Add hands-on tests you performed and their results:
 
-### ✅ 1. Inter-VM Isolation Test
 
-* Tried `ping` or `curl` from `work` → `untrusted`
-* Checked `sys-firewall` logs
-* ✅ Confirmed firewall drops traffic
+| **Test**                  | **Steps Performed**                                                                                     | **Expected Outcome**                   | **Results / Notes**                                                    |
+| ------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------- | ---------------------------------------------------------------------- |
+| **1. Inter-VM Isolation** | - Ping or `curl` from `work` → `untrusted`<br>- Checked `sys-firewall` logs                             | Traffic should be blocked by firewall  | ✅ Firewall drops confirmed<br><br>`ping: Destination Host Unreachable` |
+| **2. VPN Leak Test**      | - Checked external IP with `curl ifconfig.me`<br>- Disabled VPN to test failsafe                        | No traffic should leak real IP         | ✅ VPN enforced<br><br>No internet access without VPN                   |
+| **3. Tor Verification**   | - Launched browser in Whonix VM<br>- Checked IP at [check.torproject.org](https://check.torproject.org) | Traffic should route through Tor       | ✅ IP recognized as Tor exit node                                       |
+| **4. DNS Leak Check**     | - Ran [dnsleaktest.com](https://dnsleaktest.com) from VPN and Whonix VMs                                | DNS should resolve only via VPN or Tor | ✅ No ISP or local DNS leaks detected                                   |
 
-### ✅ 2. VPN Leak Test
-
-* Verified VPN IP via `curl ifconfig.me`
-* Disabled OpenVPN tunnel to test failsafe
-* ✅ Ensured no fallback to real IP
-
-### ✅ 3. TOR Verification
-
-* Used `whonix` to check external IP
-* ✅ Verified TOR network in use
-
-### ✅ 4. DNS Leak Check
-
-* Ran DNS leak test from VPN and Whonix AppVMs
-* ✅ DNS resolved only via VPN/TOR
-
-You can expand each with terminal output, e.g.:
-
-```bash
-[user@work ~]$ curl ifconfig.me
-199.189.94.43
-```
-
+Y
 ---
 
 ## 📋 Firewall Log Example
