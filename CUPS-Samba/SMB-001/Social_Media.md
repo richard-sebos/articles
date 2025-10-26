@@ -1,10 +1,8 @@
-Excellent — this *Samba on Oracle Linux 9* article fits beautifully into your broader series and appeals to nearly every Linux and sysadmin community you share with.
-Below is your full **“tell” teaser set**, customized for each **LinkedIn group** and **Facebook group/page**, keeping the tone educational and professional (no self-promotion flags).
+Perfect — this *“Introduction to Samba”* article deserves its own teaser set since it’s story-driven and highly relatable (nostalgia + practicality).
+Below is your **custom “tell” teaser set** for all your **LinkedIn groups and Facebook pages**, matching the tone of the previous sets but tuned to this more personal intro piece.
 
-Each teaser links to your post:
-👉 [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
-
-*(If you want, I can swap in the correct final Samba URL later when published — for now, the above link acts as a placeholder.)*
+When you publish, your link will be:
+👉 [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 ---
 
@@ -12,73 +10,73 @@ Each teaser links to your post:
 
 **Home Page**
 
-> Need secure file sharing across Windows and Linux systems? This guide walks through setting up Samba on Oracle Linux 9 — step-by-step, from install to SELinux integration.
-> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Before the cloud and S3 buckets, there was Samba — the bridge between Linux and Windows that quietly powered offices everywhere. This intro revisits what made it great and why it still matters today.
+> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux Experts**
 
-> Samba has been bridging Windows and Linux for decades — but its integration with SELinux and modern firewalls can still trip up admins. Here’s a clean, secure setup on Oracle Linux 9.
-> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Samba was one of the first open-source “wow” moments for many admins — Linux sharing files with Windows seamlessly. Here’s a nostalgic and technical look at how it remains relevant in 2025.
+> 🔗 Full article → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Red Hat Experts**
 
-> Samba remains a key service in RHEL-compatible environments. This article walks through a hardened setup with SELinux, system users, and group-based access.
-> 🔗 Full walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> From RHEL 5 to 9, Samba has been the go-to solution for mixed file sharing. This intro covers its evolution and why it’s still worth mastering.
+> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Oracle Linux and Oracle VM User Group**
 
-> Oracle Linux users — build a secure Samba file share for mixed Windows/Linux environments. Includes SELinux integration, user roles, and firewall setup.
-> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Oracle Linux admins — whether serving Windows workstations or Linux VMs, Samba still handles shared storage better than most realize. Here’s a refresher on what makes it timeless.
+> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux Community**
 
-> Samba isn’t just for legacy setups — it’s still the backbone of many small and enterprise file systems. Learn how to configure it securely on modern Linux.
-> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Samba was built to make Linux part of the office. Decades later, it’s still connecting systems everywhere — from NAS boxes to enterprise file shares.
+> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux and Unix Sysadmins**
 
-> Whether you manage a small lab or production servers, Samba deserves a revisit. Here’s a modern take on secure file sharing with proper SELinux context and access controls.
-> 🔗 Step-by-step → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Every admin has wrestled with a `smb.conf` at some point. This intro revisits how Samba ties into firewall, SELinux, PAM, and why it’s still essential knowledge.
+> 🔗 Walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux/DevOps/Cloud Engineer**
 
-> In hybrid environments, Samba bridges traditional file sharing with cloud systems. This guide covers a hardened configuration with firewalld and SELinux controls.
-> 🔗 Full read → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Even in cloud-first workflows, local file sharing isn’t gone — it just moved behind firewalls and VMs. Samba remains the silent backbone for hybrid teams.
+> 🔗 Full read → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux Sysadmins Community – RHEL, CentOS, Ubuntu, Debian & Rocky Linux**
 
-> Setting up Samba can touch five layers of Linux security — users, groups, firewalls, SELinux, and PAM. This guide breaks each one down clearly.
-> 🔗 Walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> From firewall rules to SELinux, Samba’s layers can frustrate even seasoned admins. This intro breaks down where each piece fits.
+> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Community for Unix and Linux Employment Opportunities (Tech Q&A)**
 
-> Want a resume-ready project that demonstrates Linux security skills? Implementing Samba with proper SELinux and group-based controls is an excellent showcase.
-> 🔗 Full tutorial → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Interview-ready knowledge: Samba isn’t just file sharing — it’s authentication, permissions, and network design. This article lays the groundwork.
+> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Proxmox Virtual Environment**
 
-> Proxmox admins — if your VMs need shared storage between Windows and Linux, Samba is a perfect fit. Here’s how to configure it securely on Oracle Linux 9.
-> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Need cross-platform storage for your Proxmox lab? Samba still provides the simplest bridge between Windows and Linux guests.
+> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux Admins**
 
-> Samba setup can look simple — until SELinux or permissions get involved. This guide simplifies the process with tested steps for secure shares.
-> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> It’s easy to forget how capable Samba really is. This introduction reconnects the dots — from file sharing to full-fledged security integration.
+> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **The Linux Foundation**
 
-> One of open source’s oldest success stories, Samba still connects Linux and Windows seamlessly. Here’s how to deploy it securely on Oracle Linux 9.
-> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> One of open source’s earliest success stories, Samba helped Linux go mainstream. Here’s a modern reflection on why it still earns its place in enterprise networks.
+> 🔗 Full article → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Redhat Linux Administrators**
 
-> File sharing on RHEL and Oracle Linux made secure — Samba with SELinux, proper permissions, and minimal attack surface.
-> 🔗 Full article → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Samba has outlived trends and tools alike. Learn why its design — simple, modular, and secure — still fits Red Hat’s ecosystem perfectly.
+> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux Sysadmins Community**
 
-> Every admin has a Samba story. This one’s about doing it *right* — secure shares, proper SELinux contexts, and easy group-based access.
-> 🔗 Walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Whether it’s your first server or your thousandth, Samba teaches something about Linux architecture every time. Here’s a modern take on this classic service.
+> 🔗 Full read → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 ---
 
@@ -86,33 +84,33 @@ Each teaser links to your post:
 
 **Linux**
 
-> Samba still matters — from homelabs to enterprises. Here’s a step-by-step on secure setup for Oracle Linux 9.
-> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Before Docker, before Kubernetes — there was Samba. A foundation of interoperability that’s still worth understanding today.
+> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Gnu/Linux Users**
 
-> File sharing between Linux and Windows? Samba remains the simplest and most flexible choice — especially when configured with SELinux.
-> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> For decades, Samba has quietly kept networks connected. This intro explores how it evolved and how it fits modern distros.
+> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux Mint**
 
-> Even on desktop distros like Mint, Samba powers home servers and shared drives. Learn the secure setup approach from Oracle Linux 9.
-> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Even desktop users rely on Samba daily — whether they know it or not. This article unpacks its history and how to configure it right.
+> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux Expert Exchange**
 
-> Samba isn’t going away anytime soon. Here’s a modern take on setting it up securely — user auth, groups, and SELinux.
-> 🔗 Full article → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Samba’s design has stood the test of time. This post explains its architecture and the security layers often overlooked.
+> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux Advanced Technical Experts**
 
-> Behind every stable mixed environment is a properly configured Samba service. This one covers security, context, and automation-ready structure.
-> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Beyond file sharing — Samba demonstrates how Linux services interact across network, PAM, and SELinux layers. A solid refresher for seasoned admins.
+> 🔗 Full article → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **SUSE Linux Users Group**
 
-> Samba runs everywhere — including SUSE. This article’s Oracle Linux setup doubles as a great reference for RHEL-compatible distributions.
-> 🔗 Tutorial → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Samba powers countless SUSE deployments too — this intro’s Oracle Linux walkthrough applies equally to your setups.
+> 🔗 Tutorial → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 ---
 
@@ -120,84 +118,84 @@ Each teaser links to your post:
 
 **Home Page**
 
-> 🖥️ Sharing files between Linux and Windows doesn’t need to be risky. This guide shows how to build a secure Samba server on Oracle Linux 9.
-> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🧰 Before cloud sync and NAS GUIs, there was Samba. This introduction revisits one of Linux’s oldest and most trusted tools.
+> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Cyber Security Exploit**
 
-> 🔐 File shares are often overlooked in security audits. Here’s how to lock down Samba with SELinux and proper user controls.
-> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🔐 Even “simple” file sharing touches authentication, firewalls, and SELinux. Samba is still one of the best ways to understand layered Linux security.
+> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Proxmox – Virtual Environment**
 
-> ⚙️ Need shared storage for VMs or Windows hosts? Configure Samba securely inside Oracle Linux 9 — a great fit for Proxmox setups.
-> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> ⚙️ Need a lightweight shared folder system for your Proxmox lab? Samba remains the easiest cross-platform bridge between guests.
+> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Ansible in DevOps**
 
-> 🔁 Automate your Samba setup — this guide covers the manual process, perfect for converting into an Ansible playbook later.
-> 🔗 Tutorial → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🔁 This Samba intro makes a perfect base for automation — every setup step can be turned into an Ansible role.
+> 🔗 Tutorial → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **CyberSecurity**
 
-> File servers are a prime target. Secure your Samba deployment with firewall, PAM, and SELinux best practices from this Oracle Linux 9 guide.
-> 🔗 Full article → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🧱 File sharing might not sound like security — but Samba configuration teaches core principles of least privilege, SELinux, and service isolation.
+> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Ansible DevOps**
 
-> 🧩 Turn this Samba walkthrough into a repeatable automation — everything from user creation to share setup fits perfectly into a playbook.
-> 🔗 Full read → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🧩 Each Samba command and configuration step in this intro can be scripted — a great template for infrastructure automation.
+> 🔗 Full read → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Proxmox Tutorials and Troubleshooting**
 
-> 🧱 Use Samba as your backend for file sharing between Proxmox and Windows clients — configured securely with SELinux and groups.
-> 🔗 Details → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🖥️ Samba isn’t just legacy tech — it’s a flexible way to share files between Proxmox VMs and Windows hosts securely.
+> 🔗 Walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Home Server Setups**
 
-> 💡 Setting up a home file server? Samba is still the simplest way to share files securely between Linux and Windows.
-> 🔗 Walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 💡 Build your first real file server with Samba. This guide covers everything from install to secure access.
+> 🔗 Full tutorial → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux Group**
 
-> 🧠 Samba is as relevant as ever — this modern Oracle Linux 9 setup focuses on security, SELinux, and usability.
-> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🧠 Samba has quietly kept Linux and Windows talking for 30 years. Here’s a simple, modern take on how it works.
+> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Home Server Labs MasterRace**
 
-> 🧰 Your homelab deserves real file sharing — this Samba guide explains how to build a secure, manageable server that fits any lab.
-> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🧰 Every lab needs file sharing. Samba is the easy, open-source solution — proven, stable, and still improving.
+> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux: Intro to Expert**
 
-> From beginner to expert, every admin should understand Samba. This article breaks down the layers of configuration and security.
-> 🔗 Tutorial → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> From novice to pro, learning Samba teaches essential Linux concepts — users, groups, permissions, and security.
+> 🔗 Guide → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux For Beginners**
 
-> 🔒 New to Samba? This beginner-friendly walkthrough shows how to build a secure share that works on both Linux and Windows.
-> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🖥️ If you’re new to Linux, Samba is one of the best ways to learn how services, users, and permissions connect.
+> 🔗 Full article → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux Users Group**
 
-> Secure file sharing made simple — this Samba setup guide gets you running safely on Oracle Linux 9 with proper permissions and SELinux.
-> 🔗 Full walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Still the go-to for cross-platform file sharing — Samba on Linux keeps workgroups connected with minimal setup.
+> 🔗 Read here → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux**
 
-> Samba is still a cornerstone for on-premise file sharing. Here’s how to configure it securely, cleanly, and correctly.
-> 🔗 Read more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> Even after decades, Samba remains core to how Linux integrates into mixed environments. Here’s a friendly reintroduction.
+> 🔗 Full guide → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **Linux Group**
 
-> Keep your file shares secure — Samba on Oracle Linux 9 can handle Windows and Linux users alike with minimal setup.
-> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> File sharing that just works — Samba brings Linux and Windows together better than any alternative.
+> 🔗 Walkthrough → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 **LINUX SOLUTIONS**
 
-> 🧱 Secure, stable, and flexible — Samba on Oracle Linux 9 delivers enterprise-grade file sharing for mixed environments.
-> 🔗 Full read → [https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/](https://richard-sebos.github.io/sebostechnology/posts/OpenSSH-Cert-SSH-Keys/)
+> 🧱 Still one of Linux’s most trusted tools — Samba combines reliability, flexibility, and security for modern file sharing.
+> 🔗 Learn more → [https://richard-sebos.github.io/sebostechnology/posts/Samba/](https://richard-sebos.github.io/sebostechnology/posts/Samba/)
 
 ---
 
-Would you like me to create a **“sell version”** (for your own LinkedIn and Facebook home pages) that uses your personal tone — referencing your early Samba experience and modern best practices — with hashtags and a conversational closer (e.g. *“Still one of my favorite Linux tools after all these years.”*)?
+Would you like me to follow this with a **“sell” version** next — optimized for your *LinkedIn profile post and Facebook home page*, using first-person storytelling (your “gray hair” intro, the nostalgia hook, and hashtags for reach)?
