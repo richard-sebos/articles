@@ -39,46 +39,36 @@ From the outside, it looks like all traffic comes from sys-net.
 
  ## `sys-firewall`
  - is a VM that filter traffic between `sys-net` and VMs
- - 
-* 
-* `AppVMs`: user VMs like `work`, `untrusted`
-* `sys-vpn`: custom VPN routing
-* `sys-whonix`: TOR-based anonymity
+ - to check the firewall ruls you can use
+```bash
+qvm-firewall sys-firewall
+```
+QubesOS has a list of `qvm` command to check different aspects off the Qube VM.  More to come in future articles
+##  `sys-vpn`
+- `sys-vpn` is a clone of `sys-net` that a added a OpenVPN service to.
+- It OpenVPN service start automatically on VM startup and any VM using `sys-vpn` for network access goes through the VPN.
 
-Mention how Qubes uses **NetVM chains** for routing, and **IP address overlaps** are OK due to enforced isolation.
-
----
-
-## 🧪 My Setup Overview
-
-This is where you drop in your collected data.
-
-* Include:
-
-  * Which VMs you created
-  * Which VM routes through which NetVM
-  * IP and MAC info
-  * Egress IPs observed via `curl ifconfig.me`
-
-Use a bullet format or table for clarity.
-
-> *Example: “I routed my `work` and `untrusted` VMs through `sys-firewall`, and routed `sys-firewall` through `sys-net`. I also configured `sys-vpn` and `sys-whonix` to route selected VMs through VPN and TOR respectively.”*
+##`sys-whonix`
+- `sys-whonix` is a network proxy that routes traffic out the TOR network.
+- This allow VM traffice to be hidden on the TOR network
+- This can cause problems for with some website the discomanate against TOR traffic.
 
 ---
+
 
 ## 📡 Network Flow and Egress IP Mapping
 
-Show how traffic flows from each VM:
+- I ran test to find out what the IP address were assigned to the differet network interface and proxies
 
 | VM           | Internal IP      | NetVM Used   | External IP   |
 | ------------ | ---------------- | ------------ | ------------- |
 | sys-net      | 172.20.10.3/28   | (physical)   | 199.189.94.43 |
 | sys-firewall | 10.138.22.13     | sys-net      | 199.189.94.43 |
 | work         | 10.137.0.15/32   | sys-firewall | 199.189.94.43 |
-| untrusted    | 10.137.0.16      | sys-firewall | 199.189.94.43 |
+| untrusted    | 10.137.0.16/32   | sys-firewall | 199.189.94.43 |
 | sys-vpn      | 10.137.0.26/32   | sys-firewall | 45.84.107.74  |
 | whonix       | 10.138.38.126/32 | sys-whonix   | 45.148.10.111 |
-
+- Notice the IP address for the proxies have a /32 which  can't assign another host inside that subnet.
 ---
 
 ## 🔒 Security Verification Tests
