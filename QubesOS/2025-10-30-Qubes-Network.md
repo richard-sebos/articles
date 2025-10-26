@@ -8,6 +8,8 @@
 I began my IT career as a client/server programmer before transitioning into Linux system administration. More recently, I’ve been focusing on deepening my knowledge of networking — an area filled with concepts like subnetting, CIDR, ingress, egress, MTU, and VLANs. At first, these felt like abstract jargon. But as the landscape of cybersecurity evolves, the importance of understanding these fundamentals has become crystal clear.
 
 AI has radically accelerated the pace of threat evolution. Modern attacks aren’t just faster — they’re adaptive, capable of learning and pivoting in real time. Defensive systems can barely log a packet before the threat has already morphed. In this new environment, more detection isn’t the answer. Architecture is.
+
+
 ---
 ## 🔖 Table of Contents
 
