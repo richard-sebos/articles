@@ -50,17 +50,18 @@ By the end of 10 days you will have:
 | **10** | Schedule next 3 weeks          | Queue everything across platforms, finalize your cadence calendar.                                 | Reward yourself — you’re now 3 weeks ahead.                     |
 
 ---
-|    | Channel                 | Topic                 | Title                                                       | State                | Publish Date |
-|----| ----------------------- | --------------------- | ----------------------------------------------------------- | -------------------- |--------------|
-|SMB-001| Legacy                  | Samba Overview              |   [Secure File Sharing for Mixed Environments](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-001/2025-10-26-Samba.md)                                                    |  Rough               |  Oct 26      |
-|   2| Legacy                  | Sanba Security              |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-002/article.md)                                                    |  Planning            |  Nov 2       |
-|   3| Legacy                  |                             |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-003/aritcle.md))                                                    |  Planning            |  Nov 2       |
-|   4| Legacy                  |                             |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-004/article.md)                                                     |  Planning            |  Nov 2       |
-|ADE-001| ProofTrail              | QVM Overview             |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/Aide/AID-001/2025-11-xx-AIDE-Overview.md)                                                    |  Planning            |  Oct 28      |
-|QDE-001| ProofTrail              | QVM Overview                | [QubesOS Version of AIDE]()                                                      |  Planning            |  Oct 28      |
-|   2| ProofTrail              |                             |                                                       |  Planning            |  Nov 4      |
-|   3| ProofTrail              |                 |                                                       |  Planning            |  Nov 12      |
-|   1| ProofTrail              |                 |                                                       |  Planning            |  Nov 18      |
+|    | Channel                 | Topic                 |State                 | Publish Date | Title                                                                                                                                      |
+|----| ----------------------- | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | 
+|SMB-001| Legacy               | Samba Overview        |  Rough               |  Oct 26      |   [Secure File Sharing for Mixed Environments](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-001/2025-10-26-Samba.md) |
+|   2| Legacy                  | Sanba Security        |  Planning            |  Nov 2       |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-002/article.md)                                             |
+|   3| Legacy                  |                       |  Planning            |  Nov 9       |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-003/aritcle.md))                                            |
+|   4| Legacy                  |                       |  Planning            |  Nov 16      |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-004/article.md)                                             |
+|ADE-001| ProofTrail           | QVM Overview          |  Planning            |  Nov 16      |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/Aide/AID-001/2025-11-xx-AIDE-Overview.md)                                  |
+|ADE-001| ProofTrail           | QVM Overview          |  Planning            |  Nov 16      |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/Aide/AID-001/2025-11-xx-AIDE-Overview.md)                                  |
+|QUB-003| ProofTrail           | QubesOS Netorks       |  Planning            |  Nov 16      |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/QubesOS/2025-10-30-Qubes-Network.md)                                       |
+|   2| ProofTrail              |                       |  Planning            |  Nov 16      |                                                                                                                                            |
+|   3| ProofTrail              |                       |  Planning            |  Nov 16      |                                                                                                                                            |               
+|   1| ProofTrail              |                       |  Planning            |  Nov 16      |                                                                                                                                            |
 
 
 ---
