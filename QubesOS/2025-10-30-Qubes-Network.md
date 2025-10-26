@@ -66,8 +66,8 @@ Add hands-on tests you performed and their results:
 
 | **Test**                  | **Steps Performed**                                                                                     | **Expected Outcome**                   | **Results / Notes**                                                    |
 | ------------------------- | ------------------------------------------------------------------------------------------------------- | -------------------------------------- | ---------------------------------------------------------------------- |
-| **1. Inter-VM Isolation** | - Ping or `curl` from `work` → `untrusted`<br>- Checked `sys-firewall` logs                             | Traffic should be blocked by firewall  | ✅ Firewall drops confirmed<br><br>`ping: Destination Host Unreachable` |
-| **2. VPN Leak Test**      | - Checked external IP with `curl ifconfig.me`<br>- Disabled VPN to test failsafe                        | No traffic should leak real IP         | ✅ VPN enforced<br><br>No internet access without VPN                   |
+| **1. Inter-VM Isolation** | - Trace route from `work` → `untrusted`<br>- Checked IP   s                         | Traffic should be blocked by firewall  | ✅ Traceroute gets to firewall no other IP found |
+| **2. VPN Leak Test**      | - Checked external IP with `curl ifconfig.me`<br>- Disabled VPN to test failsafe                        | No traffic should leak real IP         | ✅ VPN enforced<br><br>Checked external IP with `curl ifconfig.me`<br>- Disabled VPN to test failsafe                    |
 | **3. Tor Verification**   | - Launched browser in Whonix VM<br>- Checked IP at [check.torproject.org](https://check.torproject.org) | Traffic should route through Tor       | ✅ IP recognized as Tor exit node                                       |
 | **4. DNS Leak Check**     | - Ran [dnsleaktest.com](https://dnsleaktest.com) from VPN and Whonix VMs                                | DNS should resolve only via VPN or Tor | ✅ No ISP or local DNS leaks detected                                   |
 
