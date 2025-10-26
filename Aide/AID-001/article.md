@@ -115,18 +115,16 @@ f++++++++++++++++: /etc/testfingerprint
 ```
 
 That’s integrity in action — a single added file, immediately noticed.
-
-Clean up afterward:
+-  Since it is a file we created, I update the baseline by:
 
 ```bash
-sudo rm /etc/testfingerprint
 sudo aide --update
 sudo mv /var/lib/aide/aide.db.new.gz /var/lib/aide/aide.db.gz
 ```
 
 ---
 
-## 🧠 Step 5 — Keep Your Baseline Safe
+## 🧠 Keep Your Baseline Safe
 
 Copy `/var/lib/aide/aide.db.gz` somewhere read-only or encrypted.
 That database is your **baseline witness** — if it’s altered, the entire trust chain collapses.
@@ -134,17 +132,11 @@ That database is your **baseline witness** — if it’s altered, the entire tru
 ```bash
 sudo cp /var/lib/aide/aide.db.gz /mnt/secure/aide.db.gz
 ```
-
-> 💡 **Pro Tip:** store a copy on a USB key or encrypted LUKS volume — the old-school version of a Vault Qube.
-
 ---
 
-## 🧭 What You Just Built
+## 🧭 Conclusion
+- In the baseline I create was main based on '/etc` and ` `  directories were a majority of the system configuration files are stored
+- It didn't include the`/usr` since as systems gets updated, it could cause multiple file updates.
+- We did stop a melsoius user from get on the system but the critical files they would want to update to reconfigure the system has been basedline.
+- Like any part of securing a Linux system, this just adds an layer detection with the hopes if you are attacked the layers will protect/dection will courge the hacker to find a easiler target
 
-You’ve created your first **verifiable fingerprint** of a running system —
-a cryptographic baseline proving that your machine is exactly what you think it is.
-
-This is the same logic the upcoming **ProofTrail** framework extends across isolated Qubes and cloud workloads.
-Integrity starts with one checksum.
-
----
