@@ -52,11 +52,12 @@ By the end of 10 days you will have:
 ---
 |    | Channel                 | Topic                 | Title                                                       | State                | Publish Date |
 |----| ----------------------- | --------------------- | ----------------------------------------------------------- | -------------------- |--------------|
-|   1| Legacy                  | Samba Overview              |   [Secure File Sharing for Mixed Environments](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-001/2025-10-26-Samba.md)                                                    |  Rough               |  Oct 26      |
+|SMB-001| Legacy                  | Samba Overview              |   [Secure File Sharing for Mixed Environments](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-001/2025-10-26-Samba.md)                                                    |  Rough               |  Oct 26      |
 |   2| Legacy                  | Sanba Security              |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-002/article.md)                                                    |  Planning            |  Nov 2       |
 |   3| Legacy                  |                             |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-003/aritcle.md))                                                    |  Planning            |  Nov 2       |
 |   4| Legacy                  |                             |   [article](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-004/article.md)                                                     |  Planning            |  Nov 2       |
-|   1| ProofTrail              | QVM Overview                |                                                       |  Planning            |  Oct 28      |
+|ADE-001| ProofTrail              | QVM Overview             |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/Aide/AID-001/2025-11-xx-AIDE-Overview.md)                                                    |  Planning            |  Oct 28      |
+|QDE-001| ProofTrail              | QVM Overview                | [QubesOS Version of AIDE]()                                                      |  Planning            |  Oct 28      |
 |   2| ProofTrail              |                             |                                                       |  Planning            |  Nov 4      |
 |   3| ProofTrail              |                 |                                                       |  Planning            |  Nov 12      |
 |   1| ProofTrail              |                 |                                                       |  Planning            |  Nov 18      |
