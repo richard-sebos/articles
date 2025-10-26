@@ -33,6 +33,14 @@ Over the past few weeks, I’ve been putting that model to the test: tracing VPN
 
 QubesOS works by splitting your computer into separate compartments, each with its own virtual network connection. Only one part of the system is allowed to talk directly to the physical network, and it passes network access to the others, acting like a secure gatekeeper.
 
+| **Component**      | **Description**                                                                                                                                                                                                             |
+| ------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **`sys-net`**      | - Connects directly to the physical network interface.<br>- Provides NAT and internal IPs to other VMs.<br>- Subnets the internal network for isolation.<br>- From the outside, all traffic appears to come from `sys-net`. |
+| **`sys-firewall`** | - Filters traffic between AppVMs and `sys-net`.<br>- You can view its firewall rules with:<br>`bash<br>qvm-firewall sys-firewall<br>`<br>- Uses QubesOS `qvm` tools for rule management (more in future articles).          |
+| **`sys-vpn`**      | - Clone of `sys-net` with OpenVPN configured.<br>- VPN starts automatically on boot.<br>- Any VM using `sys-vpn` routes traffic through the VPN.                                                                            |
+| **`sys-whonix`**   | - Routes network traffic through the Tor network.<br>- Provides anonymity for VMs using it.<br>- Some websites may block or restrict Tor traffic.                                                                           |
+
+
 ###  `sys-net`
 sys-net uses the physical network interface to connect to you network.
 Other VMs use NAT and get internal IPs from sys-net.
