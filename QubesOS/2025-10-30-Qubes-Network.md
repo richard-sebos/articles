@@ -71,19 +71,6 @@ Add hands-on tests you performed and their results:
 | **3. Tor Verification**   | - Launched browser in Whonix VM<br>- Checked IP at [check.torproject.org](https://check.torproject.org) | Traffic should route through Tor       | ✅ IP recognized as Tor exit node                                       |
 | **4. DNS Leak Check**     | - Ran [dnsleaktest.com](https://dnsleaktest.com) from VPN and Whonix VMs                                | DNS should resolve only via VPN or Tor | ✅ No ISP or local DNS leaks detected                                   |
 
-Y
----
-
-## 📋 Firewall Log Example
-
-Insert your actual `journalctl` output when you tested isolation:
-
-```text
-Oct 19 15:30:22 sys-firewall kernel: QUBES DROP: IN=vif12.0 OUT=vif14.0 MAC=... SRC=10.137.0.15 DST=10.137.0.16 ...
-```
-
-Explain what it shows: inter-VM traffic denied by default.
-
 ---
 
 ## ✅ Conclusion
@@ -113,24 +100,24 @@ Would you like me to show you how to write a **LinkedIn post caption** that intr
 ---
 
 
-| **Category**                | **Command**                                                                 | **Description / Purpose**                                     | **Notes / Output**                              |                  |
-| --------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------- | ---------------- |
-| 🔍 External IP Check        | `curl ifconfig.me`                                                          | Shows the public IP the VM presents to the internet           | Use in AppVM, VPN, or Whonix to verify IP       |                  |
-| 🌐 List VMs & NetVMs        | `qvm-ls --network`                                                          | Lists all VMs and their associated NetVMs                     | Useful to audit routing setup                   |                  |
-| 🧭 Inside a VM: Interfaces  | `ip a`                                                                      | Displays IP addresses and interfaces (e.g., `eth0`, `vifX.0`) | Helps verify internal networking                |                  |
-| 🗺️ Trace Route             | `traceroute google.com`                                                     | Shows the path packets take to reach a destination            | Good for identifying proxy hops                 |                  |
-| 🔐 View Firewall Rules      | `sudo iptables -L -v -n`                                                    | Lists active firewall rules in `sys-firewall`                 | Run in the ProxyVM                              |                  |
-| 📋 Log Dropped Packets      | `sudo iptables -I FORWARD -j LOG --log-prefix "QUBES DROP: " --log-level 4` | Adds logging rule to firewall                                 | Use with `journalctl` to monitor                |                  |
-| 📜 View Logged Drops        | `sudo journalctl -k -f`                                                     | Live log view of dropped packets & kernel messages            | Run in `sys-firewall`                           |                  |
-| 🧱 Show a VM’s NetVM        | `qvm-prefs <vm-name> netvm`                                                 | Displays which NetVM a VM uses                                | Example: `qvm-prefs work netvm`                 |                  |
-| 🔁 Change NetVM             | `qvm-prefs <vm-name> netvm <new-netvm>`                                     | Routes VM through a different NetVM                           | Example: `qvm-prefs work netvm sys-vpn`         |                  |
-| 🌐 DNS Leak Check           | `dig @resolver1.opendns.com myip.opendns.com`                               | Resolves IP via specified DNS server                          | Useful for VPN/TOR DNS validation               |                  |
-| 🧰 Restart Firewall Service | `sudo systemctl restart qubes-firewall`                                     | Reloads the firewall service in ProxyVM                       | Clears and reapplies rules                      |                  |
+| **Category**                | **Command**                                                                 | **Description / Purpose**                                     | **Notes / Output**                              |
+| --------------------------- | --------------------------------------------------------------------------- | ------------------------------------------------------------- | ----------------------------------------------- |
+| 🔍 External IP Check        | `curl ifconfig.me`                                                          | Shows the public IP the VM presents to the internet           | Use in AppVM, VPN, or Whonix to verify IP       |
+| 🌐 List VMs & NetVMs        | `qvm-ls --network`                                                          | Lists all VMs and their associated NetVMs                     | Useful to audit routing setup                   | 
+| 🧭 Inside a VM: Interfaces  | `ip a`                                                                      | Displays IP addresses and interfaces (e.g., `eth0`, `vifX.0`) | Helps verify internal networking                | 
+| 🗺️ Trace Route             | `traceroute google.com`                                                     | Shows the path packets take to reach a destination            | Good for identifying proxy hops                 |
+| 🔐 View Firewall Rules      | `sudo iptables -L -v -n`                                                    | Lists active firewall rules in `sys-firewall`                 | Run in the ProxyVM                              |
+| 📋 Log Dropped Packets      | `sudo iptables -I FORWARD -j LOG --log-prefix "QUBES DROP: " --log-level 4` | Adds logging rule to firewall                                 | Use with `journalctl` to monitor                |
+| 📜 View Logged Drops        | `sudo journalctl -k -f`                                                     | Live log view of dropped packets & kernel messages            | Run in `sys-firewall`                           |
+| 🧱 Show a VM’s NetVM        | `qvm-prefs <vm-name> netvm`                                                 | Displays which NetVM a VM uses                                | Example: `qvm-prefs work netvm`                 |
+| 🔁 Change NetVM             | `qvm-prefs <vm-name> netvm <new-netvm>`                                     | Routes VM through a different NetVM                           | Example: `qvm-prefs work netvm sys-vpn`         |
+| 🌐 DNS Leak Check           | `dig @resolver1.opendns.com myip.opendns.com`                               | Resolves IP via specified DNS server                          | Useful for VPN/TOR DNS validation               |
+| 🧰 Restart Firewall Service | `sudo systemctl restart qubes-firewall`                                     | Reloads the firewall service in ProxyVM                       | Clears and reapplies rules                      |
 | 🚦 Check VPN Tunnel         | `ip a\| grep tun`                                                           | Verifies if VPN tunnel (e.g., `tun0`) is active               | Run in `sys-vpn`                                |                 
-|| 🛑 VPN Kill Switch          | `sudo iptables -A OUTPUT ! -o tun0 -m conntrack --ctstate NEW -j DROP`      | Blocks traffic outside the VPN tunnel                         | Add to `sys-vpn` for safety                     |                  |
-| 🧱 Export Firewall Rules    | `sudo iptables-save`                                                        | Dumps all iptables rules to stdout                            | Useful for backup or audits                     |                  |
-| 🔒 Verify TOR Routing       | `curl https://check.torproject.org`                                         | Confirms you're using the TOR network                         | Run in Whonix AppVM                             |                  |
-| 📁 Save as File             | `cat > qubes-net-cheatsheet.txt <<EOF ... EOF`                              | Save this cheat sheet to a file in a VM                       | Replace with actual content                     |                  |
+| 🛑 VPN Kill Switch          | `sudo iptables -A OUTPUT ! -o tun0 -m conntrack --ctstate NEW -j DROP`      | Blocks traffic outside the VPN tunnel                         | Add to `sys-vpn` for safety                     |
+| 🧱 Export Firewall Rules    | `sudo iptables-save`                                                        | Dumps all iptables rules to stdout                            | Useful for backup or audits                     |
+| 🔒 Verify TOR Routing       | `curl https://check.torproject.org`                                         | Confirms you're using the TOR network                         | Run in Whonix AppVM                             |
+| 📁 Save as File             | `cat > qubes-net-cheatsheet.txt <<EOF ... EOF`                              | Save this cheat sheet to a file in a VM                       | Replace with actual content                     |
 
 e.
 
