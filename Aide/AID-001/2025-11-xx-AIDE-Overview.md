@@ -6,6 +6,15 @@
 
 ---
 
+
+## 🔍 Why File Integrity Still Matters
+
+My first exposure to the idea of file intrusion detection came in the early 2000s, when a coworker installed an open-source version of **Tripwire**. He used it to scan a Linux system he kept under his desk, storing the results on a read-only flash drive. At the time, it seemed like overkill.
+
+Fast forward to today, and **host-based intrusion detection** tools are a fundamental part of maintaining system integrity. While many administrators lean on logs for signs of intrusion, there's a deeper layer of security in tracking actual **file changes**. After all, if you want to catch an attacker changing your configuration or binaries, you need a tool that notices silent alterations—not just noisy events.
+
+---
+
 ## 📚 Table of Contents
 
 1. [🔍 Why File Integrity Still Matters](#-why-file-integrity-still-matters)
@@ -19,15 +28,6 @@
 9. [🧭 Conclusion](#-conclusion)
 
 ---
-
-## 🔍 Why File Integrity Still Matters
-
-My first exposure to the idea of file intrusion detection came in the early 2000s, when a coworker installed an open-source version of **Tripwire**. He used it to scan a Linux system he kept under his desk, storing the results on a read-only flash drive. At the time, it seemed like overkill.
-
-Fast forward to today, and **host-based intrusion detection** tools are a fundamental part of maintaining system integrity. While many administrators lean on logs for signs of intrusion, there's a deeper layer of security in tracking actual **file changes**. After all, if you want to catch an attacker changing your configuration or binaries, you need a tool that notices silent alterations—not just noisy events.
-
----
-
 ## 🪵 Log Files as Intrusion Detection
 
 Linux is excellent at logging system activity, but not all file changes are captured clearly or completely. Tools like `auditd` can monitor file operations, but in practice, they often generate false positives or miss subtle manipulations.
