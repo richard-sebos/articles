@@ -86,31 +86,6 @@ Explain what it shows: inter-VM traffic denied by default.
 
 ---
 
-## 🗺️ Diagram: Visualizing the Network
-
-Create or insert a diagram that shows:
-
-* AppVMs
-* ProxyVMs
-* IP addresses
-* Direction of traffic (arrows)
-* VPN/TOR exit points
-
-> *(You can ask me to generate one from your data if you’d like.)*
-
----
-
-## 💡 Lessons Learned & Tips
-
-Share what you found insightful, frustrating, or surprising. Some ideas:
-
-* Using `/32` IPs for AppVMs makes them logically isolated
-* Even on the same subnet, firewall rules prevent VM-to-VM traffic
-* VPN failsafe is not built-in — needs explicit `iptables` rules
-* `sys-net` is never to be trusted — it's the attack surface
-
----
-
 ## ✅ Conclusion
 
 After weeks of tracing traffic, logging drops, and intentionally breaking things, one truth stands out: **Qubes doesn’t try to stop compromise — it limits the blast radius.** That containment mindset is the pattern cybersecurity needs as threats accelerate.
@@ -151,11 +126,11 @@ Would you like me to show you how to write a **LinkedIn post caption** that intr
 | 🔁 Change NetVM             | `qvm-prefs <vm-name> netvm <new-netvm>`                                     | Routes VM through a different NetVM                           | Example: `qvm-prefs work netvm sys-vpn`         |                  |
 | 🌐 DNS Leak Check           | `dig @resolver1.opendns.com myip.opendns.com`                               | Resolves IP via specified DNS server                          | Useful for VPN/TOR DNS validation               |                  |
 | 🧰 Restart Firewall Service | `sudo systemctl restart qubes-firewall`                                     | Reloads the firewall service in ProxyVM                       | Clears and reapplies rules                      |                  |
-| 🚦 Check VPN Tunnel         | `ip a                                                                       | grep tun`                                                     | Verifies if VPN tunnel (e.g., `tun0`) is active | Run in `sys-vpn` |
-| 🛑 VPN Kill Switch          | `sudo iptables -A OUTPUT ! -o tun0 -m conntrack --ctstate NEW -j DROP`      | Blocks traffic outside the VPN tunnel                         | Add to `sys-vpn` for safety                     |                  |
+| 🚦 Check VPN Tunnel         | `ip a\| grep tun`                                                           | Verifies if VPN tunnel (e.g., `tun0`) is active               | Run in `sys-vpn`                                |                 
+|| 🛑 VPN Kill Switch          | `sudo iptables -A OUTPUT ! -o tun0 -m conntrack --ctstate NEW -j DROP`      | Blocks traffic outside the VPN tunnel                         | Add to `sys-vpn` for safety                     |                  |
 | 🧱 Export Firewall Rules    | `sudo iptables-save`                                                        | Dumps all iptables rules to stdout                            | Useful for backup or audits                     |                  |
 | 🔒 Verify TOR Routing       | `curl https://check.torproject.org`                                         | Confirms you're using the TOR network                         | Run in Whonix AppVM                             |                  |
 | 📁 Save as File             | `cat > qubes-net-cheatsheet.txt <<EOF ... EOF`                              | Save this cheat sheet to a file in a VM                       | Replace with actual content                     |                  |
 
-Let me know if you want this formatted in **Markdown**, **HTML**, or exported as a downloadable file.
+e.
 
