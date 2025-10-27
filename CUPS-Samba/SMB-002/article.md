@@ -1,10 +1,13 @@
-# 🧱 Legacy 2 – *Securing Samba at the Global Level: Controlling the Server’s DNA*
-
-### 🎯 Objective
-
-Harden Samba at its **global configuration layer** — the system-wide policy plane that defines authentication, encryption, and exposure. Readers should finish understanding how `[global]` acts as the root of trust for every share.
-
----
+# *Securing Samba at the Global Level: Controlling the Server’s DNA*
+- Earily on in my IT caree, I was a planner.
+- I like to do a bit of research build plan to implement a install and excutue the install
+- The plan rearly worked and there was a bit of rework needed
+- Today I use more of a interit aprroach, moving from working safe point to safe point.
+- In the first part of this series, Samba as installed and a simple share was created.
+- The next section will add 
+- In the first part of this series a simple Samba server was setup to verify the base configuration was working.
+- Security was minimal and needs to be setup
+-
 
 ## 🗂️ Outline
 
