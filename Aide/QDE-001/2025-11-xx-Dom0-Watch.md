@@ -5,13 +5,40 @@
 
 ---
 
-## 🔍 Why File Integrity Still Matters
+## 🧑‍💻 A Minimalist’s Dilemma: Security Without Bloat
 
-My first exposure to file change monitoring came back in the early 2000s, when someone ran a Tripwire-style check on a desktop Linux box and stored the results off-machine. At the time it seemed like overkill.
-Fast-forward to today: even if you run a hardened system with minimal services, the critical question remains: **has something changed without my knowledge?**
-Logs are great — but they can be erased, tampered with, or simply miss silent changes (e.g., a binary replaced while still appearing “running”). A fingerprint-based approach watches the actual files and metadata themselves.
+As a long-time Linux user, I’ve explored many distros over the years — from mainstream ones like Ubuntu and Fedora to more niche systems. Like many, I spent time distro-hopping, chasing the ideal setup. While each distribution has its quirks (mainly around package managers), most applications behave the same across environments.
+
+That was true until I started working with **Qubes OS**.
+
 
 ---
+
+## 📚 Table of Contents
+
+1. [🔍 Why File Integrity Still Matters](#-why-file-integrity-still-matters)
+2. [🏠 Why Dom0 Requires Special Consideration](#-why-dom0-requires-special-consideration)
+3. [🧪 A Self-Contained Integrity Script for Dom0](#-a-self-contained-integrity-script-for-dom0)
+4. [🛠️ Example `config.conf`](#️-example-configconf)
+5. [🔍 What Each Symbol Means](#-what-each-symbol-means)
+6. [🧪 How the Audit Flow Works](#-how-the-audit-flow-works)
+7. [✅ Sample Usage](#-sample-usage)
+8. [🔒 Where Should the Baseline Live?](#-where-should-the-baseline-live)
+9. [🧠 Why This Works](#-why-this-works)
+10. [🧾 Command Summary](#-command-summary)
+11. [🧭 Conclusion](#-conclusion)
+
+---
+
+
+Qubes challenges conventional Linux habits by embracing a philosophy of **isolation, minimization, and strict compartmentalization**. It encourages you to rethink what should run *where*, and *why*. You don’t just “install everything in one system” — you carefully decide which Qube (VM) should handle a task, and what risks that entails.
+
+Take **AIDE** for example — a traditional Linux intrusion detection tool. It’s powerful, but installing it directly in dom0 contradicts the Qubes philosophy of minimal software and minimal trust in dom0.
+
+So what if you still want **file integrity monitoring** — without breaking the security model?
+
+That’s exactly what this article covers: how to replicate AIDE-like functionality **without installing anything in dom0**, using a secure streaming architecture and an isolated audit VM.
+
 
 ## 🏠 Why Dom0 Requires Special Consideration
 
