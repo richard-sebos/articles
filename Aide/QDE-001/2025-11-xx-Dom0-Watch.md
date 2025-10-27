@@ -7,120 +7,150 @@
 
 ## 🔍 Why File Integrity Still Matters
 
-My first exposure to file change monitoring came back in the early 2000s, when someone ran a Tripwire‑style check on a desktop Linux box and stored the results off‑machine. At the time it seemed like overkill.
-Fast‑forward to today: even if you run a hardened system with minimal services, the critical question remains: **has something changed without my knowledge?**
-Logs are great — but they can be erased, tampered with, or simply miss silent changes (e.g., a binary replaced while still appearing “running”). A fingerprint‑based approach watches the actual files and metadata themselves.
+My first exposure to file change monitoring came back in the early 2000s, when someone ran a Tripwire-style check on a desktop Linux box and stored the results off-machine. At the time it seemed like overkill.
+Fast-forward to today: even if you run a hardened system with minimal services, the critical question remains: **has something changed without my knowledge?**
+Logs are great — but they can be erased, tampered with, or simply miss silent changes (e.g., a binary replaced while still appearing “running”). A fingerprint-based approach watches the actual files and metadata themselves.
 
 ---
 
 ## 🏠 Why Dom0 Requires Special Consideration
 
-In many virtualization or secure home‑lab setups (for example using Xen or Qubes OS), the privileged domain `dom0` (or equivalent) is extremely locked down:
+In many virtualization or secure home-lab setups (like Xen or Qubes OS), the privileged domain `dom0` is extremely locked down:
 
-* The operator wants to minimize any software installed in dom0 (to reduce attack surface)
-* Installing a full file‑integrity tool like AIDE inside dom0 might violate the minimalism/hardening goal
-* Access from dom0 to external systems or network may be restricted
-* Ideally, dom0’s baseline should be stored externally or in a separate “audit” VM that has **no network access**
+* You want to minimize software installed in dom0 to reduce attack surface
+* Tools like AIDE may not be appropriate inside dom0
+* You may restrict network or clipboard access to/from dom0
+* Storing integrity data inside dom0 can compromise trust
 
-Because of these limits, the typical “install tool + run check on dom0” model might not apply. Instead, the workflow needs to **stream file metadata out of dom0**, offload the heavy work into a separate, isolated auditor VM, and preserve integrity results there. The baseline is external to dom0, and dom0 remains minimal.
+To solve this, we use a design where **dom0 emits trusted data**, and a **separate audit VM** stores and processes the results. The baseline lives outside dom0, where it’s more secure — and dom0 stays minimal and auditable.
 
 ---
 
-## 🧪 Our Alternative: Streaming, Off‑Host Baseline
+## 🧪 A Self-Contained Integrity Script for Dom0
 
-Here is the custom process we’ve built to honour dom0’s constraints:
+We use a single script called `run_integrity.sh`, which:
 
-### 1. `stream_files.sh` (runs in dom0)
+* Reads a `config.conf` file for target files/directories
+* Scans each file, computes SHA-256 hashes and captures metadata
+* Streams that data securely via `qvm-run --pass-io` to an **audit VM**
+* Tells the audit VM whether to **create** a new baseline or **check** against an existing one
 
-* Reads a configuration file (`config.conf`) that lists directories and files to monitor
-* For each file found, computes SHA‐256, captures metadata (permissions, owner, size, mtime)
-* Streams the output (path|hash|perms|owner|size|mtime) to stdout
+This keeps dom0 minimal and stateless, and places trust in an isolated, air-gapped audit VM.
 
-### 2. `create_database.sh` (runs in the audit VM)
+---
 
-* Receives the streaming metadata
-* Builds a “baseline database” (text format) based on the streamed data
-* Saves it in the audit VM (which has no network access)
+## 🛠️ Example `config.conf`
 
-### 3. `check_baseline.sh` (runs in the audit VM)
-
-* On each check: stream the same dom0 data, feed into this script
-* The script compares the live data against the baseline, reports:
-
-  * Number of files checked
-  * Number that match the baseline
-  * Number and list of files that changed or are missing
-
-### Configuration example (`config.conf`):
-
-```
+```bash
 define SIMPLE_CONTENT = p+u+g+s+m+sha256
 
-# Monitor critical kernel‑related config files
+# Monitor critical kernel-related config files
 /etc/sysctl.conf$       SIMPLE_CONTENT
-/etc/sysctl.d            SIMPLE_CONTENT
-/etc/modprobe.d          SIMPLE_CONTENT
-/etc/modules-load.d      SIMPLE_CONTENT
-/etc/udev                SIMPLE_CONTENT
-/etc/crypttab$           SIMPLE_CONTENT
+/etc/sysctl.d           SIMPLE_CONTENT
+/etc/modprobe.d         SIMPLE_CONTENT
+/etc/modules-load.d     SIMPLE_CONTENT
+/etc/udev               SIMPLE_CONTENT
+/etc/crypttab$          SIMPLE_CONTENT
 ```
 
-## 🔍 What Each Symbol Means
+---
 
-| Symbol   | Attribute                     | What it Tracks                                                     |
-| -------- | ----------------------------- | ------------------------------------------------------------------ |
-| `p`      | **Permissions**               | Tracks file mode (e.g., `644`, `755`)                              |
-| `u`      | **User ownership**            | The user (owner) of the file (e.g., `root`)                        |
-| `g`      | **Group ownership**           | The group the file belongs to (e.g., `root`, `wheel`)              |
-| `s`      | **Size**                      | File size in bytes                                                 |
-| `m`      | **Modification time (mtime)** | Last time the file content was modified                            |
-| `sha256` | **Hash of file content**      | A SHA‑256 hash — detects even a single byte of file content change |
+### 🔍 What Each Symbol Means
 
-
-This config drives what `stream_files.sh` picks up (paths) and what the baseline logic expects.
+| Symbol   | Attribute                 | What it Tracks                                     |
+| -------- | ------------------------- | -------------------------------------------------- |
+| `p`      | Permissions               | File mode (e.g., `644`, `755`)                     |
+| `u`      | User ownership            | File owner (e.g., `root`)                          |
+| `g`      | Group ownership           | File group (e.g., `wheel`, `root`)                 |
+| `s`      | Size                      | File size in bytes                                 |
+| `m`      | Modification time (mtime) | Last time file content was modified                |
+| `sha256` | Hash of file content      | SHA‑256 hash — detects any change in file contents |
 
 ---
 
-## ✅ Why This Approach Works for Dom0
+## 🧪 How the Audit Flow Works
 
-* dom0 stays minimal (no heavy packages installed)
-* All hashing/metadata capture is done inside dom0 (trusted environment) with only streaming output passed on
-* Audit VM is isolated (no network), stores the baseline securely
-* Baseline can be signed, encrypted or kept read‑only, making tampering harder
-* The process is repeatable and auditable — you have “how many files checked” and “which didn’t match” in each run
+Here’s the full integrity pipeline:
+
+1. **In `dom0`**: run `run_integrity.sh` with either `create` or `check` as argument
+2. **It reads config.conf**, finds files, computes SHA256 + metadata
+3. **Streams data to the `audit-vm`** using `qvm-run --pass-io`
+4. **In the audit VM**:
+
+   * If `create`, saves a new trusted baseline
+   * If `check`, compares to baseline and outputs a change report
 
 ---
 
-## 🧾 Simple Workflow Cheat Sheet
+## ✅ Sample Usage
 
-### Create Baseline
+### Create a new baseline:
 
 ```bash
-./stream_files.sh | qvm-run --pass-io audit‑vm 'bash /home/user/create_database.sh'
+./run_integrity.sh create
 ```
 
-### Check Against Baseline
+### Check against existing baseline:
 
 ```bash
-./stream_files.sh | qvm-run --pass-io audit‑vm 'bash /home/user/check_baseline.sh'
+./run_integrity.sh check
+```
+
+> Output will show matched and mismatched files, with a summary like:
+
+```
+==== Integrity File Check Report ====
+Total files checked : 87
+Files matched       : 85
+Files mismatched    : 2
+=====================================
 ```
 
 ---
 
-## 🧠 Protecting the Baseline
+## 🔒 Where Should the Baseline Live?
 
-Since the audit VM holds your baseline, treat it like gold. Steps you should take:
+Your baseline should live in a hardened, network-isolated audit VM.
 
-* Encrypt the baseline database (e.g., GPG)
-* Store separate copies offline or on removable media
-* Limit clipboard/file transfers in/out of audit VM
-* Never expose the audit VM to the network (NetVM = none)
+* No network (`qvm-prefs audit-vm netvm none`)
+* No clipboard sharing or file copy
+* Based on a minimal template (e.g., `fedora-minimal`)
+* Store baselines as plaintext or encrypted (`gpg`)
+
+---
+
+## 🧠 Why This Works
+
+This approach:
+
+* Keeps dom0 untouched — no new packages, no file writes
+* Ensures audit data is preserved in a secure vault
+* Provides reliable detection of changes to critical config files
+* Scales well for home labs or security-sensitive workstations
+
+---
+
+## 🧾 Command Summary
+
+| Command                     | Purpose                                           |
+| --------------------------- | ------------------------------------------------- |
+| `./run_integrity.sh create` | Generate and store a new integrity baseline       |
+| `./run_integrity.sh check`  | Compare current dom0 state to baseline            |
+| `qvm-run --pass-io`         | Used internally to securely pass data to audit-vm |
+| `chmod +x run_integrity.sh` | Make the script executable                        |
 
 ---
 
 ## 🧭 Conclusion
 
-While a tool like AIDE does exactly what you need under many conditions, when you’re running a highly hardened environment like dom0 under virtualization, the normal install‑and‑run‑on‑the‑host model doesn’t fit.
-By decoupling dom0 (data source) and the audit VM (comparator), you gain the integrity visibility you want — **fingerprints for every file you include** — while preserving dom0’s minimal and locked‑down nature.
-Your system can now silently ask: *“Did my files change?”* — and get a clear, numbers‑based answer.
+Using a streaming integrity model built around `run_integrity.sh` gives you AIDE-like functionality **without modifying dom0**.
+You get file fingerprinting, a secure external baseline, and a repeatable process that tells you: **Did anything change that shouldn't have?**
+
+It’s a lightweight but powerful way to implement file integrity checking — built for hardened environments where **trust and containment come first**.
+
+🔗 **See the full code and walkthrough** in the []() on GitHub.
+
+This approach draws from traditional tools like AIDE but is tailored for modern secure virtualization platforms, offering the same confidence without breaking isolation.
+
+
 
