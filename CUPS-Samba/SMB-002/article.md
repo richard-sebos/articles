@@ -135,7 +135,8 @@ Here’s a quick recap of what we did to lock down the `[global]` section:
 * **Restricted IP access** to only a known subnet
 * **Enabled structured logging** via systemd for better auditing
 
-This configuration forms a solid foundation for any Samba setup, especially for environments that need to balance ease of access with strong security.
+At this point, the Samba server is in a stable state. If no other changes were made, any shares you define would automatically inherit the security settings we’ve configured here.
 
-In the next part of the series, we’ll dig into tightening up individual shares—adding per-share permissions, access control, and maybe even some creative uses of VFS modules to fine-tune behavior.
+That said, individual shares often need a bit more attention—sometimes locking things down even further, and other times relaxing rules based on specific needs. In the next part of this series, we’ll dive into share-level security and how to fine-tune access where it matters most.
+
 
