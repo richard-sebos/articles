@@ -60,6 +60,8 @@ In the first part of this series, we got Samba up and running with a basic file 
 | TLS Encryption (SMB over TLS) | Full session encryption (TLS)      | ❌ No (needs `smbtls` + certs) |
 
 ## User Restrictions
+- The simple config file was using `security = user` and since we don't have an Active Directory or Kerberos setup, we will stay with it.
+- To seperate the OS log in with the Samba login, we will use `passdb backend = tdbsam` we will also make sure the user can not log into a terminal
 
 ```ini
    security = user
