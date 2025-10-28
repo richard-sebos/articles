@@ -2,11 +2,43 @@
 
 ### 🎯 Objective
 
-Teach how to enforce fine-grained security at the **share level**, creating “micro-containment zones” for different data domains.
+- I remember trying to customized my first Samba share section.  
+- It was to share family pictures with the rest of the family.
+- It took me most of a weekend and tested like crazy.
+- It work great for me and as soon as I had someone else try it, it fail.
+- I wish had that config file today to see what I did wrong.
+
+
+In the second part of this series, we added additional security to a Samba server at the `[global]` level. It continued the building of the server. 
+The `[share name]`  section also change have security changes made to it. This allows for each share to have additional options that extend or override the `[global]` setup.
 
 ---
 
-## 🗂️ Outline
+## 1. Introduction: The Root of Trust Lives in `[share name]`
+
+Samba’s config file (`smb.conf`) is split into two main blocks:
+
+* **[global]** — sets server-wide defaults and policies
+* **[share]** — configures individual shares, and can override `[global]` settings as needed
+
+Why have both? The `[global]` section lets you define a consistent baseline that applies across all shares. This makes it easier to manage multiple Samba servers and keep your security posture uniform. Then, for those special cases, the `[share name]` sections let you tighten or loosen access for individual shares.
+
+---
+
+## 🗂️ Shares Name
+- 
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### 1. Introduction – “Global Defines Policy, Shares Define Reality”
 
