@@ -2,17 +2,18 @@
 ---
 |    | Channel                 | Topic                 |State                 | Publish Date | Title                                                                                                                                      |
 |----| ----------------------- | --------------------- | ---------------------|--------------|------------------------------------------------------------------------------------------------------------------------------------------- | 
-|SMB-001| Legacy               | Samba Overview        |  **Ready**           |  Oct 26      |   [Secure File Sharing for Mixed Environments](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-001/2025-10-26-Samba.md) |
-|SMB-002| Legacy               | Samba Global          |  **Pre-Pub**         |  Nov 2       |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-002/article.md)                                             |
+|SMB-001| Legacy               | Samba Overview        |  ***Pub***           |  Oct 26      |   [Secure File Sharing for Mixed Environments](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-001/2025-10-26-Samba.md) |
+|SMB-002| Legacy               | Samba Global          |  ***Pre-Pub***         |  Nov 2       |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-002/article.md)                                             |
 |SMB-003| Legacy               | Samba Share           |  Planning            |  Nov 9       |   [Not Started](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-003/aritcle.md)                                             |
 |SMB-004| Legacy               | Samba Other           |  Planning            |  Nov 16      |   [Not Started](https://github.com/richard-sebos/articles/blob/main/CUPS-Samba/SMB-004/article.md)                                             |
-|ADE-001| ProofTrail           | AIDE Overview         |  Planning            |  Nov 16      |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/Aide/AID-001/2025-11-xx-AIDE-Overview.md)                                  |
-|QDE-001| ProofTrail           | AIDE for Dom0         |  **Pre-Pub**         |  Nov 16      |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/Aide/QDE-001/2025-11-xx-Dom0-Watch.md)                                  |
-|QUB-003| ProofTrail           | QubesOS Netorks       |  **Pre-Pub**         |  Nov 16      |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/QubesOS/2025-10-30-Qubes-Network.md)                                       |
+|ADE-001| ProofTrail           | AIDE Overview         |  ***Pre-Pub***            |  Nov 16      |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/Aide/AID-001/2025-11-xx-AIDE-Overview.md)                                  |
+|ADE-002| ProofTrail           | AIDE Signed Int         |  ***Pre-Pub****            |  Nov 16      |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/Aide/AID-002/2025-11-XX-Signing-Integrity.md)                                  |
+|QDE-001| ProofTrail           | AIDE for Dom0         |  ***Pre-Pub***         |  Nov 16      |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/Aide/QDE-001/2025-11-xx-Dom0-Watch.md)                                  |
+|QUB-003| ProofTrail           | QubesOS Netorks       |  ***Pre-Pub***         |  Nov 16      |   [pre-pub](https://github.com/richard-sebos/articles/blob/main/QubesOS/2025-10-30-Qubes-Network.md)                                       |
 |   2| ProofTrail              |                       |  Planning            |  Nov 16      |                                                                                                                                            |
 |   3| ProofTrail              |                       |  Planning            |  Nov 16      |                                                                                                                                            |               
 |   1| ProofTrail              |                       |  Planning            |  Nov 16      |                                                                                                                                            |
-
+https://github.com/richard-sebos/articles/blob/main/Aide/AID-002/2025-11-XX-Signing-Integrity.md
 Here’s the **merged plan**—your 10-day content sprint integrated with your full editorial roadmap and publishing matrix. It keeps the bold, structured tone of your current schedule but adds the tactical intensity you wanted.
 
 ---
