@@ -6,57 +6,62 @@
 
 ---
 
+## 🧭 Table of Contents
+
+1. [From Watching to Proving](#-from-watching-to-proving)
+2. [Introduction](#introduction)
+3. [GPG (GNU Privacy Guard)](#gpg-gnu-privacy-guard)
+4. [Protecting and Signing the AIDE Baseline](#️-protecting-and-signing-the-aide-baseline)
+5. [Protecting AIDE Check Results](#️-protecting-aide-check-results)
+6. [Conclusion – Integrity You Can Prove](#-conclusion--integrity-you-can-prove)
+7. [Related Resources](#-related-resources)
+
+---
+
 ## 🧰 From Watching to Proving
+
+Most administrators install AIDE to keep watch over their systems — to detect when files change, permissions shift, or unexpected binaries appear. But detection is only half the battle. To *trust* what AIDE reports, you must also verify that its baseline and results haven’t been altered. Otherwise, a compromised attacker could quietly modify both the files **and** the evidence. This article builds on the first AIDE tutorial by showing how to sign and verify AIDE’s outputs using **GPG (GNU Privacy Guard)**, creating a chain of integrity that can be trusted even in hostile environments.
+
+---
 
 ## Introduction
 
-I'll be the first to admit: encryption isn’t my strongest area.
+I’ll be the first to admit: encryption isn’t my strongest area.
 
-Sure, I’ve used public and private keys for SSH authentication, and I’ve signed keys before — so I’m not starting from zero. But I’ve never gone deep into cryptographic principles or applied them to system integrity in a structured way.
+Sure, I’ve worked with public and private keys for SSH authentication and have signed keys before, so I’m not entirely new to the topic. But I hadn’t really explored how cryptography ties into system integrity — until now.
 
-That’s exactly why I wanted to write this article.
+In the first article of this series, we installed and configured **AIDE (Advanced Intrusion Detection Environment)** — a silent guardian that fingerprints your Linux system and detects when files change unexpectedly. It’s an excellent tool for monitoring file integrity, but it raises an important question:
 
-In a previous article, we installed and configured **AIDE (Advanced Intrusion Detection Environment)** — a silent guardian that creates a snapshot (or "fingerprint") of your Linux system, allowing it to detect when files unexpectedly change. It's a powerful tool for monitoring file integrity.
+> *If AIDE verifies the integrity of your files, who verifies the integrity of AIDE?*
 
-But this raises a crucial question:
-
-> *If AIDE is verifying the integrity of the file system, who verifies the integrity of AIDE’s results?*
-
-This is where **hashing** and **cryptographic signing** come into play. In this article, we'll explore how to use GPG (GNU Privacy Guard) to sign and verify AIDE databases and reports — building a trustworthy chain of integrity that can help detect tampering at every level.
-
-Let’s dive in.
-
-## GPG (GNU Privacy Guard)
-Certainly — here's a cleaner, more technically precise version of your **GPG (GNU Privacy Guard)** section, rewritten for clarity and polish, while keeping it concise:
+That’s where **hashing** and **cryptographic signing** come into play. In this article, we’ll use GPG to sign AIDE’s baseline database and check results, ensuring every integrity report can be proven genuine — even after the fact.
 
 ---
 
 ## GPG (GNU Privacy Guard)
 
-**GPG** is a powerful encryption and signing tool used to ensure the confidentiality and integrity of files. In this context, we'll use it to **sign** the AIDE database, helping us verify that it hasn’t been tampered with.
+**GPG** is a widely used encryption and signing tool that provides both **confidentiality** and **integrity verification**. In this workflow, we’ll use it to **sign** AIDE’s database and output logs, guaranteeing they haven’t been altered after creation.
 
-### Key Concepts:
-
-* GPG uses a **public/private key pair**:
-
-  * The **private key** is used to sign or decrypt.
-  * The **public key** is shared with others to verify signatures or encrypt data for you.
-
-### Creating a Key Pair:
+GPG works with a **public/private key pair**. Your **private key** is used to sign or decrypt data, while the **public key** can be shared with others to verify those signatures.
 
 To create a key pair, use one of the following commands:
 
-* `gpg --generate-key` – basic guided key generation
-* `gpg --full-generate-key` – advanced options for key type, size, expiration, etc.
+```bash
+gpg --generate-key
+# or for more control:
+gpg --full-generate-key
+```
 
-During the process, you'll be prompted to:
+You’ll be prompted to provide a name, email address, and passphrase — details used to identify and protect your key. Once generated, GPG stores your keys inside the `~/.gnupg/` directory.
 
-* Enter a **name and email address** (used to identify the key)
-* Set a **passphrase** to protect your private key
+To confirm your key exists, run:
 
-After generating the key, a `.gnupg/` directory will be created in your home folder to store key data.
+```bash
+gpg --list-keys
+```
 
-In the next steps, we’ll use GPG to sign a copy of the AIDE database — enabling us to later verify its authenticity and detect unauthorized modifications.
+We’ll soon use this key to sign and verify AIDE’s baseline database and reports, creating an additional layer of trust in your monitoring process.
+
 ---
 
 ## 🗝️ Protecting and Signing the AIDE Baseline
@@ -67,142 +72,91 @@ When you run:
 aide --init
 ```
 
-AIDE creates a **baseline database** — a snapshot of the file system, based on the rules defined in `aide.conf`. This database acts as your system’s memory. If it’s modified, all trust in future integrity checks is lost.
+AIDE creates a **baseline database**, a snapshot of the system defined by the rules in `aide.conf`. This database represents your system’s memory — and if it’s modified, the entire trust chain collapses.
 
-In the previous article, we saved the baseline to:
-
-```
-/var/lib/aide/aide.db.gz
-```
-
-To protect this baseline, we’ll sign it using GPG and store the signed version securely. This allows us to verify its integrity before running any future checks.
-
----
-
-### 🔒 Steps to Sign and Protect the Baseline
+In the previous setup, AIDE saved the baseline to `/var/lib/aide/aide.db.gz`. To protect it, we’ll sign it using GPG and store the signature securely so it can be verified before each integrity check.
 
 ```bash
-# 1. Create a secure location to store the signed baseline
+# Create a secure directory
 sudo mkdir -p /root/.aide
 
-# 2. Sign the baseline database with your private GPG key
+# Sign the baseline with your GPG key
 sudo gpg --output /root/.aide/aide.db.gz.sig --detach-sign /var/lib/aide/aide.db.gz
 
-# 3. Set strict permissions to prevent unauthorized access
+# Restrict access and make it immutable
 sudo chmod 400 /root/.aide/aide.db.gz.sig
-
-# 4. Optionally, use chattr to make the signature immutable
 sudo chattr +i /root/.aide/aide.db.gz.sig
 ```
 
-> 🔐 `--detach-sign` creates a separate signature file without modifying the original database.
-
----
-
-### ✅ Verifying the Baseline Before Running Checks
-
-Before running `aide --check`, verify the current baseline against the signed copy:
+The `--detach-sign` flag creates a signature file without altering the original database. Before any future `aide --check` runs, you can verify that the database hasn’t changed:
 
 ```bash
 sudo gpg --verify /root/.aide/aide.db.gz.sig /var/lib/aide/aide.db.gz
 ```
 
-Sample output:
-
-```
-gpg: Signature made Mon 27 Oct 2025 07:39:41 PM CST
-gpg:                using RSA key 23CB30DFCF098B22F1ED3F1425F3E1E03154E84D
-gpg: Good signature from "System Integrity (AIDE baseline signing key) <root@localhost>" [ultimate]
-```
-
-This confirms that the baseline file hasn’t been tampered with since it was signed.
+If you see a **“Good signature”** message, your baseline is intact and can be trusted.
 
 ---
 
 ## 🛡️ Protecting AIDE Check Results
 
-Once you've signed and protected the baseline, the next critical step is to **protect the results of AIDE checks**. The `aide --check` command compares the current file system state to the baseline and outputs a report — this output must also be secured to ensure its trustworthiness.
+Once your baseline is protected, the next step is to safeguard **AIDE’s check results**. When you run `aide --check`, it compares the current system to the baseline and produces a report. These reports must also be hashed and signed — otherwise, they could be edited to hide signs of intrusion.
 
----
-
-### 📄 Generate and Save a Timestamped Log
-
-Use the following to run a check and save the output to a timestamped log file:
+First, generate a timestamped log file:
 
 ```bash
 LOG_DIR="/var/log/aide"
 DATESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
 LOG_FILE="${LOG_DIR}/aide-check-${DATESTAMP}.log"
 
-# Create the log directory if it doesn't exist
 sudo mkdir -p "$LOG_DIR"
-
-# Run AIDE check and save output
 sudo aide --check >"$LOG_FILE" 2>&1
 ```
 
-This will create a log file like:
-
-```
-/var/log/aide/aide-check-2025-10-27_19-45-02.log
-```
-
-Just like the baseline, this file should be **hashed and signed** to detect any future tampering.
-
----
-
-### 🔐 Hash and Sign the Log File
-
-After generating the log, hash and sign it:
+This creates a report such as `/var/log/aide/aide-check-2025-10-28_15-42-01.log`. To make this log tamper-evident, hash and sign it:
 
 ```bash
 HASH_FILE="${LOG_FILE}.sha512"
 SIG_FILE="${LOG_FILE}.sig"
 
-# Generate SHA-512 hash
 sha512sum "$LOG_FILE" >"$HASH_FILE"
-
-# Sign the log file using your GPG key
 gpg --output "$SIG_FILE" --detach-sign "$LOG_FILE"
 ```
 
-This gives you:
-
-* A `.sha512` file to verify the content checksum
-* A `.sig` file to verify the log was not altered after signing
-
-> 💡 Optional: Set restrictive permissions on the log, hash, and signature files, or move them to a protected directory like `/root/.aide-logs`.
-Your log directory now contains a growing chain of tamper-evident reports:
+Your log directory now holds a verifiable chain of integrity reports:
 
 ```
 /var/log/aide/
-├── aide-check-2025-10-27_19-45-02.log
-├── aide-check-2025-10-27_19-45-02.log.sha512
-└── aide-check-2025-10-27_19-45-02.log.sig
+├── aide-check-2025-10-28_15-42-01.log
+├── aide-check-2025-10-28_15-42-01.log.sha512
+└── aide-check-2025-10-28_15-42-01.log.sig
 ```
+
+These signatures and hashes ensure that even if logs are moved or copied, any tampering will be immediately detectable.
+
 ---
 
 ### 🧪 Automating the Workflow
 
-To simplify this process, you can use a custom script that:
+To streamline the process, you can create a script that:
 
-1. Verifies the integrity of the last check result
-2. Runs `aide --check` and logs the output
-3. Generates a new baseline (optional)
-4. Signs and hashes the new log file
+1. Verifies the previous AIDE log.
+2. Runs `aide --check` and logs the output.
+3. (Optionally) Reinitializes the baseline.
+4. Hashes and signs the new log file.
 
-You can find the full script [**here**](*insert-link-or-path*).
-
-This approach ensures that **every stage** of AIDE — from the baseline to the reports — is protected against tampering or unauthorized modification.
+By automating these steps with `cron` or `systemd.timer`, your system performs daily integrity checks and maintains a cryptographically verifiable audit trail.
+You can find a full example script [**here**](*insert-link-or-path*).
 
 ---
 
 ## 🧭 Conclusion – Integrity You Can Prove
-- The interesting thing about AIDE, it doesn't stop an attack.
-- It finds eventance an attach has happened, which means an attack access to the system
-- This adds an additional layer to the system to slow down attacker
 
-> In the next phase, we’ll go one level deeper — linking each signature into a cryptographic ledger to create a verifiable, tamper-proof **evidence chain** across systems.
+AIDE doesn’t stop attacks — it *detects evidence* that one has occurred. That evidence only matters if it can be trusted. By integrating GPG signing and hashing into your AIDE workflow, you ensure that your system’s integrity checks cannot be silently altered or falsified.
+
+This adds an important layer of assurance to your Linux environment — one that slows attackers, strengthens your audit process, and gives you verifiable proof of system integrity.
+
+> In the next phase, we’ll take this a step further by linking signatures into a cryptographic ledger, creating a verifiable **evidence chain** across systems.
 
 ---
 
