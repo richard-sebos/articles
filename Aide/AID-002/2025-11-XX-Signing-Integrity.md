@@ -56,19 +56,7 @@ During the process, you'll be prompted to:
 
 After generating the key, a `.gnupg/` directory will be created in your home folder to store key data.
 
-### Managing Keys:
-
-* List your public keys with:
-
-  ```bash
-  gpg --list-keys
-  ```
-
 In the next steps, we’ll use GPG to sign a copy of the AIDE database — enabling us to later verify its authenticity and detect unauthorized modifications.
-
----
-
-Let me know if you'd like help with the GPG signing/verification workflow for AIDE next — I can write that in a similar format.
 
 
 ### 🕒 2 · Automating Integrity Checks with systemd
