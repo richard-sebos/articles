@@ -1,6 +1,42 @@
+# 📄 AIDE Daily Check Automation
 
-Service file: /etc/systemd/system/aide-check.service
+This document provides an overview of the `aide-daily-check.sh` script, which automates daily integrity checks using **AIDE**, along with cryptographic verification using **GPG** and **SHA-512 hashing**. Combined with a `systemd` timer, this setup ensures that integrity checks are executed daily and are **tamper-evident**.
+
+---
+
+## 🔧 Files Overview
+
+| File                                     | Purpose                                                                          |
+| ---------------------------------------- | -------------------------------------------------------------------------------- |
+| `/usr/local/sbin/aide-daily-check.sh`    | Script to perform baseline validation, run `aide --check`, and secure log output |
+| `/etc/systemd/system/aide-check.service` | Defines the one-shot systemd service                                             |
+| `/etc/systemd/system/aide-check.timer`   | Triggers the service daily (via systemd timer)                                   |
+
+---
+
+## 🛠️ Setup Steps
+
+### 1. Install the script
+
+Create the AIDE check script:
+
 ```bash
+sudo nano /usr/local/sbin/aide-daily-check.sh
+```
+
+Paste the script code (see [Script Details](#script-details)), then make it executable:
+
+```bash
+sudo chmod 700 /usr/local/sbin/aide-daily-check.sh
+```
+
+---
+
+### 2. Create systemd service
+
+**Path:** `/etc/systemd/system/aide-check.service`
+
+```ini
 [Unit]
 Description=Run AIDE integrity check with baseline and log verification
 After=network.target
@@ -11,8 +47,14 @@ ExecStart=/usr/local/sbin/aide-daily-check.sh
 StandardOutput=journal
 StandardError=journal
 ```
-Timer file: /etc/systemd/system/aide-check.timer
-```bash
+
+---
+
+### 3. Create systemd timer
+
+**Path:** `/etc/systemd/system/aide-check.timer`
+
+```ini
 [Unit]
 Description=Run AIDE integrity check daily
 
@@ -23,80 +65,83 @@ Persistent=true
 [Install]
 WantedBy=timers.target
 ```
-Enable and verify:
+
+---
+
+### 4. Enable the timer
+
+Reload systemd, enable the timer, and start it:
 
 ```bash
 sudo systemctl daemon-reload
 sudo systemctl enable --now aide-check.timer
 ```
 
-Now AIDE will run automatically every day — or immediately after boot if a run was missed.
+---
 
-    “Once automation is in place, integrity becomes rhythm — quiet, consistent, and hard to fake.”
+## 🧪 Script Workflow
+
+The script `/usr/local/sbin/aide-daily-check.sh` performs the following actions:
+
+1. **Baseline Verification**
+   Confirms that the AIDE baseline (`/var/lib/aide/aide.db.gz`) matches its signature (`/root/.aide/aide.db.gz.sig`).
+
+2. **Historical Log Validation**
+   Iterates over previous logs in `/var/log/aide/`, verifying their SHA-512 hashes and GPG signatures. Any discrepancies are reported to `systemd-journal`.
+
+3. **Run AIDE Check**
+   Executes `aide --check` and logs the output to a timestamped file in `/var/log/aide/`.
+
+4. **Log Signing and Hashing**
+   Each log is:
+
+   * Signed with your GPG private key
+   * Hashed using SHA-512
+
+   Output:
+
+   ```
+   /var/log/aide/
+   ├── aide-check-YYYY-MM-DD_HH-MM-SS.log
+   ├── aide-check-YYYY-MM-DD_HH-MM-SS.log.sig
+   └── aide-check-YYYY-MM-DD_HH-MM-SS.log.sha512
+   ```
+
+---
+
+## 🛡️ Logging and Alerts
+
+All output is piped into `systemd-journald` using `systemd-cat` and tagged as `aide-check`.
+
+You can view logs using:
+
 ```bash
-#!/bin/bash
-# aide-daily-check.sh
-# Runs daily AIDE checks with baseline and historical verification.
-
-BASELINE="/var/lib/aide/aide.db.gz"
-SIG_BASE="/root/.aide/aide.db.gz.sig"
-LOG_DIR="/var/log/aide"
-DATESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-LOG_FILE="${LOG_DIR}/aide-check-${DATESTAMP}.log"
-HASH_FILE="${LOG_FILE}.sha512"
-SIG_FILE="${LOG_FILE}.sig"
-
-mkdir -p "$LOG_DIR"
-
-# 1️⃣ Verify baseline before running
-if ! gpg --verify "$SIG_BASE" "$BASELINE" &>/dev/null; then
-    echo "❌ AIDE baseline verification FAILED — possible tampering." | systemd-cat -t aide-check -p err
-    exit 1
-fi
-echo "✅ Verified AIDE baseline signature OK." | systemd-cat -t aide-check -p info
-
-# 2️⃣ Verify past logs for hash and signature validity
-shopt -s nullglob
-for OLD_LOG in "${LOG_DIR}"/aide-check-*.log; do
-    OLD_HASH="${OLD_LOG}.sha512"
-    OLD_SIG="${OLD_LOG}.sig"
-
-    [[ "$OLD_LOG" == "$LOG_FILE" ]] && continue
-
-    if [[ -f "$OLD_HASH" ]] && ! sha512sum -c "$OLD_HASH" &>/dev/null; then
-        echo "⚠️ Hash mismatch for $OLD_LOG" | systemd-cat -t aide-check -p warning
-    fi
-
-    if [[ -f "$OLD_SIG" ]] && ! gpg --verify "$OLD_SIG" "$OLD_LOG" &>/dev/null; then
-        echo "⚠️ Signature verification FAILED for $OLD_LOG" | systemd-cat -t aide-check -p warning
-    fi
-done
-shopt -u nullglob
-
-# 3️⃣ Run AIDE check
-/usr/sbin/aide --check >"$LOG_FILE" 2>&1
-AIDE_STATUS=$?
-
-if [[ $AIDE_STATUS -eq 0 ]]; then
-    echo "✅ AIDE integrity check passed." | systemd-cat -t aide-check -p info
-else
-    echo "⚠️ AIDE detected filesystem changes. See $LOG_FILE." | systemd-cat -t aide-check -p warning
-fi
-
-# 4️⃣ Create cryptographic proofs
-sha512sum "$LOG_FILE" >"$HASH_FILE"
-gpg --output "$SIG_FILE" --detach-sign "$LOG_FILE"
-
-if [[ $? -eq 0 ]]; then
-    echo "🧾 Signed and hashed integrity log: $LOG_FILE" | systemd-cat -t aide-check -p info
-else
-    echo "❌ Failed to sign AIDE log $LOG_FILE" | systemd-cat -t aide-check -p err
-fi
-
-exit 0
+journalctl -t aide-check
 ```
-Make it executable:
-```bash
-sudo chmod 700 /usr/local/sbin/aide-daily-check.sh
+
+Example output:
+
 ```
+Oct 28 06:15:01 hostname aide-check[...] ✅ Verified AIDE baseline signature OK.
+Oct 28 06:15:02 hostname aide-check[...] ✅ AIDE integrity check passed.
+Oct 28 06:15:03 hostname aide-check[...] 🧾 Signed and hashed integrity log: /var/log/aide/aide-check-2025-10-28_06-15-01.log
+```
+
+---
+
+## 📝 Notes
+
+* The script uses `sha512sum` and `gpg --detach-sign`. Ensure your GPG key is available to root.
+* Modify the paths or GPG key configuration if running under a different user context.
+* Consider forwarding journal logs to a centralized logging system for alerting and audit trails.
+
+---
+
+## 🧩 Related Articles
+
+* [AIDE in Motion: Automating and Signing System Integrity Checks](https://github.com/richard-sebos/articles/blob/main/Aide/AID-002/2025-11-xx-AIDE-Signing.md)
+* `man systemd.timer`
+* `man aide`
+* `gpg --help`
+
 
