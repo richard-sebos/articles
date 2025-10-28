@@ -1,27 +1,18 @@
-# 🧱 Legacy 3 – *Samba Share Isolation: When Every Folder Has Its Own Policy*
+# Customizing Samba Share Sections
 
-### 🎯 Objective
+I still remember the first time I tried to customize a Samba share section.
+It was a simple goal—share a folder full of family pictures with the rest of the household.
 
-- I remember trying to customized my first Samba share section.  
-- It was to share family pictures with the rest of the family.
-- It took me most of a weekend and tested like crazy.
-- It work great for me and as soon as I had someone else try it, it fail.
-- I wish had that config file today to see what I did wrong.
-
-
-In the second part of this series, we added additional security to a Samba server at the `[global]` level. It continued the building of the server. 
-The `[share name]`  section also change have security changes made to it. This allows for each share to have additional options that extend or override the `[global]` setup.
+It ended up taking me most of a weekend. I tested like crazy, convinced it was working perfectly—until someone else tried to access it and it failed completely.
+Looking back, I wish I still had that original `smb.conf` file. I'd love to see what I did wrong (and maybe what I accidentally got right).
 
 ---
 
-## 1. Introduction: The Root of Trust Lives in `[share name]`
+In the second part of this series, we focused on tightening security in the `[global]` section of the Samba configuration file. That step helped lay a solid foundation for the server as a whole.
 
-Samba’s config file (`smb.conf`) is split into two main blocks:
+Now, in this part, we'll dive into the `[share name]` sections. These are where individual shares are defined—each with its own path, access rules, and optional overrides to the global settings.
+This is also where you can fine-tune security and functionality at the share level, giving you precise control over how each resource is accessed and used.
 
-* **[global]** — sets server-wide defaults and policies
-* **[share]** — configures individual shares, and can override `[global]` settings as needed
-
-Why have both? The `[global]` section lets you define a consistent baseline that applies across all shares. This makes it easier to manage multiple Samba servers and keep your security posture uniform. Then, for those special cases, the `[share name]` sections let you tighten or loosen access for individual shares.
 
 ---
 
