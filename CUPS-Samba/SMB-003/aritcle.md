@@ -83,3 +83,34 @@ smbclient //localhost/finance -U user
 
 ---
 
+
+
+
+   🔍 Auditing Access
+
+Enable audit logging for Samba share access:
+
+vfs objects = full_audit
+
+Example:
+vfs objects = full_audit
+full_audit:prefix = %u|%I|%S
+full_audit:success = open opendir
+full_audit:failure = none
+full_audit:facility = LOCAL7
+full_audit:priority = NOTICE
+   
+valid users = @finance, alice
+invalid users = root
+
+    path = /srv/samba/sales
+    browsable = no
+    writable = yes
+    valid users = @salesgroup
+    force group = salesgroup
+    create mask = 0660
+    directory mask = 0770
+    vfs objects = full_audit
+    hosts allow = 192.168.10.0/24
+hosts deny = 0.0.0.0/0
+
