@@ -57,190 +57,121 @@ During the process, you'll be prompted to:
 After generating the key, a `.gnupg/` directory will be created in your home folder to store key data.
 
 In the next steps, we’ll use GPG to sign a copy of the AIDE database — enabling us to later verify its authenticity and detect unauthorized modifications.
+---
 
+## 🗝️ Protecting and Signing the AIDE Baseline
 
-### 🕒 2 · Automating Integrity Checks with systemd
-
-A security process that relies on memory isn’t secure.
-Let’s make AIDE run daily on its own.
-
-**Service file:** `/etc/systemd/system/aide-check.service`
-
-```ini
-[Unit]
-Description=Run AIDE integrity check with baseline and log verification
-After=network.target
-
-[Service]
-Type=oneshot
-ExecStart=/usr/local/sbin/aide-daily-check.sh
-StandardOutput=journal
-StandardError=journal
-```
-
-**Timer file:** `/etc/systemd/system/aide-check.timer`
-
-```ini
-[Unit]
-Description=Run AIDE integrity check daily
-
-[Timer]
-OnCalendar=daily
-Persistent=true
-
-[Install]
-WantedBy=timers.target
-```
-
-Enable and verify:
+When you run:
 
 ```bash
-sudo systemctl daemon-reload
-sudo systemctl enable --now aide-check.timer
+aide --init
 ```
 
-Now AIDE will run automatically every day — or immediately after boot if a run was missed.
+AIDE creates a **baseline database** — a snapshot of the file system, based on the rules defined in `aide.conf`. This database acts as your system’s memory. If it’s modified, all trust in future integrity checks is lost.
 
-> “Once automation is in place, integrity becomes rhythm — quiet, consistent, and hard to fake.”
+In the previous article, we saved the baseline to:
+
+```
+/var/lib/aide/aide.db.gz
+```
+
+To protect this baseline, we’ll sign it using GPG and store the signed version securely. This allows us to verify its integrity before running any future checks.
 
 ---
 
-## 🔐 Phase 2 – AIDE as a Witness
-
-Now it’s not just about running checks.
-It’s about proving **the checks themselves** are trustworthy.
-
----
-
-### 🗝️ 3 · Protecting and Signing the Baseline
-
-Your baseline database is your system’s memory. If it changes, all trust is gone.
-
-Lock and sign it:
+### 🔒 Steps to Sign and Protect the Baseline
 
 ```bash
+# 1. Create a secure location to store the signed baseline
 sudo mkdir -p /root/.aide
-sudo cp /var/lib/aide/aide.db.gz /root/.aide/aide.db.gz
-gpg --output /root/.aide/aide.db.gz.sig --detach-sign /root/.aide/aide.db.gz
-sudo chmod 400 /root/.aide/aide.db.gz /root/.aide/aide.db.gz.sig
+
+# 2. Sign the baseline database with your private GPG key
+sudo gpg --output /root/.aide/aide.db.gz.sig --detach-sign /var/lib/aide/aide.db.gz
+
+# 3. Set strict permissions to prevent unauthorized access
+sudo chmod 400 /root/.aide/aide.db.gz.sig
+
+# 4. Optionally, use chattr to make the signature immutable
+sudo chattr +i /root/.aide/aide.db.gz.sig
 ```
 
-You can verify anytime with:
+> 🔐 `--detach-sign` creates a separate signature file without modifying the original database.
+
+---
+
+### ✅ Verifying the Baseline Before Running Checks
+
+Before running `aide --check`, verify the current baseline against the signed copy:
 
 ```bash
 sudo gpg --verify /root/.aide/aide.db.gz.sig /var/lib/aide/aide.db.gz
 ```
 
-> “If an attacker can change your baseline, they can rewrite history.”
-
----
-
-### 🧾 4 · Building a Self-Verifying Daily Process
-
-Here’s where automation becomes forensic.
-We’ll use a wrapper script that runs AIDE only **after confirming the baseline’s signature** — and signs each new report with its own hash and GPG signature.
-
-Create `/usr/local/sbin/aide-daily-check.sh`:
-
-```bash
-#!/bin/bash
-# aide-daily-check.sh
-# Runs daily AIDE checks with baseline and historical verification.
-
-BASELINE="/var/lib/aide/aide.db.gz"
-SIG_BASE="/root/.aide/aide.db.gz.sig"
-LOG_DIR="/var/log/aide"
-DATESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-LOG_FILE="${LOG_DIR}/aide-check-${DATESTAMP}.log"
-HASH_FILE="${LOG_FILE}.sha512"
-SIG_FILE="${LOG_FILE}.sig"
-
-mkdir -p "$LOG_DIR"
-
-# 1️⃣ Verify baseline before running
-if ! gpg --verify "$SIG_BASE" "$BASELINE" &>/dev/null; then
-    echo "❌ AIDE baseline verification FAILED — possible tampering." | systemd-cat -t aide-check -p err
-    exit 1
-fi
-echo "✅ Verified AIDE baseline signature OK." | systemd-cat -t aide-check -p info
-
-# 2️⃣ Verify past logs for hash and signature validity
-shopt -s nullglob
-for OLD_LOG in "${LOG_DIR}"/aide-check-*.log; do
-    OLD_HASH="${OLD_LOG}.sha512"
-    OLD_SIG="${OLD_LOG}.sig"
-
-    [[ "$OLD_LOG" == "$LOG_FILE" ]] && continue
-
-    if [[ -f "$OLD_HASH" ]] && ! sha512sum -c "$OLD_HASH" &>/dev/null; then
-        echo "⚠️ Hash mismatch for $OLD_LOG" | systemd-cat -t aide-check -p warning
-    fi
-
-    if [[ -f "$OLD_SIG" ]] && ! gpg --verify "$OLD_SIG" "$OLD_LOG" &>/dev/null; then
-        echo "⚠️ Signature verification FAILED for $OLD_LOG" | systemd-cat -t aide-check -p warning
-    fi
-done
-shopt -u nullglob
-
-# 3️⃣ Run AIDE check
-/usr/sbin/aide --check >"$LOG_FILE" 2>&1
-AIDE_STATUS=$?
-
-if [[ $AIDE_STATUS -eq 0 ]]; then
-    echo "✅ AIDE integrity check passed." | systemd-cat -t aide-check -p info
-else
-    echo "⚠️ AIDE detected filesystem changes. See $LOG_FILE." | systemd-cat -t aide-check -p warning
-fi
-
-# 4️⃣ Create cryptographic proofs
-sha512sum "$LOG_FILE" >"$HASH_FILE"
-gpg --output "$SIG_FILE" --detach-sign "$LOG_FILE"
-
-if [[ $? -eq 0 ]]; then
-    echo "🧾 Signed and hashed integrity log: $LOG_FILE" | systemd-cat -t aide-check -p info
-else
-    echo "❌ Failed to sign AIDE log $LOG_FILE" | systemd-cat -t aide-check -p err
-fi
-
-exit 0
-```
-
-Make it executable:
-
-```bash
-sudo chmod 700 /usr/local/sbin/aide-daily-check.sh
-```
-
-This script ensures:
-
-* The baseline’s signature is validated before AIDE runs.
-* All prior logs are re-verified via `sha512sum` and GPG.
-* Each new log is timestamped, hashed, and signed.
-
----
-
-### 🧪 5 · Testing and Reading the Results
-
-Run manually to test:
-
-```bash
-sudo systemctl start aide-check.service
-```
-
-Check the system journal:
-
-```bash
-journalctl -t aide-check
-```
-
 Sample output:
 
 ```
-✅ Verified AIDE baseline signature OK.
-✅ AIDE integrity check passed.
-🧾 Signed and hashed integrity log: /var/log/aide/aide-check-2025-10-27_19-45-02.log
+gpg: Signature made Mon 27 Oct 2025 07:39:41 PM CST
+gpg:                using RSA key 23CB30DFCF098B22F1ED3F1425F3E1E03154E84D
+gpg: Good signature from "System Integrity (AIDE baseline signing key) <root@localhost>" [ultimate]
 ```
 
+This confirms that the baseline file hasn’t been tampered with since it was signed.
+
+---
+
+## 🛡️ Protecting AIDE Check Results
+
+Once you've signed and protected the baseline, the next critical step is to **protect the results of AIDE checks**. The `aide --check` command compares the current file system state to the baseline and outputs a report — this output must also be secured to ensure its trustworthiness.
+
+---
+
+### 📄 Generate and Save a Timestamped Log
+
+Use the following to run a check and save the output to a timestamped log file:
+
+```bash
+LOG_DIR="/var/log/aide"
+DATESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+LOG_FILE="${LOG_DIR}/aide-check-${DATESTAMP}.log"
+
+# Create the log directory if it doesn't exist
+sudo mkdir -p "$LOG_DIR"
+
+# Run AIDE check and save output
+sudo aide --check >"$LOG_FILE" 2>&1
+```
+
+This will create a log file like:
+
+```
+/var/log/aide/aide-check-2025-10-27_19-45-02.log
+```
+
+Just like the baseline, this file should be **hashed and signed** to detect any future tampering.
+
+---
+
+### 🔐 Hash and Sign the Log File
+
+After generating the log, hash and sign it:
+
+```bash
+HASH_FILE="${LOG_FILE}.sha512"
+SIG_FILE="${LOG_FILE}.sig"
+
+# Generate SHA-512 hash
+sha512sum "$LOG_FILE" >"$HASH_FILE"
+
+# Sign the log file using your GPG key
+gpg --output "$SIG_FILE" --detach-sign "$LOG_FILE"
+```
+
+This gives you:
+
+* A `.sha512` file to verify the content checksum
+* A `.sig` file to verify the log was not altered after signing
+
+> 💡 Optional: Set restrictive permissions on the log, hash, and signature files, or move them to a protected directory like `/root/.aide-logs`.
 Your log directory now contains a growing chain of tamper-evident reports:
 
 ```
@@ -249,25 +180,20 @@ Your log directory now contains a growing chain of tamper-evident reports:
 ├── aide-check-2025-10-27_19-45-02.log.sha512
 └── aide-check-2025-10-27_19-45-02.log.sig
 ```
-
-Each new report verifies all previous ones — building an **unbroken evidence chain**.
-
 ---
 
-## 🔗 Phase 3 – From Integrity to Evidence Chain
+### 🧪 Automating the Workflow
 
-You’ve now transformed AIDE into something bigger:
-an automated, cryptographically signed audit trail that can prove — mathematically — that no part of your system’s integrity reporting has been falsified.
+To simplify this process, you can use a custom script that:
 
-| Step | Action            | Artifact       | Purpose                    |
-| ---- | ----------------- | -------------- | -------------------------- |
-| 1    | Verify baseline   | aide.db.gz.sig | Ensure trusted state       |
-| 2    | Verify prior logs | .sha512 / .sig | Historical continuity      |
-| 3    | Run AIDE          | aide-check.log | Capture new integrity data |
-| 4    | Hash + sign       | .sha512 + .sig | Proof of authenticity      |
+1. Verifies the integrity of the last check result
+2. Runs `aide --check` and logs the output
+3. Generates a new baseline (optional)
+4. Signs and hashes the new log file
 
-This workflow is now the foundation of what comes next — **ProofTrail** — where we’ll chain signatures and timestamps into a ledger for cross-system verification.
+You can find the full script [**here**](*insert-link-or-path*).
 
+This approach ensures that **every stage** of AIDE — from the baseline to the reports — is protected against tampering or unauthorized modification.
 ---
 
 ## 🧭 Conclusion – Integrity You Can Prove
