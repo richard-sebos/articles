@@ -1,6 +1,6 @@
 
 Service file: /etc/systemd/system/aide-check.service
-
+```bash
 [Unit]
 Description=Run AIDE integrity check with baseline and log verification
 After=network.target
@@ -10,9 +10,9 @@ Type=oneshot
 ExecStart=/usr/local/sbin/aide-daily-check.sh
 StandardOutput=journal
 StandardError=journal
-
+```
 Timer file: /etc/systemd/system/aide-check.timer
-
+```bash
 [Unit]
 Description=Run AIDE integrity check daily
 
@@ -22,7 +22,7 @@ Persistent=true
 
 [Install]
 WantedBy=timers.target
-
+```
 Enable and verify:
 
 sudo systemctl daemon-reload
@@ -31,8 +31,7 @@ sudo systemctl enable --now aide-check.timer
 Now AIDE will run automatically every day — or immediately after boot if a run was missed.
 
     “Once automation is in place, integrity becomes rhythm — quiet, consistent, and hard to fake.”
-
-
+```bash
 #!/bin/bash
 # aide-daily-check.sh
 # Runs daily AIDE checks with baseline and historical verification.
@@ -93,7 +92,7 @@ else
 fi
 
 exit 0
-
+```
 Make it executable:
 
 sudo chmod 700 /usr/local/sbin/aide-daily-check.sh
