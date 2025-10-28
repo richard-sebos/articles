@@ -26,6 +26,49 @@ This is where **hashing** and **cryptographic signing** come into play. In this 
 
 Let’s dive in.
 
+## GPG (GNU Privacy Guard)
+Certainly — here's a cleaner, more technically precise version of your **GPG (GNU Privacy Guard)** section, rewritten for clarity and polish, while keeping it concise:
+
+---
+
+## GPG (GNU Privacy Guard)
+
+**GPG** is a powerful encryption and signing tool used to ensure the confidentiality and integrity of files. In this context, we'll use it to **sign** the AIDE database, helping us verify that it hasn’t been tampered with.
+
+### Key Concepts:
+
+* GPG uses a **public/private key pair**:
+
+  * The **private key** is used to sign or decrypt.
+  * The **public key** is shared with others to verify signatures or encrypt data for you.
+
+### Creating a Key Pair:
+
+To create a key pair, use one of the following commands:
+
+* `gpg --generate-key` – basic guided key generation
+* `gpg --full-generate-key` – advanced options for key type, size, expiration, etc.
+
+During the process, you'll be prompted to:
+
+* Enter a **name and email address** (used to identify the key)
+* Set a **passphrase** to protect your private key
+
+After generating the key, a `.gnupg/` directory will be created in your home folder to store key data.
+
+### Managing Keys:
+
+* List your public keys with:
+
+  ```bash
+  gpg --list-keys
+  ```
+
+In the next steps, we’ll use GPG to sign a copy of the AIDE database — enabling us to later verify its authenticity and detect unauthorized modifications.
+
+---
+
+Let me know if you'd like help with the GPG signing/verification workflow for AIDE next — I can write that in a similar format.
 
 
 ### 🕒 2 · Automating Integrity Checks with systemd
