@@ -198,11 +198,9 @@ This approach ensures that **every stage** of AIDE — from the baseline to the 
 ---
 
 ## 🧭 Conclusion – Integrity You Can Prove
-
-Most monitoring systems *tell* you something changed.
-This setup *proves* whether those alerts themselves can be trusted.
-
-By combining AIDE with daily automation, detached signatures, and chained verification, your system becomes its own witness — one that can testify to its own state with mathematical certainty.
+- The interesting thing about AIDE, it doesn't stop an attack.
+- It finds eventance an attach has happened, which means an attack access to the system
+- This adds an additional layer to the system to slow down attacker
 
 > In the next phase, we’ll go one level deeper — linking each signature into a cryptographic ledger to create a verifiable, tamper-proof **evidence chain** across systems.
 
