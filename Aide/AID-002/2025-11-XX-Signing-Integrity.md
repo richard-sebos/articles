@@ -132,7 +132,7 @@ Your log directory now holds a verifiable chain of integrity reports:
 └── aide-check-2025-10-28_15-42-01.log.sig
 ```
 
-These signatures and hashes ensure that even if logs are moved or copied, any tampering will be immediately detectable.
+These signatures and hashes ensure that even if logs are tampered with it will be immediately detectable.
 
 ---
 
