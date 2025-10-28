@@ -25,8 +25,10 @@ WantedBy=timers.target
 ```
 Enable and verify:
 
+```bash
 sudo systemctl daemon-reload
 sudo systemctl enable --now aide-check.timer
+```
 
 Now AIDE will run automatically every day — or immediately after boot if a run was missed.
 
@@ -94,7 +96,7 @@ fi
 exit 0
 ```
 Make it executable:
-
+```bash
 sudo chmod 700 /usr/local/sbin/aide-daily-check.sh
-
+```
 
