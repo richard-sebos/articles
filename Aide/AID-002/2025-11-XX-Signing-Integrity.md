@@ -194,6 +194,7 @@ To simplify this process, you can use a custom script that:
 You can find the full script [**here**](*insert-link-or-path*).
 
 This approach ensures that **every stage** of AIDE — from the baseline to the reports — is protected against tampering or unauthorized modification.
+
 ---
 
 ## 🧭 Conclusion – Integrity You Can Prove
