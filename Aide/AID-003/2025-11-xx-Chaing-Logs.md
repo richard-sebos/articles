@@ -1,98 +1,151 @@
-Perfect — here’s the full outline and content plan for your **next AIDE article**, complete with example commands, narrative tone, and structure that follows naturally after *AIDE in Motion*.
+Fantastic — that’s a major milestone 🎉
+
+Now that your modular AIDE automation system is working end-to-end (baseline verification, historical audit, logging, hashing, signing, and ledger chaining), you’re ready for a clean, professional **overview article** to tie it all together.
+
+Below is a fully written draft that matches your established tone — *technical, practical, and narrative-driven* — perfect as the next post in your AIDE series.
 
 ---
 
-# **AIDE Ledger: Chaining System Integrity Across Time and Servers**
+# **AIDE Automation Framework: From Integrity Checks to Self-Verification**
 
-### *From isolated checks to a tamper-evident timeline*
+### *Modular scripting, cryptographic signing, and a tamper-evident ledger for Linux integrity management*
 
-> “A single signature proves a moment.
-> A chain of signatures proves history.”
+> *When it comes to integrity, trust isn’t a setting — it’s a habit.*
+> This framework turns AIDE from a passive checker into a proactive guardian, verifying its own past before it trusts the present.
 
 ---
 
 ## 🧭 Table of Contents
 
-1. Introduction – Why Link Integrity Reports
-2. Creating a Local Integrity Ledger
-3. Automating Ledger Updates
-4. Verifying the Integrity Chain
-5. Expanding to Multiple Servers
-6. Conclusion – A Chain of Trust
+1. Introduction — Beyond File Integrity
+2. Architecture Overview
+3. Modular Script Design
+4. Workflow: From Baseline to Ledger
+5. Cryptographic Chain of Trust
+6. Operational Automation with systemd
+7. Conclusion — The System That Trusts Itself
 
 ---
 
-## 🧰 Introduction – Why Link Integrity Reports
+## 🧰 Introduction — Beyond File Integrity
 
-In the previous article, we automated and signed AIDE reports, ensuring that every integrity check could be verified as genuine.
+Most Linux administrators install AIDE to detect file changes.
+But detection is only part of the story — *proving that your integrity checks themselves haven’t been tampered with* is what transforms monitoring into **assurance**.
 
-But there’s still a gap: time.
-How do we **prove continuity** between yesterday’s and today’s integrity reports?
+This project takes AIDE (Advanced Intrusion Detection Environment) and wraps it with a **modular automation framework** that:
 
-If an attacker deleted a week’s worth of signed logs, your verification would still pass — but your *timeline* would be incomplete. That’s where a **ledger** comes in.
+* Signs and verifies its own baseline database,
+* Hashes and signs every integrity report,
+* Verifies the full history of logs before each run,
+* Chains every result into a tamper-evident ledger,
+* And automates it all with `systemd` timers.
 
-By linking each AIDE report through its hash, we can create a tamper-evident chain — a lightweight, cryptographic history of system integrity that grows with each check.
+The result: a self-verifying integrity system that can detect unauthorized changes — even if an attacker tries to cover their tracks.
 
 ---
 
-## 📜 Creating a Local Integrity Ledger
+## 🧩 Architecture Overview
 
-Start by creating a directory to hold your signed logs and a simple ledger file that records them.
+The framework is built around small, single-purpose Bash modules stored in `/opt/aide/`, each handling one responsibility.
 
-```bash
-sudo mkdir -p /var/log/aide
-sudo touch /var/log/aide/ledger.txt
-sudo chmod 600 /var/log/aide/ledger.txt
+**Core directories**
+
+```
+/opt/aide/               # Automation scripts
+/var/log/aide/           # Output and ledger
+├── logs/                # Daily AIDE reports
+├── hashes/              # SHA512 hash files
+└── sigs/                # GPG signatures
+/root/.aide/             # Protected baseline and signatures
 ```
 
-Every time AIDE runs and generates a log, we’ll hash that log and append its hash to the ledger.
-
-Example command sequence:
-
-```bash
-LOG_DIR="/var/log/aide"
-DATESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-LOG_FILE="${LOG_DIR}/aide-check-${DATESTAMP}.log"
-
-# Run AIDE check
-sudo aide --check >"$LOG_FILE" 2>&1
-
-# Create a hash of the report
-HASH_FILE="${LOG_FILE}.sha512"
-sha512sum "$LOG_FILE" >"$HASH_FILE"
-
-# Append hash to ledger
-echo "$(sha512sum "$LOG_FILE" | awk '{print $1}')  $LOG_FILE" | sudo tee -a "$LOG_DIR/ledger.txt"
-```
-
-This creates an auditable record linking each AIDE report to its hash — your first step toward a verifiable integrity chain.
+**Shared configuration:**
+`/opt/aide/aide-vars.sh`
+contains all variables, ensuring consistency and auto-creating missing directories.
 
 ---
 
-## ⚙️ Automating Ledger Updates
+## ⚙️ Modular Script Design
 
-Now, let’s make sure this happens automatically every day.
-You can use a systemd service and timer, similar to the previous article.
+Each module can be run independently or chained by the main driver script `aide-daily-check.sh`.
 
-### `/etc/systemd/system/aide-ledger.service`
+| Script                      | Purpose                                                   |
+| :-------------------------- | :-------------------------------------------------------- |
+| **aide-vars.sh**            | Common variables, directory creation, permissions         |
+| **aide-verify-baseline.sh** | Verifies AIDE database signature before use               |
+| **aide-verify-history.sh**  | Confirms all previous logs, hashes, and ledger are intact |
+| **aide-run-check.sh**       | Runs `aide --check` and logs results                      |
+| **aide-create-hash.sh**     | Generates SHA512 hash and GPG signature for current log   |
+| **aide-update-ledger.sh**   | Chains new hash into ledger and re-signs it               |
+| **aide-init.sh**            | Creates or rebuilds AIDE baseline                         |
+| **aide-sign-baseline.sh**   | Hashes and signs the new baseline securely                |
+
+This modular approach makes testing, maintenance, and auditing straightforward — each script does one thing well.
+
+---
+
+## 🔄 Workflow: From Baseline to Ledger
+
+A complete AIDE run now follows a strict sequence of trust:
+
+1. **Verify AIDE baseline** (`aide-verify-baseline.sh`)
+   Ensures the baseline database hasn’t been replaced or tampered with.
+
+2. **Verify historical records** (`aide-verify-history.sh`)
+   Checks all stored logs, hashes, and ledger signatures for authenticity.
+
+3. **Run AIDE check** (`aide-run-check.sh`)
+   Executes `aide --check` and records all findings to `/var/log/aide/logs/`.
+
+4. **Sign and hash the results** (`aide-create-hash.sh`)
+   Creates verifiable `.sha512` and `.sig` files for every run.
+
+5. **Update the ledger** (`aide-update-ledger.sh`)
+   Appends the new hash and cross-links it to the previous entry, signing the ledger to preserve continuity.
+
+6. **Daily automation** (`systemd` timer)
+   Schedules the process to run automatically and logs status to the system journal.
+
+---
+
+## 🔐 Cryptographic Chain of Trust
+
+Every step in the workflow produces cryptographic proof:
+
+| Artifact               | Protection                                    |
+| ---------------------- | --------------------------------------------- |
+| **AIDE baseline**      | Signed with GPG and locked with `chattr +i`   |
+| **Daily logs**         | Individually hashed (SHA512) and signed       |
+| **Ledger**             | Chain-linked hashes, signed after each update |
+| **Verification phase** | Ensures all prior proofs remain valid         |
+
+This creates a **tamper-evident timeline**: even if an attacker gained root access and deleted logs, any missing link in the chain would be immediately detected.
+
+---
+
+## 🧱 Operational Automation with `systemd`
+
+Two simple unit files complete the automation:
+
+### `/etc/systemd/system/aide-daily-check.service`
 
 ```ini
 [Unit]
-Description=Run daily AIDE check and update integrity ledger
+Description=Run daily AIDE integrity check and ledger update
 After=network.target
 
 [Service]
 Type=oneshot
-ExecStart=/usr/local/sbin/aide-ledger-check.sh
+ExecStart=/opt/aide/aide-daily-check.sh
 StandardOutput=journal
 StandardError=journal
 ```
 
-### `/etc/systemd/system/aide-ledger.timer`
+### `/etc/systemd/system/aide-daily-check.timer`
 
 ```ini
 [Unit]
-Description=Run daily AIDE ledger integrity check
+Description=Schedule AIDE daily integrity check
 
 [Timer]
 OnCalendar=daily
@@ -102,122 +155,33 @@ Persistent=true
 WantedBy=timers.target
 ```
 
-Then enable it:
+Enable with:
 
 ```bash
 sudo systemctl daemon-reload
-sudo systemctl enable --now aide-ledger.timer
+sudo systemctl enable --now aide-daily-check.timer
 ```
 
 ---
 
-## 🧠 The Script: `/usr/local/sbin/aide-ledger-check.sh`
+## 🧭 Conclusion — The System That Trusts Itself
 
-Here’s a full example script to automate verification, signing, and ledger chaining:
+With this framework in place, your Linux host doesn’t just detect changes — it proves, cryptographically, that its own integrity checks are authentic.
+Each new run is chained to the previous one, building a verifiable timeline of trust.
 
-```bash
-#!/bin/bash
-# aide-ledger-check.sh
-# Automates daily AIDE check with chained ledger and GPG verification
+> “If AIDE is the witness, this framework is the court reporter — recording every statement, verifying every signature, and never forgetting what was said.”
 
-LOG_DIR="/var/log/aide"
-LEDGER_FILE="${LOG_DIR}/ledger.txt"
-DATESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-LOG_FILE="${LOG_DIR}/aide-check-${DATESTAMP}.log"
-HASH_FILE="${LOG_FILE}.sha512"
-SIG_FILE="${LOG_FILE}.sig"
-AIDE_DB="/var/lib/aide/aide.db.gz"
-AIDE_SIG="/root/.aide/aide.db.gz.sig"
-
-# Verify the AIDE database before running checks
-echo "[INFO] Verifying AIDE baseline..."
-if ! gpg --quiet --verify "$AIDE_SIG" "$AIDE_DB" >/dev/null 2>&1; then
-    echo "[ERROR] Baseline signature verification failed."
-    exit 1
-fi
-
-# Run AIDE check and log output
-echo "[INFO] Running AIDE check..."
-sudo aide --check >"$LOG_FILE" 2>&1
-
-# Hash and sign the log
-sha512sum "$LOG_FILE" >"$HASH_FILE"
-gpg --output "$SIG_FILE" --detach-sign "$LOG_FILE"
-
-# Chain to ledger
-LOG_HASH=$(awk '{print $1}' "$HASH_FILE")
-PREV_HASH=$(tail -n 1 "$LEDGER_FILE" | awk '{print $1}')
-
-if [ -n "$PREV_HASH" ]; then
-    echo "${LOG_HASH} ${LOG_FILE} prev:${PREV_HASH}" | tee -a "$LEDGER_FILE"
-else
-    echo "${LOG_HASH} ${LOG_FILE}" | tee -a "$LEDGER_FILE"
-fi
-
-# Sign the ledger for tamper detection
-gpg --output "${LEDGER_FILE}.sig" --detach-sign "$LEDGER_FILE"
-
-echo "[INFO] Ledger updated and signed successfully."
-```
+This approach scales naturally: you can federate multiple systems, collect signed ledgers centrally, and build an enterprise-grade audit trail — all starting from a handful of Bash scripts.
 
 ---
 
-## 🔎 Verifying the Integrity Chain
+### 🧩 Related Articles in the Series
 
-To verify that the entire timeline is intact:
-
-```bash
-sudo gpg --verify /var/log/aide/ledger.txt.sig /var/log/aide/ledger.txt
-```
-
-You can also confirm that every file in the ledger still matches its hash:
-
-```bash
-cd /var/log/aide
-while read -r hash file _; do
-    sha512sum -c <(echo "$hash  $file") || echo "[ALERT] Integrity mismatch: $file"
-done < ledger.txt
-```
-
-If even one log or hash is missing, the chain breaks — making tampering visible.
+1. **AIDE on Oracle Linux 9: Every File Deserves a Fingerprint**
+2. **AIDE in Motion: Automating and Signing System Integrity Checks**
+3. **AIDE Ledger: Chaining System Integrity Across Time and Servers**
+4. **AIDE Automation Framework: From Integrity Checks to Self-Verification** *(this article)*
 
 ---
 
-## 🌐 Expanding to Multiple Servers
-
-Once the local chain is working, you can federate it.
-
-### Option 1: Secure Sync with rsync
-
-Sync signed logs and the ledger to a central audit host:
-
-```bash
-rsync -az -e "ssh -i /root/.ssh/audit_key" /var/log/aide/ audit@audit-server:/srv/aide/
-```
-
-### Option 2: Verify Remotely
-
-On the central server:
-
-```bash
-cd /srv/aide
-find . -name "*.sig" -exec gpg --verify {} \;
-```
-
-Add cron or systemd automation to verify the chain across hosts daily.
-
----
-
-## 🧭 Conclusion – A Chain of Trust
-
-With the **AIDE Ledger**, your system doesn’t just prove it’s clean today — it proves it’s *been* clean for every day since the ledger began.
-Each log links to the last, forming a cryptographic “breadcrumb trail” of system integrity.
-
-This transforms AIDE from a simple file integrity monitor into a **forensic audit system**, capable of proving historical consistency — not just current state.
-
-> “AIDE tells you if something changed.
-> The ledger tells you *when* and *if that change was erased*.”
-
----
-
-Would you like me to follow this up with **Part 4: AIDE Federation — Centralized Integrity Verification**, building a secure audit server that collects and verifies these signed ledgers across your infrastructure?
+Would you like me to add a short **“Quick Setup”** section (copy-paste command block) at the top for readers who just want to deploy it directly? It’s great for SEO and makes the article beginner-friendly while keeping your professional tone.
