@@ -1,7 +1,3 @@
-Here's a clean, professional, and well-structured rewrite of your draft while preserving your voice and intent. It includes improved grammar, consistency, and Markdown formatting for readability and future publishing.
-
----
-
 # Customizing Samba Share Sections
 
 I still remember the first time I tried to customize a Samba share section.
@@ -34,7 +30,7 @@ Here’s an example where we define shares for home lab projects and family pict
 
 ```ini
 [home_lab_projects]
-path = /srv/samba/hb_projects
+path = /srv/samba/hl_projects
 
 [family_pictures]
 path = /srv/samba/family_pictures
@@ -63,7 +59,7 @@ Let’s define who can access each share using `valid users` and `invalid users`
 
 ```ini
 [home_lab_projects]
-path = /srv/samba/hb_projects
+path = /srv/samba/hl_projects
 valid users = @project_users
 invalid users = root
 
@@ -91,7 +87,7 @@ These options control how a share can be used and whether it appears in network 
 
 ```ini
 [home_lab_projects]
-path = /srv/samba/hb_projects
+path = /srv/samba/hl_projects
 valid users = @project_users
 invalid users = root
 browsable = no
@@ -109,7 +105,7 @@ read only = yes
 
 ## 🌐 Restricting Network Access
 
-We previously defined `host allow = 192.168.35.0/24` in the `[global]` section.
+We previously defined `hosts allow = 192.168.35.0/24` in the `[global]` section.
 This applies to all shares unless overridden.
 
 * The family pictures share will inherit this and remain accessible to the entire subnet.
@@ -117,12 +113,12 @@ This applies to all shares unless overridden.
 
 ```ini
 [home_lab_projects]
-path = /srv/samba/hb_projects
+path = /srv/samba/hl_projects
 valid users = @project_users
 invalid users = root
 browsable = no
 writable = yes
-host allow = 192.168.35.110 192.168.35.111
+hosts allow = 192.168.35.110 192.168.35.111
 ```
 
 ---
@@ -140,14 +136,20 @@ Since the family pictures share is read-only, these settings aren’t needed the
 
 ```ini
 [home_lab_projects]
-path = /srv/samba/hb_projects
+path = /srv/samba/hl_projects
 valid users = @project_users
 invalid users = root
 browsable = no
 writable = yes
-host allow = 192.168.35.110 192.168.35.111
+hosts allow = 192.168.35.110 192.168.35.111
 force group = project_users
 create mask = 0660
 directory mask = 2770
 ```
-
+- The difference between the simple setup and this one was not a lot of work but it adds additional layer of security
+- Pictures and projects are hidden and users restricted
+- Pictures can not be changed or deleted
+- Projects can only be access from certain devices
+- That said if you are going to store sensitive documents on a share drive, I would suggest encrpypting them for added security.
+- Yoiu never know when the highest security system has becomes up because of a Zero Day
+- 
