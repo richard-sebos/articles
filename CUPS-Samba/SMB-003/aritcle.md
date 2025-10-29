@@ -1,139 +1,153 @@
+Here's a clean, professional, and well-structured rewrite of your draft while preserving your voice and intent. It includes improved grammar, consistency, and Markdown formatting for readability and future publishing.
+
+---
+
 # Customizing Samba Share Sections
 
 I still remember the first time I tried to customize a Samba share section.
-It was a simple goal—share a folder full of family pictures with the rest of the household.
+The goal was simple—share a folder full of family pictures with the rest of the household.
 
-It ended up taking me most of a weekend. I tested like crazy, convinced it was working perfectly—until someone else tried to access it and it failed completely.
+It ended up taking most of a weekend. I tested it like crazy and was convinced it was working perfectly—until someone else tried to access it... and it failed completely.
 Looking back, I wish I still had that original `smb.conf` file. I'd love to see what I did wrong (and maybe what I accidentally got right).
 
 ---
 
-In the second part of this series, we focused on tightening security in the `[global]` section of the Samba configuration file. That step helped lay a solid foundation for the server as a whole.
+In the second part of this series, we focused on tightening security in the `[global]` section of the Samba configuration file. That step helped us lay a solid foundation for the server as a whole.
 
-Now, in this part, we'll dive into the `[share name]` sections. These are where individual shares are defined—each with its own path, access rules, and optional overrides to the global settings.
-This is also where you can fine-tune security and functionality at the share level, giving you precise control over how each resource is accessed and used.
-
-
----
-
-## 🗂️ Shares Name
-- 
-
-
-
-
-
-
-
-
-
-
-
-
-
-### 1. Introduction – “Global Defines Policy, Shares Define Reality”
-
-* Explain inheritance and override hierarchy.
-* Emphasize least privilege per share.
-* ProofTrail concept: “Each share can have its own trust boundary.”
-
-### 2. Step 1 – Review Global Defaults
-
-* Quickly show `[global]` recap and how they cascade.
-* Explain which directives can be overridden per share.
-
-### 3. Step 2 – Create a Secure Share
-
-```ini
-[finance]
-   path = /srv/samba/finance
-   read only = no
-   valid users = @finance
-   browseable = no
-   create mask = 0660
-   directory mask = 0770
-   force group = finance
-```
-
-* Explain each directive’s security role.
-* Demonstrate permission alignment with `ls -ld`.
-
-### 4. Step 3 – Public or Guest Shares (Cautious Isolation)
-
-```ini
-[public]
-   path = /srv/samba/public
-   guest ok = yes
-   read only = yes
-   browseable = yes
-```
-
-* Show containment through file permissions.
-* Discuss network segmentation for guest shares.
-
-### 5. Step 4 – Validate Access
-
-```bash
-smbclient -L localhost -U user
-smbclient //localhost/finance -U user
-```
-
-* Use examples showing denied vs permitted access.
-* Log events from `/var/log/samba/log.<client>`.
-
-### 6. Step 5 – Apply Share-Specific Logging
-
-* Configure per-share logs:
-
-  ```ini
-  log file = /var/log/samba/log.%m
-  ```
-* Explain how this supports accountability.
-
-### 7. Step 6 – Automate Testing
-
-* Use a small bash script to verify access levels per share.
-* Future tie-in: automate this under ProofTrail’s audit chain.
-
-### 8. Lessons Learned
-
-* Every share is its own containment cell.
-* Overlapping permissions create ambiguity — clarity is protection.
-
-### 🧩 ProofTrail Note
-
-> “Each share adds a new layer to your audit trail. ProofTrail turns these layers into verifiable checkpoints.”
+Now in this part, we're going to focus on the `[share name]` sections. These define the individual shares—each with its own path, access rules, and options.
+Here, you can fine-tune access control and functionality at a per-share level, including overrides to `[global]` settings for more granular control.
 
 ---
 
+## 🗂️ Defining Shares
 
+A Samba server’s `smb.conf` file can contain one or more *share definitions* (also known as *share blocks* or *sections*).
+Each share allows you to expose a directory (or printer) to the network and define how it should behave.
 
+Each share:
 
-   🔍 Auditing Access
+* Starts with a name in square brackets (e.g., `[sharename]`)
+* Requires at minimum a `path` directive
+* Can include various permissions and security options
 
-Enable audit logging for Samba share access:
+Here’s an example where we define shares for home lab projects and family pictures:
 
-vfs objects = full_audit
+```ini
+[home_lab_projects]
+path = /srv/samba/hb_projects
 
-Example:
-vfs objects = full_audit
-full_audit:prefix = %u|%I|%S
-full_audit:success = open opendir
-full_audit:failure = none
-full_audit:facility = LOCAL7
-full_audit:priority = NOTICE
-   
-valid users = @finance, alice
+[family_pictures]
+path = /srv/samba/family_pictures
+```
+
+---
+
+## 👥 Controlling Share Access
+
+Let’s define who can access each share using `valid users` and `invalid users`.
+
+* A group named `family` was created to allow family members to access the picture share:
+
+  * `valid users = @family`
+* You can also specify users outside of a group—e.g., adding `alice` directly:
+
+  * `valid users = @family alice`
+* A separate group `project_users` manages access to the home lab project share:
+
+  * `valid users = @project_users`
+* Allowing `root` access to shares over the network is a known security risk.
+
+  * Even if `root` isn’t in these groups, it’s best to explicitly deny:
+
+    * `invalid users = root`
+
+```ini
+[home_lab_projects]
+path = /srv/samba/hb_projects
+valid users = @project_users
 invalid users = root
 
-    path = /srv/samba/sales
-    browsable = no
-    writable = yes
-    valid users = @salesgroup
-    force group = salesgroup
-    create mask = 0660
-    directory mask = 0770
-    vfs objects = full_audit
-    hosts allow = 192.168.10.0/24
-hosts deny = 0.0.0.0/0
+[family_pictures]
+path = /srv/samba/family_pictures
+valid users = @family alice
+invalid users = root
+```
+
+---
+
+## 🔐 Read-Only, Writable, and Browsable
+
+These options control how a share can be used and whether it appears in network browse lists.
+
+* **Family pictures** should be protected against deletion or modification:
+
+  * `read only = yes`
+* **Project files** need full read/write access:
+
+  * `writable = yes`
+* To reduce visibility and attack surface, both shares are hidden from casual browsing:
+
+  * `browsable = no`
+
+```ini
+[home_lab_projects]
+path = /srv/samba/hb_projects
+valid users = @project_users
+invalid users = root
+browsable = no
+writable = yes
+
+[family_pictures]
+path = /srv/samba/family_pictures
+valid users = @family alice
+invalid users = root
+browsable = no
+read only = yes
+```
+
+---
+
+## 🌐 Restricting Network Access
+
+We previously defined `host allow = 192.168.35.0/24` in the `[global]` section.
+This applies to all shares unless overridden.
+
+* The family pictures share will inherit this and remain accessible to the entire subnet.
+* For the project share, we want tighter restrictions—only allowing specific IPs:
+
+```ini
+[home_lab_projects]
+path = /srv/samba/hb_projects
+valid users = @project_users
+invalid users = root
+browsable = no
+writable = yes
+host allow = 192.168.35.110 192.168.35.111
+```
+
+---
+
+## 🛠️ Masks, Force User, and Force Group
+
+When users create files or directories via Samba, permissions and ownership need to be controlled to ensure consistency and prevent privilege issues.
+
+* **`create mask`** sets file permissions on new files.
+* **`directory mask`** sets permissions on new directories.
+* **`force group`** and **`force user`** ensure that created files are owned by a specific group/user.
+
+We apply these to the project share to enforce group ownership and standard access rights.
+Since the family pictures share is read-only, these settings aren’t needed there.
+
+```ini
+[home_lab_projects]
+path = /srv/samba/hb_projects
+valid users = @project_users
+invalid users = root
+browsable = no
+writable = yes
+host allow = 192.168.35.110 192.168.35.111
+force group = project_users
+create mask = 0660
+directory mask = 2770
+```
 
