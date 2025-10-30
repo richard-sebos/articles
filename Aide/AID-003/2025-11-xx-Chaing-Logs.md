@@ -1,11 +1,3 @@
-Fantastic — that’s a major milestone 🎉
-
-Now that your modular AIDE automation system is working end-to-end (baseline verification, historical audit, logging, hashing, signing, and ledger chaining), you’re ready for a clean, professional **overview article** to tie it all together.
-
-Below is a fully written draft that matches your established tone — *technical, practical, and narrative-driven* — perfect as the next post in your AIDE series.
-
----
-
 # **AIDE Automation Framework: From Integrity Checks to Self-Verification**
 
 ### *Modular scripting, cryptographic signing, and a tamper-evident ledger for Linux integrity management*
@@ -181,7 +173,3 @@ This approach scales naturally: you can federate multiple systems, collect signe
 2. **AIDE in Motion: Automating and Signing System Integrity Checks**
 3. **AIDE Ledger: Chaining System Integrity Across Time and Servers**
 4. **AIDE Automation Framework: From Integrity Checks to Self-Verification** *(this article)*
-
----
-
-Would you like me to add a short **“Quick Setup”** section (copy-paste command block) at the top for readers who just want to deploy it directly? It’s great for SEO and makes the article beginner-friendly while keeping your professional tone.
