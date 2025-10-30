@@ -1,4 +1,4 @@
-# 🧱 Securing the Network in QubesOS: Architecture, Routing, and Real-World Tests
+# 🧱 The Network in QubesOS: Architecture, Routing, and Real-World Tests
 
 > *“A deep dive into QubesOS network isolation and how to verify your VPN, TOR, and inter-VM firewalling actually works.”*
 
