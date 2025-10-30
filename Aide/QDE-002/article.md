@@ -1,175 +1,181 @@
 
-# 🔐 Dom0 Integrity in Qubes OS: Replacing AIDE with Custom Signed Checks
+# 🔐 Trust but Verify – Signing and Securing Integrity Logs from dom0
 
-> *Minimalist, verifiable, and Qubes-aligned — because even the base needs to be trusted.*
-
----
-
-## 🧭 Table of Contents
-
-1. [Why Replace AIDE in dom0?](#why-replace-aide-in-dom0)
-2. [Design Goals](#design-goals)
-3. [Step 1: Define What to Watch](#step-1-define-what-to-watch)
-4. [Step 2: Baseline Hashing](#step-2-baseline-hashing)
-5. [Step 3: Signing and Verifying](#step-3-signing-and-verifying)
-6. [Step 4: Automating in dom0](#step-4-automating-in-dom0)
-7. [Conclusion](#conclusion)
+> *File integrity means nothing if the logs can be tampered with.*
+> In this follow-up, we move from checking integrity to **proving it cryptographically**.
 
 ---
 
-## Why Replace AIDE in dom0?
+## 📚 Table of Contents
 
-Qubes OS takes a security-first approach through isolation. However, even **dom0** — the management domain — can be a target. In minimal installs, adding packages like AIDE increases the attack surface and goes against Qubes' design philosophy.
-
-Instead of relying on external tools, we can create a **custom lightweight file integrity system** using:
-
-* Bash scripts
-* `sha512sum` for hashing
-* `gpg` for signing and verification
-
-This achieves similar integrity guarantees as AIDE, with better control and **zero dependency bloat** in `dom0`.
+1. [🧩 Why Signing Matters](#-why-signing-matters)
+2. [🔐 GPG in the Audit VM](#-gpg-in-the-audit-vm)
+3. [🛡️ Signing the Baseline](#️-signing-the-baseline)
+4. [📜 Verifying Checks and Results](#-verifying-checks-and-results)
+5. [⏱️ Timestamping and Log Rotation](#️-timestamping-and-log-rotation)
+6. [⚙️ Optional: Building an Evidence Chain](#️-optional-building-an-evidence-chain)
+7. [🧭 Conclusion – Integrity You Can Prove](#-conclusion--integrity-you-can-prove)
 
 ---
 
-## 🎯 Design Goals
+## 🧩 Why Signing Matters
 
-* ✅ No additional software installed in dom0
-* ✅ Operates via simple scripts and native tools
-* ✅ Cryptographically signs integrity data
-* ✅ Easily auditable and minimalistic
-* ✅ Can be copied or templated for other Qubes components
+In Part 1, we set up an integrity script in `dom0` that sends file hashes and metadata to a hardened audit VM. This keeps dom0 minimal and stateless. However, there's still one weakness:
 
----
+> What proves that the **baseline or reports themselves** haven’t been tampered with?
 
-## Step 1: Define What to Watch
+Attackers may try to:
 
-Create a simple list of critical files and configs to monitor:
+* Modify the baseline to hide malicious changes
+* Alter integrity reports after the fact
+* Replace the audit VM entirely
 
-```bash
-cat <<EOF > ~/.config/filewatch/files-to-check.txt
-/etc/qubes/policy.conf
-/boot/grub2/grub.cfg
-/etc/fstab
-/home/user/.bashrc
-/etc/X11/xorg.conf.d/
-/var/lib/qubes/qubes.xml
-EOF
-```
+By **signing all baseline and check data**, you create a **verifiable chain of trust** that lets you confirm:
 
-> You can expand this to include any sensitive file in dom0, but **do not** watch `/var/log`, `/tmp`, or fast-changing directories unless required.
+* The data was created by *you*
+* It hasn’t changed since it was signed
 
 ---
 
-## Step 2: Baseline Hashing
+## 🔐 GPG in the Audit VM
 
-Create a baseline hash of the files:
+Your audit VM should have **GnuPG (GPG)** installed and configured with a **long-term private signing key**.
 
-```bash
-#!/bin/bash
-WATCHLIST="$HOME/.config/filewatch/files-to-check.txt"
-BASELINE="$HOME/.config/filewatch/baseline.sha512"
+### Step 1: Generate a key
 
-mkdir -p "$(dirname "$BASELINE")"
-
-sha512sum $(cat "$WATCHLIST") > "$BASELINE"
-```
-
-This file is your trusted snapshot. Now sign it.
-
----
-
-## Step 3: Signing and Verifying
-
-Generate a GPG key (if you haven’t already):
+Inside the audit VM:
 
 ```bash
 gpg --full-generate-key
 ```
 
-Sign the baseline:
+Choose:
+
+* Key type: RSA (default is fine)
+* Key size: 4096 bits (recommended)
+* Expiration: Choose based on your rotation policy
+* Name/email: For traceability, e.g. `dom0-integrity@local`
+
+List your keys:
 
 ```bash
-gpg --output "${BASELINE}.sig" --detach-sign "$BASELINE"
-chmod 400 "${BASELINE}.sig"
-chattr +i "${BASELINE}.sig"  # Make it immutable
-```
-
-### 🔍 To verify:
-
-```bash
-gpg --verify "${BASELINE}.sig" "$BASELINE"
-```
-
-If you see a **Good signature**, your baseline is intact.
-
-To perform a daily check:
-
-```bash
-#!/bin/bash
-BASELINE="$HOME/.config/filewatch/baseline.sha512"
-TMPFILE="$(mktemp)"
-
-sha512sum $(cat "$HOME/.config/filewatch/files-to-check.txt") > "$TMPFILE"
-diff -u "$BASELINE" "$TMPFILE" || echo "⚠️ Files have changed!"
-rm "$TMPFILE"
-```
-
-> Add GPG verification before diffing if extra integrity is needed.
-
----
-
-## Step 4: Automating in dom0
-
-**In dom0, avoid `cron`.** Use `systemd.timer` units instead:
-
-### `~/.config/systemd/user/filewatch.service`
-
-```ini
-[Unit]
-Description=Dom0 Integrity Check
-
-[Service]
-ExecStart=%h/.config/filewatch/run-check.sh
-```
-
-### `~/.config/systemd/user/filewatch.timer`
-
-```ini
-[Unit]
-Description=Run Dom0 Integrity Check Daily
-
-[Timer]
-OnCalendar=daily
-Persistent=true
-
-[Install]
-WantedBy=timers.target
-```
-
-Enable it:
-
-```bash
-systemctl --user daemon-reexec
-systemctl --user enable --now filewatch.timer
+gpg --list-keys
 ```
 
 ---
 
-## ✅ Conclusion
+## 🛡️ Signing the Baseline
 
-You don’t need a full-blown AIDE installation in Qubes OS dom0 to maintain strong file integrity practices. With minimal tooling and automation, you can create a tamper-evident baseline and log system that:
+After receiving the baseline from `dom0` and saving it to a file like:
 
-* Works entirely with trusted native tools
-* Respects Qubes' minimalism and security principles
-* Keeps your base domain verifiably clean
+```bash
+~/integrity/baseline-2025-10-30.txt
+```
 
-This script-based replacement meets and exceeds the goals of AIDE in environments where *less is more* — and trust must be earned, not assumed.
+You can sign it:
+
+```bash
+gpg --output baseline-2025-10-30.txt.sig --detach-sign baseline-2025-10-30.txt
+```
+
+This creates a `.sig` file that proves the baseline is genuine. You can later verify it:
+
+```bash
+gpg --verify baseline-2025-10-30.txt.sig baseline-2025-10-30.txt
+```
 
 ---
 
-### 📁 Optional Add-ons
+## 📜 Verifying Checks and Results
 
-* Export public GPG key to a USB for **offline verification**
-* Create scripts to auto-rotate logs and signed snapshots
-* Implement cross-domain alerts (e.g., notify a qube if integrity fails)
+When `dom0` runs `run_integrity.sh check`, the resulting output can be piped and stored like:
+
+```bash
+~/integrity/check-2025-10-30_07-00.log
+```
+
+Now sign that report too:
+
+```bash
+gpg --detach-sign check-2025-10-30_07-00.log
+```
+
+This gives you:
+
+```
+~/integrity/
+├── baseline-2025-10-30.txt
+├── baseline-2025-10-30.txt.sig
+├── check-2025-10-30_07-00.log
+└── check-2025-10-30_07-00.log.sig
+```
+
+Every result is now **tamper-evident**.
+
+---
+
+## ⏱️ Timestamping and Log Rotation
+
+To maintain a **clean audit trail**, use a timestamped filename convention:
+
+```bash
+DATE=$(date +"%Y-%m-%d_%H-%M")
+OUTFILE="check-${DATE}.log"
+```
+
+You can also hash and sign results together for even more verification:
+
+```bash
+sha512sum "$OUTFILE" > "${OUTFILE}.sha512"
+gpg --detach-sign "$OUTFILE"
+```
+
+### Optional: Make logs immutable after signing
+
+```bash
+chmod 400 "$OUTFILE.sig"
+sudo chattr +i "$OUTFILE.sig"
+```
+
+---
+
+## ⚙️ Optional: Building an Evidence Chain
+
+For even more advanced setups, you can **chain the signatures** together by:
+
+1. Creating a hash of the previous report
+2. Including it in the **next report before signing**
+
+This creates a **linked ledger** of integrity events:
+
+```text
+check-2025-10-30_07-00.log
+→ includes hash of check-2025-10-29_07-00.log
+→ signed
+```
+
+Even a deleted or missing report would break the chain — offering additional forensic visibility.
+
+---
+
+## 🧭 Conclusion – Integrity You Can Prove
+
+With this second phase, your file integrity model becomes **cryptographically verifiable**, not just operationally sound.
+
+✅ **dom0 remains untouched**
+✅ **Audit VM holds the keys and proofs**
+✅ **Every report is signed and timestamped**
+✅ **You can verify authenticity and order**
+
+This approach scales beyond Qubes — it’s a minimal, reproducible pattern that applies to hardened Linux setups where **trust must be explicitly proven**.
+
+> In Part 3, we’ll explore how to **offload signed logs to a write-once medium**, such as a USB key or offline backup vault, completing the trust chain.
+
+---
+
+### 🔗 Related Resources
+
+* 🔐 [Using GPG for Signatures](https://www.gnupg.org/documentation/)
+* 🔍 Part 1: [Every File Deserves a Fingerprint](#)
+* 🗃️ `man chattr`, `gpg --verify`, `sha512sum`
 
