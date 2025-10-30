@@ -25,7 +25,7 @@ That’s okay — the point here is to present a **clear, modular integrity fram
 
 ## 🧭 Table of Contents
 
-1. [Introduction — Beyond File Integrity](#introduction)
+1. [Introduction](#introduction)
 2. [Recap: Where We’ve Been](#recap-where-weve-been)
 3. [Where We’re Going: Tamper-Evident Logging with a Ledger](#where-were-going-tamper-evident-logging-with-a-ledger)
 4. [Why Use a Ledger?](#why-use-a-ledger)
