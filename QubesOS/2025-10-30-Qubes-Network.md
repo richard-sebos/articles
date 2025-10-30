@@ -1,4 +1,14 @@
-# 🧱 The Network in QubesOS: Architecture, Routing, and Real-World Tests
+---
+title: The Network in QubesOS – Architecture, Routing, and Real-World Tests
+subtitle: A Deep Dive Into QubesOS Network Isolation and How to Verify Your VPN, TOR, and Inter-VM Firewalling Actually Works
+date: 2025-10-30 10:00 +0000
+categories: [Linux, Security]
+tags: [QubesOS, Networking, VPN, TOR, Cybersecurity, Virtualization, LinuxAdmin]
+image:
+  path: /assets/img/QubesOSNetwork.png
+  alt: Network isolation and routing architecture in QubesOS with real-world verification tests
+---
+
 
 > *“A deep dive into QubesOS network isolation and how to verify your VPN, TOR, and inter-VM firewalling actually works.”*
 
