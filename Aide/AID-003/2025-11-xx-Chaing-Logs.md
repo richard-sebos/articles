@@ -6,7 +6,7 @@
 > This framework transforms AIDE from a passive checker into an active guardian, verifying its own history before trusting the present.
 
 ---
-
+## Introduction
 Security in IT is a funny thing.
 Everyone agrees it’s important — but how much is enough?
 
@@ -25,7 +25,7 @@ That’s okay — the point here is to present a **clear, modular integrity fram
 
 ## 🧭 Table of Contents
 
-1. [Introduction — Beyond File Integrity](#introduction--beyond-file-integrity)
+1. [Introduction — Beyond File Integrity](#introduction)
 2. [Recap: Where We’ve Been](#recap-where-weve-been)
 3. [Where We’re Going: Tamper-Evident Logging with a Ledger](#where-were-going-tamper-evident-logging-with-a-ledger)
 4. [Why Use a Ledger?](#why-use-a-ledger)
