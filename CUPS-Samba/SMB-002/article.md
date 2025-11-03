@@ -1,4 +1,13 @@
-# *Securing Samba at the Global Level: Controlling the Server’s DNA*
+---
+title: Securing Samba at the Global Level – Controlling the Server’s DNA
+subtitle: Lock Down Your Linux Samba Server with Encryption, Access Controls, and Logging for a Hardened SMB Setup
+date: 2025-10-25 10:00 +0000
+categories: [Linux, Infrastructure]
+tags: [Samba, SMB, OracleLinux, FileSharing, LinuxAdmin, Security]
+image:
+  path: /assets/img/Samba_Global_Security.png
+  alt: Hardened Samba server configuration on Oracle Linux with secure global settings
+---
 
 When I first got into IT, I was all about planning. I’d spend hours researching, mapping everything out, and building the “perfect” install plan before touching anything. But, like most people find out sooner or later, things rarely go exactly as planned. There was always some hiccup that meant going back and tweaking things. These days, I take a more practical approach—working step by step, making sure things are stable before moving forward. It’s less about perfection upfront and more about building confidence as I go.
 
