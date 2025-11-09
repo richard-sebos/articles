@@ -97,3 +97,4 @@ GatewayPorts no
 X11Forwarding no
 
 ```
+- QubesOS had vaults that don't have network access, and when not in use, I move the ssh auth for the jump server to a vault.
