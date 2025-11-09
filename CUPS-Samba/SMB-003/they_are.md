@@ -1,4 +1,14 @@
-# 🧭 Customizing Samba Share Sections: *Your Next Step Toward a Secure, Sharable Network*
+---
+title: Customizing Samba Share Sections – Fine-Tune Access, Visibility, and Security
+subtitle: Take Control of Individual Shares with Precise Permissions, IP Restrictions, and User-Based Access Rules
+date: 2025-10-27 09:30 +0000
+categories: [Linux, Infrastructure]
+tags: [Samba, SMB, OracleLinux, FileSharing, LinuxAdmin, Security]
+image:
+  path: /assets/img/Samba_Share_Sections.png
+  alt: Secure Samba share section configuration on Oracle Linux with controlled access and masked permissions
+---
+
 
 If you're setting up Samba shares, you’re probably aiming for something deceptively simple—**“I just want to share a folder.”**
 
