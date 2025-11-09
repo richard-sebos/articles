@@ -1,0 +1,5 @@
+- Proxmox VM are on a seperate subnet and firewall users allow specific IP address in
+- QubesOS Laptop and SSH auth keys created to use Yubico Key as second MFA
+- Only the home lab  `hl-jump` jump box is allowed to be logged in
+- SSH keys are only in the `work` Qube of the QubesOS VM
+- 
