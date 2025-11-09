@@ -7,6 +7,8 @@
 - SSH access to the Proxmox VE server is not allow from the `hl_jump`
 
 - Here is the `sshd_config` .  I do have it broken into to seperate config files but I put it together here
+
+```bash
 # ------------------------------------------------------------------------------
 # SECURITY & ACCESS CONTROL
 # ------------------------------------------------------------------------------
