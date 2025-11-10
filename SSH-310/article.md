@@ -150,8 +150,11 @@ You’ve moved from “just want to SSH into Proxmox” to a **layered, secure a
 This setup is:
 
 ✔️ Private — nothing exposed to the LAN
+
 ✔️ Controlled — access flows only through what you’ve allowed
+
 ✔️ Auditable — no login surprises, no agent leaks
+
 ✔️ Secure — hardware keys, strong configs, and deliberate workflows
 
 And best of all? You didn’t compromise usability to get there.
