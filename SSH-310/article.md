@@ -1,23 +1,19 @@
 # 🔐 SSH Access to Proxmox Without Exposing Your Lab
 - virtual technolgy, once resisted just in data centers are now of part of home labs.
-- If you are running L The different hypervisor do have a few thing 
-I had a reader reachout asking for how my setup for SSH and Proxmox was done.
-**A practical guide to jump hosts, hardened SSH configs, and optional QubesOS workflows**
+- You make us it as part of a small home business, a cyber learning tool or just as part of a home media server.
+- There is one thing most hypervisiors have in common, the have some type of terminal software to do commandline  task from.
+- A reader reachout asking for how my setup for SSH and Proxmox was done.
+- As a homelaber or just as a computer user in general, you need to have the security that make sense for you and your use.
+- Thou this written explain my Proxmox set, most things would be the same for other type of hypervisiors.
 
-If you’re securing a Proxmox server, you’re probably aiming for something simple:
 
-> “I just want to SSH into my lab — without opening it up to the whole network.”
 
-But like most careful homelabbers (myself included), you’ve likely hit a point where basic SSH access isn’t enough. You want the **Proxmox VE web UI shut down**, **SSH locked down**, and **no direct exposure** to your Proxmox subnet — not even from your own LAN.
-
-That’s what this guide is for: to show you how to do SSH right — securely, repeatably, and in line with how real security architecture is built.
-
-In this setup:
-
-* Your Proxmox VE node lives on a **separate subnet**
-* A **jump box** is your only way in
-* You use **SSH keys + Yubikey MFA**
-* You optionally run **QubesOS**, moving keys between vaults
+## Why have SSH to you Proxmox Server
+- Most virtual host software has some type of gui/web user interface that covers most things user do but there are also almost aways a command line access.
+- If there is a command line, there will be a group of IT, like me, who want to play in it.
+- You are are the type that likes to tighten security,  automate setup, or just find out what else can be done, the commandline access is where that is at. 
+- There are also another group of people that see it as a way of attacking a system and you need to protect the system from them
+- Whose are the people you want to protect you system from
 
 Let’s break it down into 3 focused parts:
 
@@ -25,9 +21,11 @@ Let’s break it down into 3 focused parts:
 
 ## 🔧 Part 1: Lock Down `sshd` on Proxmox and the Jump Box
 
-Before you log in, **you define the rules**. SSH is your front door — and you want it reinforced, monitored, and hard to knock.
+- The first in my security the Proxmox SSH connection is to create a jump server.  
+- The jump server allows me one centeral point of SSH access to all server.
+- It doesn't matter the Linux distro since its only goal is to security the `SSH` access
 
-🛡️ Here's the approach:
+🛡️ Here's the approach it us:
 
 * Disable passwords and root login
 * Enforce strict key-based access
@@ -35,7 +33,7 @@ Before you log in, **you define the rules**. SSH is your front door — and you 
 * Limit login attempts and keep idle sessions short
 
 ```bash
-# /etc/ssh/sshd_config (combined from include files)
+# /etc/ssh/sshd_config 
 
 # -- Authentication Controls --
 PermitRootLogin no
@@ -75,6 +73,7 @@ This configuration:
 ✔️ Restricts access to the `ssh-users` group
 ✔️ Prevents lateral movement via SSH forwarding
 ✔️ Enforces short login grace and session timeouts
+I use this on my jump server, Proxmox VE server and most other server running SSH
 
 Want to go further? Shut down the Proxmox web UI until you explicitly need it:
 
@@ -93,27 +92,20 @@ This keeps your management interface fully offline — unless you're the one bri
 ---
 
 ## 🧭 Part 2: Use SSH ProxyJump to Traverse Securely
+- The first layer of security is to setup SSH auth keys to the jump server.
+- in my case I used key type ed25519-sk
+```bash
+ssh-keygen -t ed25519-sk -f yub_id_ed25519_sk
 
-You’ve hardened your servers. Now it’s time to connect — without punching a hole in your firewall or logging into the jump box manually.
-
-The goal here is **one command from your laptop** that gets you into the Proxmox server via the jump host.
-
-🔁 **Your topology:**
-
-```text
-[QubesOS Laptop]
-      │
-  SSH + Yubikey
-      │
-   [hl_jump]
-      │
- ProxyJump Only
-      │
- [Proxmox VE]
+## Need to allow password for short time to use below
+ssh-copy-id -i yub_id_ed25519_sk hl_jump
 ```
-
-Here’s how to do it:
-
+- this  creates ed25519 keys that uses FIDO2 to generate the keys which
+* 🔑 MFA enforced via **Yubikey touch**
+* 🧩 SSH works only when your keys are present
+- After changing my lab firewall to allow `SSH` from laptop to jump server, I know have access to my Linux VM and Proxmox server from the jump server.
+- SSH ProxyJump is a great setting that allows you to setup a SSH server as a proxy get to other servre.
+- I create a second key pair for the Proxmox server and have it setup so I can access the Proxmox server through the jump server
 ### 🛠️ SSH Config (`~/.ssh/config`)
 
 ```ssh
@@ -130,60 +122,17 @@ Host proxmox-pve
     ProxyJump hl_jump
     IdentitiesOnly yes
 ```
+- The firewall doesn't allow laptop to access Proxmox through SSH
+- You need the Yubico key, SSH auth key for both jump and Proxmox server to access the Proxmox through SSH
 
-From here, connecting is simple:
+## QubesOS my final Security Level
+- QubesOS is a Linux desktop run within a set of VM in a Xen Hypervisios, which is kind of backwards but fun to play with.
+- Some of the VMs, which it calls Qubes, do not have web access but `dom0` VM can be used to move data between VMs
+- I have a script that moves the SSH auth between the `work`  Qube I use to access the jump server and a vault Qube.
+- `work` has access to network but not `dom0` or `vault`
+- `dom0` and `vault` do not have external network access
+- This limit the attack time of the jump server.
 
-```bash
-ssh proxmox-pve
-```
-
-You’ll tap your Yubikey for the `hl_jump` connection, and SSH will route you straight through — **no extra login, no agent forwarding**, no attack surface left open.
-
-This also ensures:
-
-✔️ Your Proxmox node is never exposed to your LAN
-✔️ Your jump box is never used interactively
-✔️ Your SSH keys stay isolated
-
----
-
-## 🧱 Part 3: (Optional) QubesOS: Vaulted Keys + Yubikey MFA
-
-If you’re using QubesOS, you already think differently about security.
-
-You compartmentalize. You isolate. You **don’t** leave SSH keys sitting on networked machines.
-
-That’s why this setup includes:
-
-* 🔐 Private keys stored in **Vault AppVMs**
-* 🔑 MFA enforced via **Yubikey touch**
-* 🧩 SSH config that works only when your keys are present
-
-### 💼 Moving Keys from Vault to Networked AppVMs
-
-Here’s how I manage SSH keys using a dom0 script:
-
-```bash
-#!/bin/bash
-# dom0 script to move keys from vault to a target VM
-
-TARGET_VM=$1
-qvm-move-to-vm $TARGET_VM ~/.ssh/hl_jump_key
-qvm-move-to-vm $TARGET_VM ~/.ssh/proxmox_key
-```
-
-You can trigger this from dom0 before initiating a connection. Once your session ends, remove and shred the keys:
-
-```bash
-shred ~/.ssh/hl_jump_key && rm ~/.ssh/hl_jump_key
-shred ~/.ssh/proxmox_key && rm ~/.ssh/proxmox_key
-```
-
-🔐 **Bonus**: Since `hl_jump` requires Yubikey-backed keys, the connection can't proceed without your physical key and touch confirmation.
-
-✔️ Keys stay offline by default
-✔️ Vaulted VMs never touch the network
-✔️ Physical MFA required to even begin connecting
 
 ---
 
@@ -206,6 +155,13 @@ This setup is:
 ✔️ Secure — hardware keys, strong configs, and deliberate workflows
 
 And best of all? You didn’t compromise usability to get there.
+
+## Conclusion
+- Is this overkill, it depends on what you security needs are.
+- There will be groups of reads who will to secure the keys in the vault with encyption
+- For other users it will be complete overkill
+- That is why security laying works.
+- You can use the layers that make sense for you.
 
 ---
 
