@@ -11,7 +11,7 @@ image:
 
 Virtualization tech — once locked away in enterprise data centers — now powers all kinds of home labs. I use mine for learning, tinkering, and running services like Proxmox VE. Whether you’re running a homelab business, learning cybersecurity, or just self-hosting your media, one thing tends to come up: **secure access to the hypervisor**.
 
-A reader recently asked me how I SSH into my Proxmox server without exposing it to my LAN. This guide is my answer. I’ll walk through the exact setup I use — including my jump box, SSH hardening, hardware-backed keys, and how I work with QubesOS to manage everything securely.
+A reader recently asked best practices for SSH and Proxmox. This guide is my answer. I’ll walk through the exact setup I use — including my jump box, SSH hardening, hardware-backed keys, and how I work with QubesOS to manage everything securely.
 
 > While this is based on how I use Proxmox, most of the techniques apply to other virtualization platforms or Linux systems in general.
 
