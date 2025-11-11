@@ -1,7 +1,7 @@
 ---
 title: SSH Access to Proxmox Without Exposing Your Lab
 subtitle: How I Use a Hardened Jump Box, Yubikey MFA, and QubesOS Vaulting to Securely Manage My Proxmox Server
-date: 2025-11-09 14:00 +0000
+date: 2025-11-16 14:00 +0000
 categories: [Linux, Homelab]
 tags: [Proxmox, SSH, QubesOS, Security, Yubikey, Infrastructure]
 image:
