@@ -15,6 +15,7 @@
 - the next step would do the same with  the AIDE service.
 - remember AIDE is not about keep attackers out, it is about finding them if they are there
 - AIDE will have a better chance of catching them if they don't know it is there
+- security through obscurity is not a security strategy but obscurity as a supplemental layer is a different conversation entirely.
 ---
 
 ## 🧭 Table of Contents
