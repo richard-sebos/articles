@@ -3,7 +3,18 @@
 > *"The best security camera is the one nobody knows is there."*
 >
 > In this final article of the AIDE series, we add one more layer: **operational stealth**. By disguising AIDE as innocent system metrics collection, we make it harder for attackers to find and disable your integrity monitoring.
+- IT seems to draw a certain kind of person.
+- when working on projects before, I have joked about let me be in my office, slide a pizza under the door from time to time and I can get the project done
+- working quite with headphones on by myself just seems to work for me
+- its a kind of away to hide from the work
+- in some ways security programs are the same way
 
+## Why hide AIDA
+- in the third part of the serie, the  logs and AIDE db was moved so an intruder would not find them easily.
+- it was a way of making hard for them to be changed
+- the next step would do the same with  the AIDE service.
+- remember AIDE is not about keep attackers out, it is about finding them if they are there
+- AIDE will have a better chance of catching them if they don't know it is there
 ---
 
 ## 🧭 Table of Contents
