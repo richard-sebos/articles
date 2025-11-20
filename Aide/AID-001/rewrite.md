@@ -36,7 +36,7 @@ Fast forward to today, and **host-based intrusion detection** tools are a fundam
 
 Linux is excellent at logging system activity, but not all file changes are captured clearly or completely. Tools like `auditd` can monitor file operations, but in practice, they often generate false positives or miss subtle manipulations.
 
-While enterprise environments benefit from sophisticated log aggregation and SIEM tools, what about those of us running Linux on a personal laptop, workstation, or in a home lab?
+While enterprise environments benefit from sophisticated log aggregation and SIEM tools, what about small businesses with a handful of Linux servers, or those of us running Linux on a personal laptop or home lab?
 
 Logs can be deleted or tampered with by attackers. However, **file fingerprints don’t lie**—which is where AIDE comes in.
 
@@ -192,7 +192,11 @@ For this guide, I configured AIDE to monitor `/etc` and select configuration dir
 
 While AIDE won’t stop an attacker from getting in, it gives you visibility into whether key system files have been tampered with. Think of it as part of your **defense-in-depth** strategy: not a silver bullet, but another layer that may cause a would-be intruder to move on to an easier target.
 
-By setting up AIDE, you’ve empowered your Linux system to silently monitor its own integrity—every file, fingerprinted and verified.
+By setting up AIDE, you’ve empowered your Linux system to silently monitor its own integrity—critical filesWhile enterprise environments benefit from sophisticated log
+          +   aggregation and SIEM tools, what about 
+          +  small businesses with a handful of Linux servers, or 
+          +  those of us running Linux on a personal laptop or home lab?
+, fingerprinted and verified.
 
 ## AIDE Command Cheat Sheet
 
