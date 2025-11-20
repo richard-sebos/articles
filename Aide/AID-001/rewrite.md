@@ -192,7 +192,7 @@ For this guide, I configured AIDE to monitor `/etc` and select configuration dir
 
 While AIDE won’t stop an attacker from getting in, it gives you visibility into whether key system files have been tampered with. Think of it as part of your **defense-in-depth** strategy: not a silver bullet, but another layer that may cause a would-be intruder to move on to an easier target.
 
-By setting up AIDE, you’ve empowered your Linux system to silently monitor its own integrity—critical filesWhile enterprise environments benefit from sophisticated log
+By setting up AIDE, you’ve empowered your Linux system to silently monitor its own integrity. While enterprise environments benefit from sophisticated log
           +   aggregation and SIEM tools, what about 
           +  small businesses with a handful of Linux servers, or 
           +  those of us running Linux on a personal laptop or home lab?
