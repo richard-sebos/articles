@@ -8,6 +8,7 @@
   image:
     path: /assets/img/aide_banner.png
     alt: AIDE file integrity monitoring system with cryptographic fingerprinting on Oracle Linux 9
+    
   ---
 
 > *Before dashboards, before SIEMs, there was one simple question:*
