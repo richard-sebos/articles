@@ -8,7 +8,7 @@ This document provides an overview of the `aide-daily-check.sh` script, which au
 
 | File                                     | Purpose                                                                          |
 | ---------------------------------------- | -------------------------------------------------------------------------------- |
-| `/usr/local/bin/aide-daily-check.sh`    | Script to perform baseline validation, run `aide --check`, and secure log output |
+| `/usr/local/bin/aide-check.sh`    | Script to perform baseline validation, run `aide --check`, and secure log output |
 | `/etc/systemd/system/aide-check.service` | Defines the one-shot systemd service                                             |
 | `/etc/systemd/system/aide-check.timer`   | Triggers the service daily (via systemd timer)                                   |
 
