@@ -102,39 +102,50 @@ sudo gpg --verify /root/.aide/aide.db.gz.sig /var/lib/aide/aide.db.gz
 
 ## 🛡️ Protecting AIDE Check Results
 
-Once your baseline is protected, the next step is to safeguard **AIDE’s check results**. When you run `aide --check`, it compares the current system to the baseline and produces a report. These reports must also be hashed and signed — otherwise, they could be edited to hide signs of intrusion.
+Once your baseline is protected, the next step is to safeguard AIDE’s check results. When you run `aide --check`, it compares the current system to the baseline and produces a report. These reports must also be hashed and signed — otherwise, they could be edited to hide signs of intrusion.
 
 First, generate a timestamped log file:
 
 ```bash
 LOG_DIR="/var/log/aide"
+SAFE_DIR="/root/.aide/reports"
 DATESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
+
 LOG_FILE="${LOG_DIR}/aide-check-${DATESTAMP}.log"
 
-sudo mkdir -p "$LOG_DIR"
+sudo mkdir -p "$LOG_DIR" "$SAFE_DIR"
 sudo aide --check >"$LOG_FILE" 2>&1
 ```
 
-This creates a report such as `/var/log/aide/aide-check-2025-10-28_15-42-01.log`. To make this log tamper-evident, hash and sign it:
+This creates a report such as `/var/log/aide/aide-check-2025-10-28_15-42-01.log`.
+
+To make this log tamper-evident, hash and sign it.
+**The log stays in `/var/log/aide`, but the hash and signature are stored securely in `/root/.aide`**:
 
 ```bash
-HASH_FILE="${LOG_FILE}.sha512"
-SIG_FILE="${LOG_FILE}.sig"
+HASH_FILE="${SAFE_DIR}/aide-check-${DATESTAMP}.log.sha512"
+SIG_FILE="${SAFE_DIR}/aide-check-${DATESTAMP}.log.sig"
 
 sha512sum "$LOG_FILE" >"$HASH_FILE"
 gpg --output "$SIG_FILE" --detach-sign "$LOG_FILE"
+
+sudo chmod 400 "$HASH_FILE" "$SIG_FILE"
+sudo chattr +i "$HASH_FILE" "$SIG_FILE"
 ```
 
-Your log directory now holds a verifiable chain of integrity reports:
+Your system now maintains a verifiable chain of integrity reports:
 
 ```
 /var/log/aide/
-├── aide-check-2025-10-28_15-42-01.log
+└── aide-check-2025-10-28_15-42-01.log
+
+/root/.aide/reports/
 ├── aide-check-2025-10-28_15-42-01.log.sha512
 └── aide-check-2025-10-28_15-42-01.log.sig
 ```
 
-These signatures and hashes ensure that even if logs are tampered with it will be immediately detectable.
+These signatures and hashes ensure that even if logs in `/var/log` are tampered with, it will be immediately detectable — because the verification artifacts are protected inside `/root/.aide`.
+
 
 ---
 
