@@ -94,7 +94,9 @@ The `--detach-sign` flag creates a signature file without altering the original 
 sudo gpg --verify /root/.aide/aide.db.gz.sig /var/lib/aide/aide.db.gz
 ```
 
-If you see a **“Good signature”** message, your baseline is intact and can be trusted.
+> **🔍 Note:**
+> The signature is stored in `/root/.aide` instead of alongside the baseline in `/var/lib/aide/` because `/root/` is restricted to the root user. This separation prevents low-privileged processes—or an attacker who compromises them—from accessing or modifying the signature. By isolating it in a root-only directory and marking it immutable, you preserve the trust boundary even if the baseline database itself is tampered with.
+
 
 ---
 
