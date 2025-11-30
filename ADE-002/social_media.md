@@ -9,7 +9,7 @@ All point to your article (you can paste the final link when published).
 > If AIDE can detect file tampering, who detects tampering *with AIDE itself*?
 > In this article I take AIDE to the next level — signing its baseline and daily reports with GPG so integrity checks become cryptographically verifiable.
 > Perfect for admins who want proof, not assumptions.
-> 🔗 *Link to article*
+> 🔗 [https://richard-sebos.github.io/sebostechnology/posts/AIDE-in-Motion/](https://richard-sebos.github.io/sebostechnology/posts/AIDE-in-Motion/)
 
 ---
 
