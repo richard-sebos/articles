@@ -2,7 +2,7 @@ Love this topic—“SSH but only the app, no shell for you” is such a nice pa
 Here are **tell-style teasers** for the **same LinkedIn + Facebook groups**, tuned to this article about **locking users into an SSH shell application safely**.
 
 Use your actual post URL where I’ve put `*Link to article*`.
-
+https://richard-sebos.github.io/sebostechnology/posts/SSH-App/
 ---
 
 ## 🔹 LinkedIn – Main Profile
