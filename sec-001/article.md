@@ -1,34 +1,89 @@
-# RHEL Crypt Policy
+# When RHEL 9 Meets a Legacy Windows Server: A Crypto Policy Story
 
-## Intro
-- in a recent project I needed a Linux RHEL 9  server to talk to an older Windows server
-- One of the advanges of have a home lab is being able to control the version of OS/software you can use
-- When you get into small to medium size business it comes hard to for secure changes
-- As you get into enterprise level business, you can get into critical business application where the cost and downtime to upgrade thoes system become chancing.
-- Most security professional would want to change the Windows server but you can't always to that in the real world.
-- Sometime you need to secure the network and users access them.
-- Does this mean you lower the security around them?
-- What if you want to have a secure Linux system talk to less secure servers?
+## Intro: A Compatibility Challenge
 
-## RHEl and `update-crypto-policies`
-- the `update-crypto-policies` is a command to set the server over all policy level across a number of application for a device
-- It does it for all security related programs like the below and more
-  - OpenSSL
-  - GnuTLS
-  - OpenJDK
-  - Libssh, OpenSSH
-  - Kerberos (GSSAPI)
-- It comes with well defind policies like
-  - `LEGACY` loosens security so older servers and applications
-  - `DEFAULT` balanced security and compatibility
-  - `FIPS` strict U.S. government–approved crypto
-  - `FUTURE`  higher security than today (“prepare for tomorrow”)
-- Having standard policies means you can deploy across multiple enviroments and still get the save security level.
-- Our goal was to run the server at a `FIPS` level of security.
-- When we tested with the older but still secure server, we needed to drop to 'LEGACY` to get it to work.
-- So does this means `FIPS` was now out of scope?
+Recently, I ran into one of those real-world IT problems that makes you stop and appreciate just how messy compatibility can be.
 
-## Custom Policies 
-- One of the nice features of `update-crypto-policies` is you can create a custom policy.
-- You can take an existing policy like `/usr/share/crypto-policies/policies/FIPS.pol` and save it to `/etc/crypto-policies/policies/CUSTOMER`.
-- 
+The setup was straightforward enough: I had a RHEL 9 server that needed to communicate with an older Windows server—nothing exotic. But this wasn’t just a lab test. It was a production-adjacent environment with real limitations, and no, upgrading the Windows box wasn’t an option (more on that in a minute).
+
+As a recovering Linux snob, I’ll admit my first instinct was to think, “Of course it’s the Windows box causing trouble.” But I had to check myself—I've seen older RHEL versions do the same thing. Compatibility issues don’t discriminate.
+
+---
+## Table of Contents
+
+* [Intro: A Compatibility Challenge](#intro-a-compatibility-challenge)
+* [“Just Upgrade It” — A Costly Suggestion](#just-upgrade-it--a-costly-suggestion)
+* [Enter: `update-crypto-policies`](#enter-update-crypto-policies)
+* [The Middle Ground: Custom Crypto Policies](#the-middle-ground-custom-crypto-policies)
+* [Real-World Security Isn’t Binary](#real-world-security-isnt-binary)
+
+---
+
+## Intro: A Compatibility Challenge
+
+Recently, I ran into one of those real-world IT problems that makes you stop and appreciate just how messy compatibility can be.
+
+The setup was straightforward enough: I had a RHEL 9 server that needed to communicate with an older Windows server—nothing exotic. But this wasn’t just a lab test. It was a production-adjacent environment with real limitations, and no, upgrading the Windows box wasn’t an option (more on that in a minute).
+
+As a recovering Linux snob, I’ll admit my first instinct was to think, “Of course it’s the Windows box causing trouble.” But I had to check myself—I've seen older RHEL versions do the same thing. Compatibility issues don’t discriminate.
+
+## “Just Upgrade It” — A Costly Suggestion
+
+It’s easy to suggest upgrading the older server from a 50,000-foot view. But in reality, that can come with a cascade of hidden costs:
+
+* Third-party software might not support the newer OS.
+* Reinstalling or migrating apps takes time (and people).
+* Unexpected downtime hurts users and IT alike.
+* And let’s not forget: new versions sometimes bring *new* bugs and vulnerabilities.
+
+I’ve seen “simple” upgrades spiral into projects costing anywhere from $1,000 to over $10,000 when you factor in lost time, planning, testing, and support. So—no—upgrading wasn’t the solution this time.
+
+## Enter: `update-crypto-policies`
+
+RHEL has a great tool called `update-crypto-policies` that helps manage system-wide cryptographic settings across applications like OpenSSL, OpenSSH, GnuTLS, Kerberos, and more. Instead of configuring crypto per service, you define one central policy that the system enforces.
+
+RHEL ships with several predefined policies:
+
+* **LEGACY**: Designed for backward compatibility (read: lower security).
+* **DEFAULT**: A good balance of security and compatibility.
+* **FIPS**: Strict compliance with U.S. government cryptography standards.
+* **FUTURE**: Tighter restrictions for a more hardened future-ready system.
+
+The goal for my RHEL server was to run in **FIPS** mode. But when we tried to talk to the older Windows server, the connection failed. After some digging, we found the culprit: cipher suite incompatibility. Dropping to `LEGACY` made it work—but we weren’t about to accept that as the final solution.
+
+## The Middle Ground: Custom Crypto Policies
+
+Here’s the cool part: RHEL’s crypto policy system supports **custom policies**. You can clone an existing one (like `FIPS.pol`) and modify it to suit your needs.
+
+That’s exactly what we did. We copied the FIPS policy:
+
+```bash
+cp /usr/share/crypto-policies/policies/FIPS.pol /etc/crypto-policies/policies/CUSTOMER.pol
+```
+
+Then we added just the one cipher suite the old Windows server needed by updating:
+
+* `ciphers`
+* `mac`
+* `hash`
+* `key_exchange`
+
+With that in place, we set our policy and rebooted:
+
+```bash
+sudo update-crypto-policies --set CUSTOMER
+sudo reboot
+```
+
+Boom—now the system was running with nearly all FIPS-level restrictions, **except** for the single tweak that allowed it to talk to the legacy Windows box. We didn’t have to open the door to all the outdated protocols that `LEGACY` would have allowed.
+
+## Real-World Security Isn’t Binary
+
+In a perfect world, everything stays patched, every system is modern, and no app relies on a 15-year-old cipher suite. But we don’t live in that world.
+
+Home labs are great because you control everything. In production, especially in SMBs or enterprises, change becomes significantly harder. Legacy systems can be tied to critical apps, and replacing or upgrading them isn’t always on the table—due to cost, risk, or vendor constraints.
+
+Sometimes, the best you can do is **secure everything around the problem**—limit access, isolate it on the network, and use the strongest settings possible everywhere else.
+
+And if you’re using RHEL? The crypto policy framework gives you a clean, centralized, and *auditable* way to do exactly that.
+
