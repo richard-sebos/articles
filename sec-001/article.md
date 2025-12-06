@@ -58,7 +58,7 @@ Here’s the cool part: RHEL’s crypto policy system supports **custom policies
 That’s exactly what we did. We copied the FIPS policy:
 
 ```bash
-cp /usr/share/crypto-policies/policies/FIPS.pol /etc/crypto-policies/policies/CUSTOMER.pol
+cp /usr/share/crypto-policies/policies/FIPS.pol /etc/crypto-policies/policies/CUSTOM.pol
 ```
 
 Then we added just the one cipher suite the old Windows server needed by updating:
@@ -71,7 +71,7 @@ Then we added just the one cipher suite the old Windows server needed by updatin
 With that in place, we set our policy and rebooted:
 
 ```bash
-sudo update-crypto-policies --set CUSTOMER
+sudo update-crypto-policies --set CUSTOM
 sudo reboot
 ```
 
