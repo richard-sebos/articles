@@ -11,7 +11,7 @@
 ---
 Your AIDE integrity checks are signed and hashed - but can you prove they weren't selectively deleted? This article shows how to build a tamper-evident ledger that makes log manipulation detectable even with root access. Uses SHA-512 chaining, GPG signatures, and stealth directory architecture.
 
-Complete implementation guide with cryptographic breakdown included.
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #AIDE #FileIntegrity #LinuxSecurity #CryptographicAuditing
 ---
@@ -22,6 +22,8 @@ Integrity monitoring isn't just about detecting changes - it's about proving his
 
 Shows the exact SHA-512 chain construction and why byte-concatenation creates tamper-evidence.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #LinuxSecurity #AIDE #Cryptography #SystemIntegrity
 ---
 
@@ -31,6 +33,8 @@ Built a lightweight blockchain for AIDE using nothing but bash, GPG, and SHA-512
 
 Includes operational stealth techniques: relocating logs to dot-prefixed directories that stay invisible to casual enumeration.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #RHEL #IntegrityMonitoring #SecurityAutomation #AIDE
 ---
 
@@ -38,7 +42,7 @@ Includes operational stealth techniques: relocating logs to dot-prefixed directo
 ---
 Running AIDE on Oracle Linux 9? Take it further with a tamper-evident ledger. This framework transforms AIDE from passive checker to active guardian - verifying its own history before trusting the present. SHA-512 chains + GPG signatures + stealth logging.
 
-Full modular script breakdown for enterprise and edge deployments.
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #OracleLinux #AIDE #EnterpriseLinux #SecurityFramework
 ---
@@ -49,6 +53,8 @@ How do you prove your integrity logs weren't modified? Traditional hashing prote
 
 Alter one byte anywhere in the chain - every subsequent hash breaks.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #LinuxSecurity #FileIntegrity #AIDE #TamperEvidence
 ---
 
@@ -57,6 +63,8 @@ Alter one byte anywhere in the chain - every subsequent hash breaks.
 Your AIDE logs are encrypted and signed - but what stops an attacker from deleting the "bad" ones and regenerating clean logs? Ledger-based chaining solves this. Each check creates a cryptographic link to the entire history.
 
 Practical implementation: dot-folder stealth, SHA-512 chains, GPG signing, and systemd automation.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #SysAdmin #LinuxSecurity #AIDE #IntegrityManagement
 ---
@@ -67,6 +75,8 @@ Looking for a scriptable, auditable integrity framework without commercial tooli
 
 Shows exactly how SHA-512 concatenation builds an immutable audit trail.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #DevOps #LinuxAutomation #AIDE #SecurityEngineering
 ---
 
@@ -75,6 +85,8 @@ Shows exactly how SHA-512 concatenation builds an immutable audit trail.
 Integrity monitoring with AIDE is solid - but have you considered historical integrity? This framework adds a ledger layer where each check proves the validity of all previous checks. Chain breaks if anything gets modified, even with root access.
 
 Covers: genesis block creation, hash chaining math, log relocation to /var/lib/system_metrics, and systemd integration.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #RHEL #CentOS #RockyLinux #AIDE #IntegrityChecks
 ---
@@ -85,7 +97,10 @@ Demonstrable security architecture: building a tamper-evident ledger for AIDE in
 
 Great portfolio piece for showcasing cryptographic understanding and automation skills.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #LinuxAdmin #SecuritySkills #AIDE #Cryptography
+
 ---
 
 ### Platform: LinkedIn - Proxmox Virtual Environment
@@ -93,6 +108,8 @@ Great portfolio piece for showcasing cryptographic understanding and automation 
 Running AIDE on Proxmox hosts? This framework adds cryptographic chaining to ensure your integrity logs stay tamper-evident. Each check links to the previous one via SHA-512 concatenation - making silent log manipulation detectable.
 
 Includes stealth logging design using dot-prefixed directories under /var/lib/system_metrics.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #Proxmox #LinuxSecurity #AIDE #VirtualizationSecurity
 ---
@@ -103,7 +120,10 @@ Stop trusting your integrity logs - start proving them. This AIDE framework impl
 
 Modular, scriptable, and built entirely with native Linux tools.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #LinuxAdmin #AIDE #SystemSecurity #TamperEvidence
+
 ---
 
 ### Platform: LinkedIn - The Linux Foundation
@@ -111,6 +131,8 @@ Modular, scriptable, and built entirely with native Linux tools.
 From detection to verification: building a self-auditing AIDE framework. This implementation adds a cryptographic ledger where each integrity check proves the validity of all previous checks. Uses SHA-512 chaining, GPG signatures, and operational stealth.
 
 Demonstrates how foundational Linux tools (bash, coreutils, GPG) can build enterprise-grade security.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #Linux #AIDE #OpenSecurity #CryptographicIntegrity
 ---
@@ -121,6 +143,8 @@ AIDE automation for RHEL environments: this framework goes beyond basic integrit
 
 Implementation uses systemd timers, GPG signing, SHA-512 chaining, and stealth log relocation.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #RedHat #RHEL #AIDE #LinuxSecurity #SystemHardening
 ---
 
@@ -129,6 +153,8 @@ Implementation uses systemd timers, GPG signing, SHA-512 chaining, and stealth l
 Tired of wondering if your AIDE logs were tampered with? Learn how to build a tamper-evident ledger using SHA-512 chains and GPG signatures - no blockchain framework needed. Each integrity check mathematically depends on every check before it.
 
 Full code breakdown and cryptographic explanation included.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #SysAdmin #AIDE #FileIntegrity #LinuxSecurity
 ---
@@ -139,6 +165,8 @@ How do you detect if someone with root access deleted the "suspicious" AIDE logs
 
 Modify anything in the chain - every subsequent hash breaks. Tamper-evidence without commercial tools.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #Linux #AIDE #SecurityMonitoring #Cryptography
 ---
 
@@ -147,6 +175,8 @@ Modify anything in the chain - every subsequent hash breaks. Tamper-evidence wit
 Building immutable audit trails with AIDE: this article shows how to implement ledger-based integrity verification using only GNU/Linux native tools. Each check proves both current state and historical continuity through SHA-512 chaining.
 
 Includes practical stealth techniques - relocating logs to dot-prefixed directories that stay invisible to casual enumeration.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #GNULinux #AIDE #SecurityFramework #OpenSource
 ---
@@ -157,6 +187,8 @@ AIDE isn't just for servers - this framework works perfectly on Linux Mint for p
 
 Shows exactly how to set up automated, self-verifying integrity monitoring on desktop Linux.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #LinuxMint #AIDE #DesktopSecurity #FileIntegrity
 ---
 
@@ -165,6 +197,8 @@ Shows exactly how to set up automated, self-verifying integrity monitoring on de
 Advanced AIDE implementation: moving from basic integrity checks to cryptographically chained, tamper-evident logging. Each ledger entry contains SHA-512(current_log_hash + previous_chain_hash), creating cumulative proof of historical integrity.
 
 Technical deep-dive covers: genesis block creation, chain verification math, GPG integration, and operational stealth design.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #LinuxExpert #AIDE #Cryptography #AdvancedSecurity
 ---
@@ -175,6 +209,8 @@ Cryptographic chain construction for integrity monitoring: this framework implem
 
 One altered byte anywhere in the chain invalidates all subsequent hashes. No external dependencies - pure bash, GPG, and coreutils.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #Cryptography #AIDE #LinuxSecurity #AdvancedAdmin
 ---
 
@@ -183,6 +219,8 @@ One altered byte anywhere in the chain invalidates all subsequent hashes. No ext
 AIDE automation framework for SUSE environments: implements ledger-based chaining where each integrity check proves the validity of all previous checks. Uses SHA-512 concatenation, GPG signing, and stealth logging under /var/lib/system_metrics.
 
 Modular design scales from edge deployments to enterprise servers.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #SUSE #AIDE #LinuxSecurity #EnterpriseLinux
 ---
@@ -195,6 +233,8 @@ Anyone else paranoid about integrity monitoring? I built a mini-blockchain for A
 
 Shows the exact math behind SHA-512 chaining and why it's tamper-evident.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #LinuxSecurity #AIDE #SystemIntegrity #GPG
 ---
 
@@ -203,6 +243,8 @@ Shows the exact math behind SHA-512 chaining and why it's tamper-evident.
 Think you can trust your AIDE logs just because they're signed? What if someone deletes the "suspicious" ones? This framework solves that with cryptographic chaining - each log proves the entire history is intact.
 
 Alter one entry, break the whole chain. Root access won't save you.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #CyberSecurity #AIDE #TamperEvidence #Cryptography
 ---
@@ -213,6 +255,8 @@ Running AIDE on your Proxmox hosts? This framework adds ledger-based verificatio
 
 Includes stealth logging tricks using dot-folders that don't show up in basic ls commands.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #Proxmox #LinuxSecurity #AIDE #Homelab
 ---
 
@@ -221,6 +265,8 @@ Includes stealth logging tricks using dot-folders that don't show up in basic ls
 Built an AIDE automation framework that verifies itself before running. Uses cryptographic chaining - each check creates a hash linking to the entire previous history. Perfect for Ansible-managed fleets where you need provable integrity.
 
 All bash + GPG + systemd. No external dependencies.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #Ansible #DevOps #AIDE #LinuxAutomation
 ---
@@ -231,6 +277,8 @@ Your AIDE logs are hashed and signed - but are they tamper-evident? This framewo
 
 Full cryptographic breakdown: why SHA-512 concatenation creates immutable audit trails.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #CyberSecurity #AIDE #Blockchain #TamperEvidence
 ---
 
@@ -239,6 +287,8 @@ Full cryptographic breakdown: why SHA-512 concatenation creates immutable audit 
 Ansible users: check out this AIDE framework with ledger-based integrity. Each check not only scans the filesystem but proves all previous checks were valid. Uses SHA-512 chaining and GPG - perfect for deploying across server fleets.
 
 Modular design, easy to template with Ansible roles.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #Ansible #DevOps #AIDE #LinuxSecurity
 ---
@@ -249,6 +299,8 @@ Tutorial: Adding tamper-evident logging to AIDE on Proxmox. This framework creat
 
 Shows exactly how to set it up with systemd timers and GPG signing.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #Proxmox #AIDE #LinuxTutorial #Security
 ---
 
@@ -257,6 +309,8 @@ Shows exactly how to set it up with systemd timers and GPG signing.
 Leveling up home server security: built an AIDE framework with cryptographic chaining. Each integrity check proves the entire history is intact. Uses only native Linux tools - bash, GPG, SHA-512.
 
 Includes cool stealth tricks - hiding logs in dot-prefixed directories that stay invisible to casual ls commands.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #HomeServer #LinuxSecurity #AIDE #Homelab
 ---
@@ -267,6 +321,8 @@ Built a lightweight blockchain for AIDE integrity checks using just bash and GPG
 
 Each check: chain_hash = SHA512(log_hash + previous_chain_hash). One altered byte breaks everything downstream.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #Linux #AIDE #Cryptography #FileIntegrity
 ---
 
@@ -275,6 +331,8 @@ Each check: chain_hash = SHA512(log_hash + previous_chain_hash). One altered byt
 Home lab security project: tamper-evident AIDE logging with cryptographic chaining. Each integrity check links to all previous checks. Delete or modify anything - the entire chain breaks and you'll know.
 
 Zero external dependencies. Pure bash, GPG, and SHA-512.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #HomeLab #LinuxSecurity #AIDE #SelfHosted
 ---
@@ -285,6 +343,8 @@ Advanced AIDE tutorial: building a ledger-based integrity system. Each check cre
 
 Covers the cryptography basics (SHA-512 chaining) and practical implementation with GPG and systemd.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #Linux #AIDE #SecurityTutorial #IntegrityMonitoring
 ---
 
@@ -294,7 +354,10 @@ If you're learning Linux security, check this out: AIDE integrity monitoring wit
 
 Great way to learn about cryptographic hashing, GPG, and systemd automation.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #Linux #AIDE #LearnLinux #Security
+
 ---
 
 ### Platform: Facebook - Linux Users Group
@@ -302,6 +365,8 @@ Great way to learn about cryptographic hashing, GPG, and systemd automation.
 AIDE users: have you considered adding ledger-based verification? This framework creates a cryptographic chain where each check depends on all previous checks. Makes silent log deletion or modification impossible.
 
 Full implementation guide with code examples and cryptographic explanations.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #Linux #AIDE #FileIntegrity #Cryptography
 ---
@@ -312,6 +377,8 @@ Building trust into integrity monitoring: this AIDE framework uses SHA-512 chain
 
 Shows exactly how byte-concatenation creates immutable audit trails.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #Linux #AIDE #Security #SystemIntegrity
 ---
 
@@ -320,6 +387,8 @@ Shows exactly how byte-concatenation creates immutable audit trails.
 Anyone using AIDE for file integrity monitoring? This framework takes it further - adds cryptographic chaining so each check proves all previous checks were valid. Uses only native Linux tools: bash, GPG, SHA-512.
 
 Includes stealth logging design - hiding AIDE data in dot-folders under /var/lib/system_metrics.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #Linux #AIDE #FileIntegrity #SecurityAutomation
 ---
@@ -330,6 +399,8 @@ Solution for tamper-evident integrity logging: AIDE + cryptographic ledger. Each
 
 Implementation uses bash, GPG signatures, SHA-512 chains, and systemd timers.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #Linux #AIDE #SecuritySolutions #IntegrityManagement
 ---
 
@@ -339,7 +410,10 @@ Linux admins: stop trusting your integrity logs, start proving them. This AIDE f
 
 Modular, scriptable, pure bash + GPG + coreutils.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #LinuxAdmin #AIDE #SystemSecurity #TamperEvidence
+
 ---
 
 ### Platform: Facebook - Linux for All - https://www.facebook.com/groups/linuxforall1
@@ -347,6 +421,8 @@ Modular, scriptable, pure bash + GPG + coreutils.
 AIDE integrity monitoring for everyone: this framework adds tamper-evident logging using cryptographic chaining. Each check proves both current state and historical continuity. Built entirely with standard Linux tools.
 
 Great learning project for understanding hashing, signatures, and automation.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #Linux #AIDE #OpenSource #Security
 ---
@@ -357,6 +433,8 @@ Open source security at its best: AIDE + cryptographic ledger for tamper-evident
 
 Shows how foundational Linux tools can build enterprise-grade security.
 
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
+
 #Linux #OpenSource #AIDE #Security
 ---
 
@@ -365,6 +443,8 @@ Shows how foundational Linux tools can build enterprise-grade security.
 Tip: Make your AIDE logs tamper-evident by adding cryptographic chaining. Each check creates chain_hash = SHA512(log_hash + previous_chain_hash). Modify any past entry - all future hashes break.
 
 Also covered: stealth logging tricks using dot-prefixed directories that stay hidden from casual ls commands.
+
+🔗 [https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/](https://richard-sebos.github.io/sebostechnology/posts/Chaining-Logs/)
 
 #LinuxTips #AIDE #Security #FileIntegrity
 ---
