@@ -8,6 +8,7 @@ image:
   path: /assets/img/RHEL9CryptoPolicy.png
   alt: RHEL 9 and Windows legacy server interoperability using custom crypto policies
 ---
+
 ## Intro: A Compatibility Challenge
 
 Recently, I ran into one of those real-world IT problems that makes you stop and appreciate just how messy compatibility can be.
