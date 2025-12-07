@@ -1,5 +1,13 @@
-# When RHEL 9 Meets a Legacy Windows Server: A Crypto Policy Story
-
+---
+title: "When RHEL 9 Meets a Legacy Windows Server -  A Crypto Policy Story"
+subtitle: Navigating Cipher Compatibility with Custom Crypto Policies on RHEL 9
+date: 2025-12-10 10:00 +0000
+categories: [Linux, Security, Interoperability]
+tags: [RHEL9, CryptoPolicies, FIPS, Compatibility, WindowsInterop, LinuxAdmin, Security, OpenSSL]
+image:
+  path: /assets/img/RHEL9CryptoPolicy.png
+  alt: RHEL 9 and Windows legacy server interoperability using custom crypto policies
+---
 ## Intro: A Compatibility Challenge
 
 Recently, I ran into one of those real-world IT problems that makes you stop and appreciate just how messy compatibility can be.
